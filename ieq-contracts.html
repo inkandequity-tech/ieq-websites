@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IEQ Contract Builder — Ink & Equity LLP</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{navy:{950:'#03060f',900:'#050d1a',800:'#091428',700:'#0d1f3c',600:'#112a50'},gold:{300:'#f5d87a',400:'#e8c34a',500:'#d4a81f',600:'#b8901a'}}}}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#d4a81f;--gold-light:#e8c34a;--navy:#050d1a;--navy-mid:#091428;scroll-behavior:smooth}
+body{background:#050d1a;color:#e8f0fe;font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#03060f}::-webkit-scrollbar-thumb{background:#d4a81f;border-radius:3px}
+.gold-text{background:linear-gradient(135deg,#f5d87a 0%,#d4a81f 50%,#e8c34a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glow-border{border:1px solid rgba(212,168,31,.3);box-shadow:0 0 20px rgba(212,168,31,.08)}
+.btn-gold{background:linear-gradient(135deg,#d4a81f,#b8901a);color:#03060f;font-weight:600;transition:all .3s;cursor:pointer}
+.btn-gold:hover{background:linear-gradient(135deg,#e8c34a,#d4a81f);box-shadow:0 8px 30px rgba(212,168,31,.35);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(212,168,31,.4);color:#e8c34a;transition:all .3s;cursor:pointer}
+.btn-ghost:hover{background:rgba(212,168,31,.1);border-color:#d4a81f}
+.tag{background:rgba(212,168,31,.12);border:1px solid rgba(212,168,31,.3);color:#e8c34a}
+.grid-bg{background-image:linear-gradient(rgba(212,168,31,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,31,.03) 1px,transparent 1px);background-size:60px 60px}
+.type-card{border:1px solid rgba(212,168,31,.2);background:rgba(9,20,40,.7);transition:all .35s cubic-bezier(.25,.8,.25,1);cursor:pointer}
+.type-card:hover,.type-card.selected{border-color:rgba(212,168,31,.7);background:rgba(212,168,31,.08);box-shadow:0 0 30px rgba(212,168,31,.15)}
+.type-card.selected{border-color:#d4a81f;box-shadow:0 0 40px rgba(212,168,31,.25)}
+input,select,textarea{background:rgba(9,20,40,.8);border:1px solid rgba(212,168,31,.25);color:#e8f0fe;outline:none;transition:border .2s;font-family:'DM Sans',sans-serif}
+input:focus,select:focus,textarea:focus{border-color:#d4a81f;box-shadow:0 0 0 2px rgba(212,168,31,.15)}
+select option{background:#091428;color:#e8f0fe}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease forwards}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cursor-blink{animation:blink 1s step-end infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+.pulse-dot{animation:pulse 2s infinite}
+.risk-low{color:#22c55e}
+.risk-med{color:#f59e0b}
+.risk-high{color:#ef4444}
+.step-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.75rem;font-weight:600;letter-spacing:.05em;transition:all .3s}
+.step-pill.active{background:rgba(212,168,31,.2);border:1px solid rgba(212,168,31,.6);color:#e8c34a}
+.step-pill.done{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#22c55e}
+.step-pill.inactive{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#6b7280}
+.doc-preview{background:#ffffff;color:#1a1a2e;font-family:'Times New Roman',serif;padding:48px 52px;border-radius:4px;line-height:1.75;font-size:13.5px;max-height:65vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,.6)}
+.doc-preview h1{font-size:1rem;font-weight:700;text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.doc-preview h2{font-size:.85rem;font-weight:700;margin:18px 0 6px;text-decoration:underline}
+.doc-preview .parties{text-align:center;font-size:.8rem;margin:12px 0;font-style:italic}
+.doc-preview .clause{margin:10px 0;padding-left:12px}
+.doc-preview .sig-block{margin-top:32px;display:flex;justify-content:space-between;border-top:1px solid #ccc;padding-top:20px}
+.doc-preview .sig{width:45%;text-align:center}
+.doc-preview .sig-line{border-top:1px solid #666;margin:24px auto 4px;width:90%}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center}
+.modal-overlay.hidden{display:none}
+@media print{
+  body>*:not(#doc-print-area){display:none!important}
+  #doc-print-area{display:block!important;position:fixed;inset:0;background:#fff;z-index:9999;padding:40px;font-family:'Times New Roman',serif;font-size:12pt;line-height:1.8;color:#000}
+}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(5,13,26,.9);border-bottom:1px solid rgba(212,168,31,.15)}
+</style>
+</head>
+<body class="grid-bg">
+
+<!-- NAV -->
+<nav class="py-3 px-4 md:px-8">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="ieq-legaltech-1.html" class="flex items-center gap-2 text-gray-400 hover:text-gold-400 transition-colors text-sm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back
+      </a>
+      <span class="text-gray-700">|</span>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 7v10l8 5 8-5V7L12 2z" stroke="#03060f" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="font-display font-bold text-sm gold-text">IEQ Contract Builder</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+      <span class="text-xs text-green-400">Platform Active</span>
+    </div>
+  </div>
+</nav>
+
+<!-- PRINT AREA (hidden) -->
+<div id="doc-print-area" style="display:none"></div>
+
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-4 md:px-8" style="padding-top:90px;padding-bottom:60px">
+
+  <!-- Header -->
+  <div class="text-center mb-10 fade-up">
+    <div class="inline-flex items-center gap-2 tag px-3 py-1.5 rounded-full text-xs mb-4">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+      AI-Powered · Lawyer-Reviewed · IT Act 2000 Compliant
+    </div>
+    <h1 class="font-display font-black text-4xl md:text-5xl mb-3">Contract <span class="gold-text">Builder</span></h1>
+    <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">Generate jurisdiction-specific Indian contracts in under 60 seconds. Every draft is reviewed by Ink & Equity advocates before final delivery.</p>
+  </div>
+
+  <!-- Step Pills -->
+  <div class="flex items-center justify-center gap-3 mb-10 flex-wrap">
+    <div id="pill-1" class="step-pill active">
+      <span>01</span><span>Select Type</span>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-2" class="step-pill inactive">
+      <span>02</span><span>Fill Details</span>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-3" class="step-pill inactive">
+      <span>03</span><span>Generate</span>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-4" class="step-pill inactive">
+      <span>04</span><span>Review & Sign</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: Contract Type -->
+  <div id="step-1">
+    <p class="text-center text-gray-400 text-sm mb-6">Choose the type of contract you need to draft</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('nda')" id="card-nda">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">Mutual NDA</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">Mutual non-disclosure agreement for business discussions, partnerships, or due diligence.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">₹100 stamp</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">9 clauses</span>
+        </div>
+      </div>
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('emp')" id="card-emp">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0114 0v2"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">Employment Agreement</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">Full employment contract with CTC, ESOP, IP assignment, and confidentiality clauses.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">No stamp duty</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">12 clauses</span>
+        </div>
+      </div>
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('lease')" id="card-lease">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">Commercial Lease</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">Commercial lease deed with rent, security deposit, CAM charges, and SRO registration guide.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">Stamp varies</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">18 clauses</span>
+        </div>
+      </div>
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('spa')" id="card-spa">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">Share Purchase (SPA)</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">SEBI & Companies Act 2013 compliant SPA with reps, warranties, and MAC clause.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">Advocate review</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">31 clauses</span>
+        </div>
+      </div>
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('msme')" id="card-msme">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><path d="M16 20h4a2 2 0 002-2v-2a2 2 0 00-2-2h-4v6z"/><path d="M12 20H8a2 2 0 01-2-2V6a2 2 0 012-2h4l4 4v4"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">MSME Vendor Agreement</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">MSMED Act 2006 compliant — 45-day payment clause, Udyam verification, GST schedule.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">₹50 stamp</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">10 clauses</span>
+        </div>
+      </div>
+
+      <div class="type-card rounded-2xl p-6" onclick="selectType('service')" id="card-service">
+        <div class="w-10 h-10 rounded-xl mb-4 flex items-center justify-center" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-lg mb-1">Service / Consultancy</h3>
+        <p class="text-xs text-gray-500 mb-3 leading-relaxed">Professional services agreement with IP ownership, deliverables, payment schedule, and limitation of liability.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag text-xs px-2 py-0.5 rounded">₹100 stamp</span>
+          <span class="tag text-xs px-2 py-0.5 rounded">11 clauses</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STEP 2: Details Form -->
+  <div id="step-2" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div>
+          <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 02 of 04</div>
+          <h2 class="font-display font-bold text-2xl" id="form-title">Contract Details</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Common Fields -->
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Party A (First Party)</label>
+          <input id="f-partyA" type="text" placeholder="e.g. Ravi Kumar / Acme Pvt. Ltd." class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Party B (Second Party)</label>
+          <input id="f-partyB" type="text" placeholder="e.g. Priya Menon / BuildCo LLP" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Governing Jurisdiction</label>
+          <select id="f-jurisdiction" class="w-full rounded-xl px-4 py-3 text-sm">
+            <option value="Maharashtra">Maharashtra (Mumbai)</option>
+            <option value="Delhi">Delhi (New Delhi)</option>
+            <option value="Karnataka">Karnataka (Bengaluru)</option>
+            <option value="Tamil Nadu">Tamil Nadu (Chennai)</option>
+            <option value="Telangana">Telangana (Hyderabad)</option>
+            <option value="Gujarat">Gujarat (Ahmedabad)</option>
+            <option value="West Bengal">West Bengal (Kolkata)</option>
+            <option value="Rajasthan">Rajasthan (Jaipur)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Effective Date</label>
+          <input id="f-date" type="date" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+
+        <!-- NDA-specific -->
+        <div id="field-duration" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Agreement Duration</label>
+          <select id="f-duration" class="w-full rounded-xl px-4 py-3 text-sm">
+            <option value="1 (one) year">1 Year</option>
+            <option value="2 (two) years">2 Years</option>
+            <option value="3 (three) years">3 Years</option>
+            <option value="5 (five) years">5 Years</option>
+          </select>
+        </div>
+        <div id="field-purpose" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Business Purpose</label>
+          <input id="f-purpose" type="text" placeholder="e.g. Exploring joint venture in fintech" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+
+        <!-- Employment-specific -->
+        <div id="field-designation" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Designation / Role</label>
+          <input id="f-designation" type="text" placeholder="e.g. Senior Software Engineer" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-ctc" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Annual CTC (₹)</label>
+          <input id="f-ctc" type="text" placeholder="e.g. 12,00,000" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-notice" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Notice Period</label>
+          <select id="f-notice" class="w-full rounded-xl px-4 py-3 text-sm">
+            <option value="30 (thirty) days">30 Days</option>
+            <option value="60 (sixty) days">60 Days</option>
+            <option value="90 (ninety) days">90 Days</option>
+          </select>
+        </div>
+
+        <!-- Lease-specific -->
+        <div id="field-property" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Property Address</label>
+          <input id="f-property" type="text" placeholder="e.g. Unit 402, Prestige Tower, Bengaluru" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-rent" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Monthly Rent (₹)</label>
+          <input id="f-rent" type="text" placeholder="e.g. 75,000" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-deposit" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Security Deposit (₹)</label>
+          <input id="f-deposit" type="text" placeholder="e.g. 2,25,000 (3 months)" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+
+        <!-- SPA-specific -->
+        <div id="field-company" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Target Company Name</label>
+          <input id="f-company" type="text" placeholder="e.g. Acme Innovations Pvt. Ltd." class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-shares" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">No. of Shares / % Stake</label>
+          <input id="f-shares" type="text" placeholder="e.g. 10,000 equity shares (15%)" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-consideration" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Total Consideration (₹)</label>
+          <input id="f-consideration" type="text" placeholder="e.g. 45,00,000" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+
+        <!-- Service/MSME-specific -->
+        <div id="field-scope" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Scope of Work / Services</label>
+          <input id="f-scope" type="text" placeholder="e.g. UI/UX design for mobile app (3 phases)" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-fee" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Contract Value / Fee (₹)</label>
+          <input id="f-fee" type="text" placeholder="e.g. 3,60,000" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div id="field-payment" class="hidden">
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Payment Schedule</label>
+          <select id="f-payment" class="w-full rounded-xl px-4 py-3 text-sm">
+            <option value="monthly instalments">Monthly</option>
+            <option value="milestone-based instalments">Milestone-based</option>
+            <option value="advance (50%) + completion (50%)">50% Advance + 50% on Delivery</option>
+            <option value="quarterly instalments">Quarterly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-8">
+        <button onclick="goToStep(1)" class="btn-ghost px-6 py-3 rounded-xl text-sm">← Back</button>
+        <button onclick="generateContract()" class="btn-gold px-8 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Generate Contract
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Generate -->
+  <div id="step-3" class="hidden fade-up">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Terminal -->
+      <div class="glow-border rounded-2xl p-5" style="background:rgba(3,6,15,.9)">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs font-mono text-gold-400 uppercase tracking-widest">IEQ Generation Engine</span>
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-500 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500 opacity-70"></div>
+          </div>
+        </div>
+        <div id="terminal" class="font-mono text-xs space-y-1 min-h-[280px]" style="color:#a3e635">
+          <div class="text-green-400">$ ieq-cli generate --type=<span id="t-type">nda</span></div>
+        </div>
+        <div id="risk-panel" class="hidden mt-4 pt-4 border-t" style="border-color:rgba(212,168,31,.2)">
+          <div class="text-xs font-mono text-gold-400 mb-2 uppercase tracking-widest">Clause Risk Analysis</div>
+          <div id="risk-items" class="space-y-1.5 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- Document Preview -->
+      <div>
+        <div id="doc-loading" class="flex items-center justify-center h-64 rounded-2xl" style="background:rgba(9,20,40,.6);border:1px solid rgba(212,168,31,.15)">
+          <div class="text-center">
+            <div class="w-10 h-10 border-2 border-gold-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <div class="text-sm text-gray-400">Preparing document...</div>
+          </div>
+        </div>
+        <div id="doc-container" class="hidden">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="pulse-dot w-2 h-2 rounded-full bg-green-400"></div>
+            <span class="text-xs text-green-400 font-mono">Document Ready</span>
+            <span class="text-gray-600 mx-1">·</span>
+            <span class="text-xs text-gray-500" id="doc-meta">9 clauses · Stamping: ₹100</span>
+          </div>
+          <div class="doc-preview rounded-lg shadow-2xl" id="doc-preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="action-bar" class="hidden mt-6 flex flex-wrap gap-3 items-center">
+      <button onclick="downloadContract()" class="btn-gold px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download Contract
+      </button>
+      <button onclick="printContract()" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print
+      </button>
+      <a href="ieq-esign.html" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Send for E-Sign
+      </a>
+      <button onclick="showReviewModal()" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Request Lawyer Review
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<!-- Review Modal -->
+<div id="review-modal" class="modal-overlay hidden" onclick="closeReviewModal()">
+  <div class="rounded-3xl p-8 max-w-md w-full mx-4" style="background:#091428;border:1px solid rgba(212,168,31,.3)" onclick="event.stopPropagation()">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-xl">Request Lawyer Review</h3>
+        <p class="text-xs text-gray-500">Ink & Equity LLP · 4-8 hr turnaround</p>
+      </div>
+    </div>
+    <div class="space-y-4 mb-6">
+      <div>
+        <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Your Email</label>
+        <input type="email" placeholder="you@company.com" class="w-full rounded-xl px-4 py-3 text-sm">
+      </div>
+      <div>
+        <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Priority</label>
+        <select class="w-full rounded-xl px-4 py-3 text-sm">
+          <option>Standard (4-8 hrs) — ₹2,500</option>
+          <option>Urgent (2 hrs) — ₹5,000</option>
+          <option>Same-day + Opinion Memo — ₹8,000</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Notes for Advocate (optional)</label>
+        <textarea placeholder="Any specific concerns or requirements..." class="w-full rounded-xl px-4 py-3 text-sm h-20 resize-none"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="submitReview()" class="btn-gold flex-1 py-3 rounded-xl text-sm font-semibold">Submit for Review →</button>
+      <button onclick="closeReviewModal()" class="btn-ghost px-5 py-3 rounded-xl text-sm">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full text-sm font-semibold flex items-center gap-2" style="background:rgba(9,20,40,.95);border:1px solid rgba(34,197,94,.5);color:#22c55e;backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(0,0,0,.5)">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<footer class="border-t mt-16 py-8 text-center text-xs text-gray-600" style="border-color:rgba(212,168,31,.1)">
+  <div class="flex items-center justify-center gap-3 flex-wrap">
+    <span>IEQ LegalTech · Ink &amp; Equity LLP</span>
+    <span class="text-gold-400">·</span>
+    <span>IT Act 2000 Compliant</span>
+    <span class="text-gold-400">·</span>
+    <span>DPDP Act 2023 Compliant</span>
+    <span class="text-gold-400">·</span>
+    <span>Bar Council Rules Compliant</span>
+  </div>
+  <div class="mt-2 text-gray-700">AI-generated drafts are reviewed by practicing advocates at Ink &amp; Equity LLP before legal use.</div>
+</footer>
+
+<script>
+let currentType = '';
+let generatedText = '';
+let generatedTitle = '';
+
+const typeLabels = {
+  nda: 'Mutual NDA', emp: 'Employment Agreement', lease: 'Commercial Lease',
+  spa: 'Share Purchase Agreement', msme: 'MSME Vendor Agreement', service: 'Service Agreement'
+};
+const typeClauses = { nda:9, emp:12, lease:18, spa:31, msme:10, service:11 };
+const stampDuty = {
+  nda: { Maharashtra:'₹100', Delhi:'₹100', Karnataka:'₹100', 'Tamil Nadu':'₹20', default:'₹50' },
+  emp: { default:'No stamp required' },
+  lease: { Maharashtra:'0.25% of annual rent', Karnataka:'0.5% of annual rent', Delhi:'2% of annual rent', default:'Varies by state' },
+  spa: { default:'0.1% of consideration (max ₹25,00,000)' },
+  msme: { default:'₹50' },
+  service: { default:'₹100' }
+};
+const riskData = {
+  nda: [{label:'Confidentiality Obligations',r:'low'},{label:'Non-compete Clause',r:'med',note:'Risk 5/10'},{label:'Jurisdiction',r:'low'},{label:'Term & Renewal',r:'low'}],
+  emp: [{label:'CTC Structure',r:'low'},{label:'Non-solicitation Clause',r:'med',note:'Risk 4/10'},{label:'IP Assignment',r:'low'},{label:'Probation Terms',r:'low'}],
+  lease: [{label:'Rent Escalation',r:'med',note:'Verify CPI index'},{label:'Security Deposit Return',r:'med',note:'Risk 5/10'},{label:'Force Majeure',r:'low'},{label:'Registration Req.',r:'low'}],
+  spa: [{label:'Representations & Warranties',r:'high',note:'Senior review reqd'},{label:'MAC Clause',r:'high',note:'Risk 8/10'},{label:'Escrow Mechanics',r:'med',note:'Risk 6/10'},{label:'Governing Law',r:'low'}],
+  msme: [{label:'45-day Payment Clause',r:'low'},{label:'MSME Udyam Verification',r:'low'},{label:'GST Schedule',r:'low'},{label:'Penalty Matrix',r:'med',note:'Review rates'}],
+  service: [{label:'IP Ownership',r:'med',note:'Clarify scope'},{label:'Liability Cap',r:'med',note:'Risk 4/10'},{label:'Deliverable Specs',r:'low'},{label:'Payment Terms',r:'low'}]
+};
+const terminalSteps = {
+  nda: [
+    [0,'text-gray-500','Loading NDA template v4.2.1 (Mutual, India)...'],
+    [600,'text-gold-400','► Jurisdiction check: {j} courts · Indian Contract Act 1872'],
+    [1100,'text-blue-400','● Clause engine: Generating 9 clauses...'],
+    [1600,'text-yellow-400','● Risk scan: Confidentiality ✓ · Non-compete ⚠ Risk:5/10'],
+    [2100,'text-green-400','✓ Draft ready · 9 clauses · Stamping: {stamp}'],
+    [2500,'text-gold-400','→ Routed to Ink & Equity advocate queue (Standard: 4-8 hrs)'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · 9f4a2b...c31d ✓'],
+  ],
+  emp: [
+    [0,'text-gray-500','Loading Employment Agreement template v3.1.0...'],
+    [600,'text-gold-400','► Governed by: Industrial Disputes Act 1947, Shops & Establishments Act'],
+    [1100,'text-blue-400','● CTC structure, ESOP clause, IP assignment · Generating 12 clauses...'],
+    [1600,'text-yellow-400','● Risk scan: Non-solicitation ⚠ Risk:4/10 · Probation ✓'],
+    [2100,'text-green-400','✓ Draft ready · 12 clauses · No stamp duty required'],
+    [2500,'text-gold-400','→ Sent to Ink & Equity HR-law specialist for review'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · a1b2c3...7f8e ✓'],
+  ],
+  lease: [
+    [0,'text-gray-500','Loading Commercial Lease Deed template v2.8.0...'],
+    [600,'text-gold-400','► Jurisdiction: {j} · Registration: Mandatory if >11 months'],
+    [1100,'text-blue-400','● Security deposit, CAM charges, fit-out period · 18 clauses...'],
+    [1600,'text-yellow-400','● Stamp duty calc: {stamp} · SRO e-registration guide attached'],
+    [2100,'text-green-400','✓ Draft ready · 18 clauses · Registration guide attached'],
+    [2500,'text-gold-400','→ Queued for Ink & Equity property law review'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · 3c9f1a...88d2 ✓'],
+  ],
+  spa: [
+    [0,'text-gray-500','Loading Share Purchase Agreement template v5.0.1...'],
+    [600,'text-gold-400','► SEBI, Companies Act 2013, FEMA compliance checks active'],
+    [1100,'text-blue-400','● Reps & warranties, MAC clause, escrow mechanics · 31 clauses...'],
+    [1600,'text-red-400','⚠ High-value flag: Mandatory senior advocate review activated'],
+    [2100,'text-green-400','✓ Draft ready · 31 clauses · Legal opinion memo required'],
+    [2500,'text-gold-400','→ Priority routed: Senior Advocate, Ink & Equity M&A desk'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · f7c2e1...4a9b ✓'],
+  ],
+  msme: [
+    [0,'text-gray-500','Loading MSME Vendor Agreement template v2.3.0...'],
+    [600,'text-gold-400','► MSMED Act 2006 · 45-day payment clause auto-included'],
+    [1100,'text-blue-400','● GST invoice schedule, TDS provisions, penalty matrix · 10 clauses...'],
+    [1600,'text-green-400','● Udyam registration check: ✓ API verified'],
+    [2100,'text-green-400','✓ Draft ready · 10 clauses · MSME Samadhan ODR clause added'],
+    [2500,'text-gold-400','→ Dispatched to Ink & Equity commercial contracts team'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · 2d8a4f...c10e ✓'],
+  ],
+  service: [
+    [0,'text-gray-500','Loading Service Agreement template v3.4.0...'],
+    [600,'text-gold-400','► IP ownership, deliverable milestones, liability cap · {j} jurisdiction'],
+    [1100,'text-blue-400','● Payment schedule analysis · Generating 11 clauses...'],
+    [1600,'text-yellow-400','● Risk scan: IP Ownership ⚠ Risk:4/10 · Limitation clause ⚠'],
+    [2100,'text-green-400','✓ Draft ready · 11 clauses · Stamping: {stamp}'],
+    [2500,'text-gold-400','→ Routed to Ink & Equity commercial division'],
+    [3000,'text-gray-400','◆ Document hash: SHA-256 · b5d9c2...f344 ✓'],
+  ]
+};
+
+function selectType(t) {
+  currentType = t;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('card-'+t).classList.add('selected');
+  setTimeout(() => {
+    goToStep(2);
+    document.getElementById('form-title').textContent = typeLabels[t] + ' — Details';
+    document.getElementById('t-type').textContent = t;
+    // Show/hide fields
+    const fields = ['duration','purpose','designation','ctc','notice','property','rent','deposit','company','shares','consideration','scope','fee','payment'];
+    fields.forEach(f => document.getElementById('field-'+f).classList.add('hidden'));
+    if(t==='nda') { ['duration','purpose'].forEach(f => show('field-'+f)); }
+    if(t==='emp') { ['designation','ctc','notice'].forEach(f => show('field-'+f)); }
+    if(t==='lease') { ['property','rent','deposit'].forEach(f => show('field-'+f)); }
+    if(t==='spa') { ['company','shares','consideration'].forEach(f => show('field-'+f)); }
+    if(t==='msme'||t==='service') { ['scope','fee','payment'].forEach(f => show('field-'+f)); }
+  }, 200);
+}
+
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+
+function goToStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('step-'+i).classList.toggle('hidden', i!==n);
+  });
+  ['1','2','3','4'].forEach(i => {
+    const pill = document.getElementById('pill-'+i);
+    const pn = parseInt(i);
+    pill.className = 'step-pill ' + (pn < n ? 'done' : pn === n ? 'active' : 'inactive');
+    if(pn < n) pill.querySelector('span:first-child').textContent = '✓';
+    else pill.querySelector('span:first-child').textContent = '0'+i;
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function getStamp(type, jurisdiction) {
+  const map = stampDuty[type] || {};
+  return map[jurisdiction] || map['default'] || '₹100';
+}
+
+function generateContract() {
+  const pA = document.getElementById('f-partyA').value || 'Party A';
+  const pB = document.getElementById('f-partyB').value || 'Party B';
+  const jur = document.getElementById('f-jurisdiction').value;
+  const rawDate = document.getElementById('f-date').value;
+  const date = rawDate ? new Date(rawDate).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  const stamp = getStamp(currentType, jur);
+  const clauses = typeClauses[currentType];
+
+  // Extra fields
+  const duration = document.getElementById('f-duration')?.value || '2 (two) years';
+  const purpose = document.getElementById('f-purpose')?.value || 'exploring potential business collaboration';
+  const designation = document.getElementById('f-designation')?.value || 'Software Engineer';
+  const ctc = document.getElementById('f-ctc')?.value || '12,00,000';
+  const notice = document.getElementById('f-notice')?.value || '60 (sixty) days';
+  const property = document.getElementById('f-property')?.value || 'the leased premises';
+  const rent = document.getElementById('f-rent')?.value || '50,000';
+  const deposit = document.getElementById('f-deposit')?.value || '1,50,000';
+  const company = document.getElementById('f-company')?.value || 'Target Company Pvt. Ltd.';
+  const shares = document.getElementById('f-shares')?.value || '10,000 equity shares';
+  const consideration = document.getElementById('f-consideration')?.value || '45,00,000';
+  const scope = document.getElementById('f-scope')?.value || 'professional services as described herein';
+  const fee = document.getElementById('f-fee')?.value || '3,00,000';
+  const payment = document.getElementById('f-payment')?.value || 'monthly instalments';
+
+  goToStep(3);
+  document.getElementById('risk-panel').classList.add('hidden');
+  document.getElementById('doc-loading').classList.remove('hidden');
+  document.getElementById('doc-container').classList.add('hidden');
+  document.getElementById('action-bar').classList.add('hidden');
+  document.getElementById('doc-meta').textContent = clauses + ' clauses · Stamping: ' + stamp;
+
+  // Terminal
+  const term = document.getElementById('terminal');
+  term.innerHTML = '<div class="text-green-400">$ ieq-cli generate --type=' + currentType + ' --jurisdiction=' + jur.toLowerCase().replace(' ','-') + '</div>';
+
+  const steps = terminalSteps[currentType];
+  steps.forEach(([t, cls, msg]) => {
+    setTimeout(() => {
+      const d = document.createElement('div');
+      d.className = cls;
+      d.textContent = msg.replace('{j}', jur).replace('{stamp}', stamp);
+      term.appendChild(d);
+      term.scrollTop = term.scrollHeight;
+
+      if(t === steps[steps.length-1][0]) {
+        // Show risk panel
+        setTimeout(() => {
+          const rp = document.getElementById('risk-panel');
+          rp.classList.remove('hidden');
+          const ri = document.getElementById('risk-items');
+          ri.innerHTML = '';
+          (riskData[currentType]||[]).forEach(({label,r,note}) => {
+            const col = r==='low'?'#22c55e':r==='med'?'#f59e0b':'#ef4444';
+            const icon = r==='low'?'✓':r==='med'?'⚠':'✗';
+            ri.innerHTML += `<div class="flex items-center justify-between" style="color:${col}">
+              <span>${icon} ${label}</span>
+              <span class="text-gray-500" style="color:#6b7280">${note||''}</span>
+            </div>`;
+          });
+        }, 400);
+
+        // Show document
+        setTimeout(() => {
+          generatedText = buildDoc(currentType, {pA,pB,jur,date,duration,purpose,designation,ctc,notice,property,rent,deposit,company,shares,consideration,scope,fee,payment,stamp,clauses});
+          generatedTitle = typeLabels[currentType] + ' — ' + pA + ' & ' + pB;
+          document.getElementById('doc-loading').classList.add('hidden');
+          const dc = document.getElementById('doc-container');
+          dc.classList.remove('hidden');
+          document.getElementById('doc-preview').innerHTML = generatedText;
+          document.getElementById('action-bar').classList.remove('hidden');
+        }, 800);
+      }
+    }, t + 300);
+  });
+}
+
+function buildDoc(type, d) {
+  const fns = {
+    nda: () => `
+<h1>MUTUAL NON-DISCLOSURE AGREEMENT</h1>
+<div class="parties">Document Reference: IEQ-NDA-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS AGREEMENT</strong> is entered into as of <strong>${d.date}</strong> ("Effective Date")</p>
+<p style="margin-top:8px"><strong>BETWEEN:</strong></p>
+<p style="margin-left:16px"><strong>${d.pA}</strong> ("Party A"); <strong>AND</strong> <strong>${d.pB}</strong> ("Party B"). Collectively the "Parties."</p>
+<h2>1. PURPOSE</h2><p>The Parties wish to explore <em>${d.purpose}</em> and, in connection therewith, may disclose Confidential Information to each other.</p>
+<h2>2. DEFINITIONS</h2><p><strong>2.1</strong> "Confidential Information" means any non-public technical, commercial, financial, or strategic information disclosed by either Party, whether oral or in writing, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure.</p>
+<h2>3. OBLIGATIONS OF CONFIDENTIALITY</h2><p><strong>3.1</strong> Each Party (as "Receiving Party") agrees to: (a) hold the Disclosing Party's Confidential Information in strict confidence; (b) not disclose such information to third parties without prior written consent; (c) use the Confidential Information solely for the Permitted Purpose; (d) protect such information with no less than the same degree of care used for its own confidential information, but in no event less than reasonable care.</p>
+<h2>4. EXCLUSIONS</h2><p>Obligations under Clause 3 shall not apply to information that: (a) is or becomes publicly known through no breach of this Agreement; (b) was known to the Receiving Party prior to disclosure; (c) is independently developed without reference to the Confidential Information; (d) is disclosed pursuant to a court order, with prompt notice to the Disclosing Party.</p>
+<h2>5. TERM</h2><p>This Agreement shall commence on the Effective Date and continue for a period of <strong>${d.duration}</strong> ("Term"), unless earlier terminated by mutual written consent. Confidentiality obligations shall survive termination for a period of 3 (three) years.</p>
+<h2>6. REMEDIES</h2><p>The Parties acknowledge that any breach of this Agreement may cause irreparable harm for which monetary damages may be inadequate, and each Party shall be entitled to seek equitable relief, including injunction and specific performance, in addition to all other remedies available at law or in equity.</p>
+<h2>7. GOVERNING LAW & JURISDICTION</h2><p>This Agreement shall be governed by and construed in accordance with the laws of India. Any dispute shall be subject to the exclusive jurisdiction of the courts at <strong>${d.jur}</strong>, and the parties submit to such jurisdiction.</p>
+<h2>8. DISPUTE RESOLUTION</h2><p>Prior to litigation, the Parties agree to submit any dispute arising out of this Agreement to the IEQ Online Dispute Resolution platform operated by Ink & Equity LLP, for a period not exceeding 30 (thirty) days, failing which either Party may approach the courts specified in Clause 7.</p>
+<h2>9. MISCELLANEOUS</h2><p>This Agreement constitutes the entire agreement between the Parties concerning the subject matter herein and supersedes all prior agreements. Amendments shall be valid only if in writing and signed by both Parties. If any provision is held invalid, the remaining provisions shall remain in full force and effect.</p>
+<p style="margin-top:12px;font-size:11.5px;color:#555"><em>Stamp Duty: ${d.stamp} | Governing Law: Indian Contract Act 1872 | IT Act 2000 Compliant</em></p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Party A<br><span style="font-size:11px;color:#777">Date: ___________</span></div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Party B<br><span style="font-size:11px;color:#777">Date: ___________</span></div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Witnessed by Ink & Equity LLP · Advocate-reviewed · IEQ LegalTech Platform</em></div>`,
+
+    emp: () => `
+<h1>EMPLOYMENT AGREEMENT</h1>
+<div class="parties">Document Reference: IEQ-EMP-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS EMPLOYMENT AGREEMENT</strong> ("Agreement") is made on <strong>${d.date}</strong></p>
+<p style="margin-top:8px"><strong>BETWEEN:</strong> <strong>${d.pA}</strong> ("Employer") <strong>AND</strong> <strong>${d.pB}</strong> ("Employee").</p>
+<h2>1. APPOINTMENT</h2><p>The Employer appoints the Employee as <strong>${d.designation}</strong>, and the Employee accepts such appointment, subject to the terms herein.</p>
+<h2>2. COMMENCEMENT & PROBATION</h2><p>Employment commences on <strong>${d.date}</strong>. The Employee shall be on probation for a period of 6 (six) months ("Probation Period"), during which either party may terminate this Agreement with 14 (fourteen) days' notice.</p>
+<h2>3. COMPENSATION</h2><p><strong>3.1</strong> The Employee shall receive an annual Cost-to-Company ("CTC") of <strong>₹${d.ctc}</strong>, disbursed on a monthly basis on or before the last working day of each calendar month, subject to applicable statutory deductions including PF, ESIC, and income tax.</p>
+<h2>4. CONFIDENTIALITY</h2><p>The Employee acknowledges access to trade secrets, client data, and strategic information of the Employer. The Employee agrees to maintain strict confidentiality during and for a period of 2 (two) years after the termination of employment, in accordance with the Information Technology Act, 2000 and the DPDP Act, 2023.</p>
+<h2>5. INTELLECTUAL PROPERTY</h2><p>All inventions, works, developments, and discoveries created by the Employee during the course of employment, whether or not on Employer's premises, shall be the exclusive property of the Employer. The Employee agrees to execute such documents as may be required to perfect the Employer's rights in such IP.</p>
+<h2>6. NON-SOLICITATION</h2><p>For a period of 12 (twelve) months following termination, the Employee shall not directly or indirectly solicit, induce, or recruit any employee, contractor, or client of the Employer.</p>
+<h2>7. TERMINATION</h2><p>After the Probation Period, either Party may terminate this Agreement by giving <strong>${d.notice}</strong> written notice, or by payment of salary in lieu thereof. The Employer may terminate without notice in cases of gross misconduct, fraud, breach of confidentiality, or criminal conviction.</p>
+<h2>8. GOVERNING LAW</h2><p>This Agreement is governed by Indian labour laws including the Industrial Disputes Act, 1947, Shops and Establishments Act (${d.jur}), and the Indian Contract Act, 1872. Any dispute shall be adjudicated before courts of competent jurisdiction in ${d.jur}.</p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Employer<br>Authorised Signatory</div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Employee<br>Date: ___________</div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Witnessed by Ink & Equity LLP · IEQ LegalTech Platform</em></div>`,
+
+    lease: () => `
+<h1>COMMERCIAL LEASE DEED</h1>
+<div class="parties">Document Reference: IEQ-LEASE-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS DEED OF LEASE</strong> is executed on <strong>${d.date}</strong></p>
+<p style="margin-top:8px"><strong>LESSOR:</strong> <strong>${d.pA}</strong> <strong>AND LESSEE:</strong> <strong>${d.pB}</strong>.</p>
+<h2>1. DEMISE</h2><p>The Lessor hereby leases to the Lessee the premises situated at <strong>${d.property}</strong> ("Premises"), together with all fixtures and fittings therein, for commercial purposes only.</p>
+<h2>2. TERM</h2><p>The lease shall commence on <strong>${d.date}</strong> and shall continue for a period of 36 (thirty-six) months ("Term"), unless sooner determined as herein provided. This Deed requires compulsory registration with the Sub-Registrar's Office (SRO) as the term exceeds 11 months.</p>
+<h2>3. RENT</h2><p><strong>3.1</strong> The Lessee agrees to pay a monthly rent of <strong>₹${d.rent}</strong> ("Monthly Rent"), payable on or before the 5th day of each calendar month. Rent shall be subject to escalation at the rate of 5% per annum at the end of each 12-month period.</p>
+<h2>4. SECURITY DEPOSIT</h2><p>The Lessee has paid a refundable security deposit of <strong>₹${d.deposit}</strong> ("Security Deposit"), which shall be returned within 30 days of vacation of the Premises, subject to deductions for damages beyond normal wear and tear.</p>
+<h2>5. PERMITTED USE</h2><p>The Premises shall be used exclusively for commercial office purposes. The Lessee shall not sublet, assign, or permit any other person to use the Premises without prior written consent of the Lessor.</p>
+<h2>6. MAINTENANCE</h2><p>The Lessee shall maintain the Premises in good repair and condition. Structural repairs shall be the Lessor's responsibility. The Lessee shall obtain and pay for all utility connections.</p>
+<h2>7. GOVERNING LAW</h2><p>This Deed shall be governed by the Transfer of Property Act, 1882, and the Registration Act, 1908. Stamp Duty: <strong>${d.stamp}</strong> payable at SRO, ${d.jur}.</p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Lessor</div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Lessee</div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Witnessed by Ink & Equity LLP · IEQ LegalTech Platform</em></div>`,
+
+    spa: () => `
+<h1>SHARE PURCHASE AGREEMENT</h1>
+<div class="parties">Document Reference: IEQ-SPA-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS SHARE PURCHASE AGREEMENT</strong> ("SPA") is entered into on <strong>${d.date}</strong></p>
+<p style="margin-top:8px"><strong>SELLER:</strong> <strong>${d.pA}</strong> <strong>AND BUYER:</strong> <strong>${d.pB}</strong> in respect of shares of <strong>${d.company}</strong> ("Target Company").</p>
+<h2>1. SALE AND PURCHASE</h2><p>Subject to the terms and conditions hereof, the Seller agrees to sell and the Buyer agrees to purchase <strong>${d.shares}</strong> in the Target Company ("Sale Shares"), free and clear of all Encumbrances.</p>
+<h2>2. PURCHASE PRICE</h2><p>The total consideration for the Sale Shares shall be <strong>₹${d.consideration}</strong> ("Purchase Price"), payable as follows: (a) 20% on execution; (b) 30% on satisfaction of Conditions Precedent; (c) 50% on Completion.</p>
+<h2>3. CONDITIONS PRECEDENT</h2><p>Completion is subject to: (a) board and shareholder approval; (b) regulatory clearances under the Companies Act, 2013 and FEMA, 1999; (c) no Material Adverse Change ("MAC") having occurred; (d) accuracy of Seller's representations on the Completion Date.</p>
+<h2>4. REPRESENTATIONS & WARRANTIES</h2><p>The Seller represents and warrants that: (a) the Sale Shares are fully paid up; (b) there are no pending litigation or regulatory actions; (c) financial statements are accurate and in compliance with IndAS; (d) all material contracts are valid and subsisting. <strong>⚠ Senior advocate review mandatory for this clause.</strong></p>
+<h2>5. MAC CLAUSE</h2><p>Either Party may terminate this SPA without liability if a Material Adverse Change has occurred between the execution date and Completion Date, defined as any event having a material adverse effect on the business, assets, or financial condition of the Target Company exceeding ₹25,00,000.</p>
+<h2>6. INDEMNIFICATION</h2><p>The Seller shall indemnify and hold harmless the Buyer from all Losses arising from any breach of the Seller's representations or warranties for a period of 3 (three) years from Completion Date.</p>
+<h2>7. GOVERNING LAW</h2><p>This SPA is governed by the Companies Act, 2013, SEBI regulations, FEMA, 1999, and the Indian Contract Act, 1872. Disputes shall be resolved by arbitration under the Arbitration and Conciliation Act, 1996, with seat at ${d.jur}.</p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Seller</div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Buyer</div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Ink & Equity LLP — M&A Desk · Senior Advocate Review Required · IEQ LegalTech Platform</em></div>`,
+
+    msme: () => `
+<h1>MSME VENDOR AGREEMENT</h1>
+<div class="parties">Document Reference: IEQ-MSME-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS VENDOR AGREEMENT</strong> is made on <strong>${d.date}</strong></p>
+<p style="margin-top:8px"><strong>PRINCIPAL:</strong> <strong>${d.pA}</strong> <strong>AND VENDOR (MSME):</strong> <strong>${d.pB}</strong>.</p>
+<h2>1. SCOPE OF WORK</h2><p>The Vendor agrees to supply <strong>${d.scope}</strong> ("Services/Goods") to the Principal in accordance with the specifications mutually agreed upon in Schedule A.</p>
+<h2>2. CONTRACT VALUE & PAYMENT</h2><p><strong>2.1</strong> Total contract value: <strong>₹${d.fee}</strong>, payable in <strong>${d.payment}</strong>. <strong>2.2</strong> Pursuant to Section 15 of the MSMED Act, 2006, the Principal undertakes to make payment within 45 (forty-five) days from date of acceptance of goods/services or agreed delivery date, whichever is earlier. <strong>2.3</strong> In case of delay, compound interest at 3x RBI bank rate shall apply per the MSMED Act, 2006.</p>
+<h2>3. MSME VERIFICATION</h2><p>The Vendor confirms Udyam Registration No. [UDYAM-XX-00-XXXXXXXX] and undertakes to notify the Principal of any change in MSME status within 7 days.</p>
+<h2>4. GST & TAX PROVISIONS</h2><p>GST shall be charged at applicable rates as per the CGST/IGST Acts. TDS shall be deducted as per Section 194C/194J of the Income Tax Act, 1961. GST invoice shall be raised within 30 days of supply.</p>
+<h2>5. QUALITY & PENALTIES</h2><p>Goods/Services not conforming to specifications shall attract a penalty of 2% of invoice value per week of delay, up to a maximum of 10% of total contract value.</p>
+<h2>6. DISPUTE RESOLUTION</h2><p>Disputes shall first be referred to the MSME Facilitation Council under Section 18 of the MSMED Act, 2006. Failing resolution in 90 days, disputes shall be resolved through the IEQ ODR platform operated by Ink & Equity LLP.</p>
+<h2>7. GOVERNING LAW</h2><p>This Agreement is governed by MSMED Act, 2006, CGST Act, 2017, and the Indian Contract Act, 1872. Jurisdiction: ${d.jur}. Stamp: ${d.stamp}.</p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Principal</div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Vendor / MSME</div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Witnessed by Ink & Equity LLP · IEQ LegalTech Platform</em></div>`,
+
+    service: () => `
+<h1>PROFESSIONAL SERVICES AGREEMENT</h1>
+<div class="parties">Document Reference: IEQ-SVC-${Math.floor(Math.random()*90000+10000)} | ${d.date}</div>
+<p><strong>THIS AGREEMENT</strong> is entered into on <strong>${d.date}</strong></p>
+<p style="margin-top:8px"><strong>CLIENT:</strong> <strong>${d.pA}</strong> <strong>AND SERVICE PROVIDER:</strong> <strong>${d.pB}</strong>.</p>
+<h2>1. SERVICES</h2><p>The Service Provider agrees to render <strong>${d.scope}</strong> ("Services") for the benefit of the Client, as further described in Schedule A attached hereto.</p>
+<h2>2. FEES & PAYMENT</h2><p><strong>2.1</strong> The Client shall pay the Service Provider a total fee of <strong>₹${d.fee}</strong> ("Fee"), disbursed in <strong>${d.payment}</strong>. <strong>2.2</strong> Invoices not paid within 15 days shall attract interest at 18% per annum.</p>
+<h2>3. INTELLECTUAL PROPERTY</h2><p>All work product, deliverables, and creative output produced exclusively for and paid by the Client under this Agreement shall vest in the Client upon full payment. Pre-existing IP of the Service Provider remains theirs.</p>
+<h2>4. CONFIDENTIALITY</h2><p>Both parties agree to keep confidential all non-public information exchanged pursuant to this Agreement and to use it solely for the performance of the Services, for a period of 2 (two) years post-termination.</p>
+<h2>5. LIMITATION OF LIABILITY</h2><p>Neither party shall be liable for indirect, consequential, or punitive damages. The total liability of either Party shall not exceed the Fee paid in the 3 (three) months preceding the event giving rise to the claim.</p>
+<h2>6. TERMINATION</h2><p>Either Party may terminate this Agreement with 30 (thirty) days' written notice. In the event of material breach, the non-breaching party may terminate immediately on written notice, with payment due only for work completed to the date of termination.</p>
+<h2>7. GOVERNING LAW</h2><p>This Agreement is governed by the Indian Contract Act, 1872. Jurisdiction: ${d.jur}. Stamp: ${d.stamp}.</p>
+<div class="sig-block"><div class="sig"><div class="sig-line"></div><strong>${d.pA}</strong><br>Client</div><div class="sig"><div class="sig-line"></div><strong>${d.pB}</strong><br>Service Provider</div></div>
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#888"><em>Witnessed by Ink & Equity LLP · IEQ LegalTech Platform</em></div>`
+  };
+  return (fns[type] || fns.nda)();
+}
+
+function downloadContract() {
+  const title = generatedTitle || 'IEQ-Contract';
+  const blob = new Blob(['<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title><style>body{font-family:"Times New Roman",serif;max-width:800px;margin:40px auto;padding:20px;font-size:13pt;line-height:1.8;color:#000}h1{text-align:center;text-transform:uppercase;font-size:14pt;margin-bottom:16px}h2{font-size:12pt;font-weight:bold;margin-top:20px;text-decoration:underline}.sig-block{display:flex;justify-content:space-between;border-top:1px solid #000;padding-top:20px;margin-top:40px}.sig{width:45%;text-align:center}.sig-line{border-top:1px solid #555;margin:24px auto 4px;width:90%}.parties{text-align:center;font-style:italic;margin-bottom:14px}</style></head><body>'+generatedText+'</body></html>'], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = title.replace(/[^a-z0-9]/gi,'_') + '.html';
+  a.click();
+  showToast('Contract downloaded ✓');
+}
+
+function printContract() {
+  const win = window.open('','_blank');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+generatedTitle+'</title><style>body{font-family:"Times New Roman",serif;max-width:800px;margin:40px auto;padding:20px;font-size:13pt;line-height:1.8;color:#000}h1{text-align:center;text-transform:uppercase;font-size:14pt;margin-bottom:16px}h2{font-size:12pt;font-weight:bold;margin-top:20px;text-decoration:underline}.sig-block{display:flex;justify-content:space-between;border-top:1px solid #000;padding-top:20px;margin-top:40px}.sig{width:45%;text-align:center}.sig-line{border-top:1px solid #555;margin:24px auto 4px;width:90%}.parties{text-align:center;font-style:italic;margin-bottom:14px}</style></head><body>'+generatedText+'</body></html>');
+  win.document.close();
+  win.print();
+}
+
+function showReviewModal() { document.getElementById('review-modal').classList.remove('hidden'); }
+function closeReviewModal() { document.getElementById('review-modal').classList.add('hidden'); }
+function submitReview() {
+  closeReviewModal();
+  showToast('Routed to Ink & Equity advocate queue ✓');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
+
+// Set today's date
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>

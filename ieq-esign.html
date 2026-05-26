@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IEQ E-Sign — Electronic Signature Platform | Ink & Equity LLP</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{navy:{950:'#03060f',900:'#050d1a',800:'#091428',700:'#0d1f3c'},gold:{300:'#f5d87a',400:'#e8c34a',500:'#d4a81f',600:'#b8901a'}}}}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#d4a81f;--navy:#050d1a;scroll-behavior:smooth}
+body{background:#050d1a;color:#e8f0fe;font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#03060f}::-webkit-scrollbar-thumb{background:#d4a81f;border-radius:3px}
+.gold-text{background:linear-gradient(135deg,#f5d87a,#d4a81f,#e8c34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glow-border{border:1px solid rgba(212,168,31,.3);box-shadow:0 0 20px rgba(212,168,31,.08)}
+.btn-gold{background:linear-gradient(135deg,#d4a81f,#b8901a);color:#03060f;font-weight:600;transition:all .3s;cursor:pointer;border:none}
+.btn-gold:hover{background:linear-gradient(135deg,#e8c34a,#d4a81f);box-shadow:0 8px 30px rgba(212,168,31,.35);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(212,168,31,.4);color:#e8c34a;background:transparent;transition:all .3s;cursor:pointer}
+.btn-ghost:hover{background:rgba(212,168,31,.1);border-color:#d4a81f}
+.tag{background:rgba(212,168,31,.12);border:1px solid rgba(212,168,31,.3);color:#e8c34a;font-size:.7rem}
+.grid-bg{background-image:linear-gradient(rgba(212,168,31,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,31,.03) 1px,transparent 1px);background-size:60px 60px}
+input,select{background:rgba(9,20,40,.8);border:1px solid rgba(212,168,31,.25);color:#e8f0fe;outline:none;transition:border .2s;font-family:'DM Sans',sans-serif}
+input:focus,select:focus{border-color:#d4a81f;box-shadow:0 0 0 2px rgba(212,168,31,.15)}
+select option{background:#091428;color:#e8f0fe}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease forwards}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+.pulse-dot{animation:pulse 2s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite}
+@keyframes checkIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.check-in{animation:checkIn .4s cubic-bezier(.25,.8,.25,1) forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+.slide-in{animation:slideIn .4s ease forwards}
+.step-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.75rem;font-weight:600;letter-spacing:.05em;transition:all .3s}
+.step-pill.active{background:rgba(212,168,31,.2);border:1px solid rgba(212,168,31,.6);color:#e8c34a}
+.step-pill.done{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#22c55e}
+.step-pill.inactive{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#6b7280}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(5,13,26,.9);border-bottom:1px solid rgba(212,168,31,.15)}
+.signatory-row{background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.2);transition:all .3s}
+.signatory-row:hover{border-color:rgba(212,168,31,.4)}
+.cert-stamp{border:3px solid #d4a81f;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;margin:0 auto}
+</style>
+</head>
+<body class="grid-bg">
+
+<!-- NAV -->
+<nav class="py-3 px-4 md:px-8">
+  <div class="max-w-5xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="ieq-legaltech-1.html" class="flex items-center gap-2 text-gray-400 hover:text-gold-400 transition-colors text-sm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back
+      </a>
+      <span class="text-gray-700">|</span>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <span class="font-display font-bold text-sm gold-text">IEQ E-Sign</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+      <span class="text-xs text-green-400">IT Act 2000 Compliant</span>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-4 md:px-8" style="padding-top:90px;padding-bottom:60px">
+
+  <!-- Header -->
+  <div class="text-center mb-10 fade-up">
+    <div class="inline-flex items-center gap-2 tag px-3 py-1.5 rounded-full mb-4">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Aadhaar OTP · DSC · Email OTP · Biometric
+    </div>
+    <h1 class="font-display font-black text-4xl md:text-5xl mb-3">E-<span class="gold-text">Signature</span> Engine</h1>
+    <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">Multi-party signing ceremonies with immutable audit logs. Every signature verified under the IT Act, 2000 — legally equivalent to wet ink.</p>
+  </div>
+
+  <!-- Step Pills -->
+  <div class="flex items-center justify-center gap-3 mb-10 flex-wrap">
+    <div id="pill-1" class="step-pill active"><span>01</span><span>Document</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-2" class="step-pill inactive"><span>02</span><span>Signatories</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-3" class="step-pill inactive"><span>03</span><span>Ceremony</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-4" class="step-pill inactive"><span>04</span><span>Certificate</span></div>
+  </div>
+
+  <!-- STEP 1: Document Setup -->
+  <div id="step-1">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        </div>
+        <div>
+          <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 01 of 04</div>
+          <h2 class="font-display font-bold text-2xl">Document Details</h2>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Document Title</label>
+          <input id="doc-title" type="text" placeholder="e.g. Share Purchase Agreement — Acme & BridgeCo" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Document Type</label>
+            <select id="doc-type" class="w-full rounded-xl px-4 py-3 text-sm">
+              <option>Mutual NDA</option>
+              <option>Employment Agreement</option>
+              <option>Commercial Lease Deed</option>
+              <option>Share Purchase Agreement</option>
+              <option>MSME Vendor Agreement</option>
+              <option>Service Agreement</option>
+              <option>Custom Document</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Signing Deadline</label>
+            <input id="doc-deadline" type="date" class="w-full rounded-xl px-4 py-3 text-sm">
+          </div>
+        </div>
+
+        <!-- Document Upload Area -->
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Attach Document (optional for demo)</label>
+          <div id="upload-area" class="rounded-2xl p-8 text-center cursor-pointer transition-all" style="border:2px dashed rgba(212,168,31,.3);background:rgba(9,20,40,.5)" onclick="simulateUpload()" onmouseenter="this.style.borderColor='rgba(212,168,31,.6)'" onmouseleave="this.style.borderColor='rgba(212,168,31,.3)'">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.5" class="mx-auto mb-3 opacity-60"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            <p class="text-sm text-gray-400" id="upload-label">Drop PDF or <span class="text-gold-400 underline cursor-pointer">click to upload</span></p>
+            <p class="text-xs text-gray-600 mt-1">PDF, DOCX · Max 25MB · AES-256 encrypted in transit</p>
+          </div>
+        </div>
+
+        <div class="rounded-xl p-4 flex items-center gap-3" style="background:rgba(212,168,31,.06);border:1px solid rgba(212,168,31,.2)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          <p class="text-xs text-gray-400">Each signing event generates an immutable, timestamped audit log. Document hash stored on-chain via IEQ Blockchain Registry.</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <button onclick="goToStep(2)" class="btn-gold px-8 py-3 rounded-xl text-sm flex items-center gap-2">
+          Continue to Add Signatories
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Signatories -->
+  <div id="step-2" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 02 of 04</div>
+            <h2 class="font-display font-bold text-2xl">Add Signatories</h2>
+          </div>
+        </div>
+        <button onclick="addSignatory()" class="btn-ghost px-4 py-2 rounded-xl text-sm flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Add Party
+        </button>
+      </div>
+
+      <div id="signatories-list" class="space-y-3 mb-6">
+        <!-- Default signatories added by JS -->
+      </div>
+
+      <!-- IEQ Witness -->
+      <div class="rounded-2xl p-4 flex items-center gap-4" style="background:rgba(212,168,31,.06);border:1px solid rgba(212,168,31,.2)">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="text-sm font-semibold text-gold-400">Ink & Equity LLP — Advocate Witness</div>
+          <div class="text-xs text-gray-500">DSC (Digital Signature Certificate) · Counter-signs all executed documents</div>
+        </div>
+        <span class="tag px-2 py-0.5 rounded text-xs">Auto-added</span>
+      </div>
+
+      <div class="flex gap-3 mt-8">
+        <button onclick="goToStep(1)" class="btn-ghost px-6 py-3 rounded-xl text-sm">← Back</button>
+        <button onclick="launchCeremony()" class="btn-gold px-8 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Launch Signing Ceremony
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Ceremony -->
+  <div id="step-3" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div>
+          <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 03 of 04 — LIVE</div>
+          <h2 class="font-display font-bold text-2xl" id="ceremony-title">Signing Ceremony</h2>
+        </div>
+      </div>
+
+      <!-- Document banner -->
+      <div class="rounded-xl p-4 flex items-center gap-3 mb-6" style="background:rgba(9,20,40,.9);border:1px solid rgba(212,168,31,.2)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        <div>
+          <div class="text-sm font-semibold" id="banner-title">Document</div>
+          <div class="text-xs text-gray-500">Secure ceremony · AES-256 · IT Act 2000 Compliant</div>
+        </div>
+      </div>
+
+      <!-- Overall progress -->
+      <div class="mb-6">
+        <div class="flex justify-between text-xs mb-2">
+          <span class="text-gray-500">Signing Progress</span>
+          <span class="text-gold-400" id="progress-label">0 of 0 signed</span>
+        </div>
+        <div class="h-2 rounded-full" style="background:rgba(212,168,31,.1)">
+          <div id="progress-bar" class="h-2 rounded-full transition-all duration-700" style="width:0%;background:linear-gradient(90deg,#d4a81f,#e8c34a)"></div>
+        </div>
+      </div>
+
+      <!-- Signing queue -->
+      <div id="ceremony-list" class="space-y-3 mb-6"></div>
+
+      <!-- Activity log -->
+      <div class="rounded-xl p-4" style="background:rgba(3,6,15,.8);border:1px solid rgba(212,168,31,.15)">
+        <div class="text-xs font-mono text-gold-400 mb-3 uppercase tracking-widest">Live Activity Log</div>
+        <div id="activity-log" class="space-y-1 font-mono text-xs max-h-32 overflow-y-auto">
+          <div class="text-gray-500">Awaiting signatures...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Certificate -->
+  <div id="step-4" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10 text-center" style="background:rgba(9,20,40,.8)">
+
+      <!-- Animated checkmark -->
+      <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 check-in" style="background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.5)">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+
+      <div class="tag px-3 py-1 rounded-full text-xs inline-flex items-center gap-2 mb-4">
+        <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+        Document Fully Executed
+      </div>
+
+      <h2 class="font-display font-bold text-3xl mb-2">Certificate of <span class="gold-text">Completion</span></h2>
+      <p class="text-gray-400 text-sm mb-8">All parties have signed. This document is now legally binding under the IT Act, 2000.</p>
+
+      <!-- Certificate Card -->
+      <div class="rounded-3xl p-8 mb-8 text-left relative overflow-hidden" style="background:rgba(212,168,31,.04);border:1px solid rgba(212,168,31,.35)">
+        <div class="absolute top-0 right-0 w-64 h-64 rounded-full" style="background:radial-gradient(circle,rgba(212,168,31,.06) 0%,transparent 70%);transform:translate(40px,-40px)"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+          <div>
+            <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Document</div>
+            <div class="font-semibold text-sm" id="cert-doc-title">—</div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Executed On</div>
+            <div class="font-semibold text-sm" id="cert-date">—</div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Case Reference</div>
+            <div class="font-mono text-sm text-gold-400" id="cert-ref">—</div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Legal Validity</div>
+            <div class="text-sm text-green-400">IT Act 2000 · Indian Evidence Act</div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-5 border-t" style="border-color:rgba(212,168,31,.2)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-3">Signatories</div>
+          <div id="cert-signatories" class="space-y-2"></div>
+        </div>
+
+        <div class="mt-6 pt-5 border-t" style="border-color:rgba(212,168,31,.2)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Blockchain Hash</div>
+          <div class="font-mono text-xs text-gold-400 break-all" id="cert-hash">—</div>
+          <div class="text-xs text-gray-600 mt-1">SHA-256 · Registered on IEQ Blockchain Registry · Immutable</div>
+        </div>
+
+        <div class="mt-4 flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="text-xs text-green-400">Witnessed & counter-signed by Ink & Equity LLP</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-wrap gap-3 justify-center">
+        <button onclick="downloadCert()" class="btn-gold px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download Certificate
+        </button>
+        <a href="ieq-contracts.html" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+          New Contract
+        </a>
+        <a href="ieq-odr.html" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/><circle cx="19" cy="6" r="2" fill="currentColor"/></svg>
+          File Dispute
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full text-sm font-semibold flex items-center gap-2" style="background:rgba(9,20,40,.95);border:1px solid rgba(34,197,94,.5);color:#22c55e;backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(0,0,0,.5)">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<footer class="border-t mt-16 py-8 text-center text-xs text-gray-600" style="border-color:rgba(212,168,31,.1)">
+  <div class="flex items-center justify-center gap-3 flex-wrap">
+    <span>IEQ E-Sign · Ink &amp; Equity LLP</span>
+    <span class="text-gold-400">·</span>
+    <span>IT Act 2000 — Section 5 Compliant</span>
+    <span class="text-gold-400">·</span>
+    <span>Indian Evidence Act Valid</span>
+    <span class="text-gold-400">·</span>
+    <span>AES-256 Encrypted</span>
+  </div>
+</footer>
+
+<script>
+let signatoryCount = 0;
+let currentStep = 1;
+let signatories = [];
+let ceremonyData = {};
+
+const authMethods = ['Aadhaar OTP', 'DSC (Class-3)', 'Email OTP', 'Biometric'];
+const defaultSignatories = [
+  {name:'Rajesh Kumar', email:'rajesh@acme.co', auth:'Aadhaar OTP'},
+  {name:'Priya Menon', email:'priya@bridgeco.in', auth:'DSC (Class-3)'}
+];
+
+function initSignatories() {
+  defaultSignatories.forEach(s => addSignatory(s));
+}
+
+function addSignatory(preset) {
+  signatoryCount++;
+  const id = signatoryCount;
+  const list = document.getElementById('signatories-list');
+  const div = document.createElement('div');
+  div.id = 'sig-row-'+id;
+  div.className = 'signatory-row rounded-2xl p-4';
+  div.innerHTML = `
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3);color:#e8c34a">${id}</div>
+      <span class="text-sm font-medium text-gray-300">Signatory ${id}</span>
+      ${id > 1 ? `<button onclick="removeSignatory(${id})" class="ml-auto text-gray-600 hover:text-red-400 transition-colors text-xs">Remove</button>` : ''}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <input id="sig-name-${id}" type="text" placeholder="Full Name" value="${preset?.name||''}" class="rounded-xl px-3 py-2.5 text-sm">
+      <input id="sig-email-${id}" type="email" placeholder="Email / Phone" value="${preset?.email||''}" class="rounded-xl px-3 py-2.5 text-sm">
+      <select id="sig-auth-${id}" class="rounded-xl px-3 py-2.5 text-sm">
+        ${authMethods.map(m => `<option${m===(preset?.auth||'')?' selected':''}>${m}</option>`).join('')}
+      </select>
+    </div>`;
+  list.appendChild(div);
+}
+
+function removeSignatory(id) {
+  document.getElementById('sig-row-'+id)?.remove();
+}
+
+function gatherSignatories() {
+  const result = [];
+  for(let i = 1; i <= signatoryCount; i++) {
+    const name = document.getElementById('sig-name-'+i);
+    const email = document.getElementById('sig-email-'+i);
+    const auth = document.getElementById('sig-auth-'+i);
+    if(name && name.value) {
+      result.push({
+        num: result.length + 1,
+        name: name.value || 'Signatory '+i,
+        email: email?.value || 'unknown',
+        auth: auth?.value || 'Email OTP'
+      });
+    }
+  }
+  result.push({num: result.length+1, name:'Ink & Equity LLP', email:'sign@ieqlaw.com', auth:'DSC (Advocate)'});
+  return result;
+}
+
+function goToStep(n) {
+  [1,2,3,4].forEach(i => {
+    const s = document.getElementById('step-'+i);
+    if(s) s.classList.toggle('hidden', i!==n);
+  });
+  ['1','2','3','4'].forEach(i => {
+    const pill = document.getElementById('pill-'+i);
+    if(!pill) return;
+    const pn = parseInt(i);
+    pill.className = 'step-pill ' + (pn < n ? 'done' : pn === n ? 'active' : 'inactive');
+    if(pn < n) pill.querySelector('span:first-child').textContent = '✓';
+    else pill.querySelector('span:first-child').textContent = '0'+i;
+  });
+  currentStep = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function simulateUpload() {
+  const label = document.getElementById('upload-label');
+  const area = document.getElementById('upload-area');
+  label.innerHTML = '<span class="text-green-400">✓ document.pdf (1.2 MB) — encrypted & ready</span>';
+  area.style.borderColor = 'rgba(34,197,94,.5)';
+  area.style.background = 'rgba(34,197,94,.05)';
+  showToast('File uploaded & encrypted ✓');
+}
+
+function launchCeremony() {
+  signatories = gatherSignatories();
+  const docTitle = document.getElementById('doc-title').value || 'Legal Document';
+  const docType = document.getElementById('doc-type').value;
+
+  document.getElementById('banner-title').textContent = docTitle || docType;
+  document.getElementById('ceremony-title').textContent = 'Signing Ceremony — ' + (docTitle || docType);
+  goToStep(3);
+
+  ceremonyData = {
+    docTitle: docTitle || docType,
+    docType,
+    ref: 'IEQ-ESIGN-' + Math.floor(Math.random()*90000+10000),
+    hash: generateHash()
+  };
+
+  // Build ceremony list
+  const list = document.getElementById('ceremony-list');
+  list.innerHTML = '';
+  signatories.forEach((s, idx) => {
+    const div = document.createElement('div');
+    div.id = 'ceremony-row-'+idx;
+    div.className = 'rounded-2xl p-4 flex items-center gap-4 transition-all';
+    div.style.cssText = 'background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.15)';
+    div.innerHTML = `
+      <div id="row-icon-${idx}" class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold" style="background:rgba(107,114,128,.15);border:1px solid rgba(107,114,128,.3);color:#6b7280">${s.num}</div>
+      <div class="flex-1">
+        <div class="text-sm font-semibold text-gray-300" id="row-name-${idx}">${s.name}</div>
+        <div class="text-xs text-gray-500">${s.auth} · ${s.email}</div>
+      </div>
+      <div id="row-status-${idx}" class="text-xs text-gray-600 font-mono">Pending</div>`;
+    list.appendChild(div);
+  });
+
+  updateProgress(0, signatories.length);
+
+  // Animate signings
+  let signed = 0;
+  const log = document.getElementById('activity-log');
+  log.innerHTML = `<div class="text-green-400">✓ Ceremony initialized · ${signatories.length} signatories</div>`;
+
+  const signNext = (idx) => {
+    if(idx >= signatories.length) {
+      // All done
+      setTimeout(() => showCertificate(), 600);
+      return;
+    }
+    const s = signatories[idx];
+    const row = document.getElementById('ceremony-row-'+idx);
+    const icon = document.getElementById('row-icon-'+idx);
+    const status = document.getElementById('row-status-'+idx);
+
+    // Pending → signing
+    status.textContent = 'OTP sent...';
+    status.style.color = '#f59e0b';
+    row.style.borderColor = 'rgba(212,168,31,.4)';
+    row.style.background = 'rgba(212,168,31,.05)';
+    icon.style.background = 'rgba(212,168,31,.2)';
+    icon.style.borderColor = 'rgba(212,168,31,.5)';
+    icon.style.color = '#e8c34a';
+
+    const now = new Date();
+    const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ' IST';
+
+    setTimeout(() => {
+      // Signed
+      status.textContent = `✓ ${timeStr}`;
+      status.style.color = '#22c55e';
+      row.style.borderColor = 'rgba(34,197,94,.35)';
+      row.style.background = 'rgba(34,197,94,.04)';
+      icon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>';
+      icon.style.background = 'rgba(34,197,94,.12)';
+      icon.style.borderColor = 'rgba(34,197,94,.4)';
+
+      signed++;
+      updateProgress(signed, signatories.length);
+      s.signedAt = timeStr;
+      s.signed = true;
+
+      const logLine = document.createElement('div');
+      logLine.className = 'text-green-400 slide-in';
+      logLine.textContent = `✓ ${s.name} signed via ${s.auth} · ${timeStr}`;
+      log.appendChild(logLine);
+      log.scrollTop = log.scrollHeight;
+
+      setTimeout(() => signNext(idx + 1), 2200 + Math.random() * 800);
+    }, 2000);
+  };
+
+  setTimeout(() => signNext(0), 800);
+}
+
+function updateProgress(signed, total) {
+  const pct = total > 0 ? Math.round((signed / total) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = signed + ' of ' + total + ' signed';
+}
+
+function showCertificate() {
+  goToStep(4);
+  document.getElementById('cert-doc-title').textContent = ceremonyData.docTitle;
+  document.getElementById('cert-date').textContent = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('cert-ref').textContent = ceremonyData.ref;
+  document.getElementById('cert-hash').textContent = ceremonyData.hash;
+
+  const certSigs = document.getElementById('cert-signatories');
+  certSigs.innerHTML = '';
+  signatories.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'flex items-center justify-between py-2 border-b last:border-0';
+    div.style.borderColor = 'rgba(212,168,31,.1)';
+    div.innerHTML = `
+      <div>
+        <div class="text-sm font-medium">${s.name}</div>
+        <div class="text-xs text-gray-500">${s.auth}</div>
+      </div>
+      <div class="text-xs text-green-400 font-mono">✓ ${s.signedAt || new Date().getHours().toString().padStart(2,'0')+':'+new Date().getMinutes().toString().padStart(2,'0')+' IST'}</div>`;
+    certSigs.appendChild(div);
+  });
+}
+
+function generateHash() {
+  const chars = '0123456789abcdef';
+  return '0x' + Array.from({length:64}, () => chars[Math.floor(Math.random()*16)]).join('').replace(/(.{4})/g,'$1...').slice(0,40)+'...';
+}
+
+function downloadCert() {
+  const body = `IEQ E-SIGN CERTIFICATE OF COMPLETION\n\nDocument: ${ceremonyData.docTitle}\nReference: ${ceremonyData.ref}\nDate: ${new Date().toLocaleDateString('en-IN')}\n\nSignatories:\n${signatories.map(s => `  ${s.num}. ${s.name} — ${s.auth} — ${s.signedAt||'—'} ✓`).join('\n')}\n\nBlockchain Hash: ${ceremonyData.hash}\n\nThis document is legally binding under the Information Technology Act, 2000 (Section 5)\nand the Indian Evidence Act. Witnessed by Ink & Equity LLP.\n\nIEQ LegalTech Platform — tech.ieqlaw.com`;
+  const blob = new Blob([body], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'IEQ-Certificate-'+ceremonyData.ref+'.txt';
+  a.click();
+  showToast('Certificate downloaded ✓');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
+
+// Init
+const dlDate = new Date();
+dlDate.setDate(dlDate.getDate() + 7);
+document.getElementById('doc-deadline').value = dlDate.toISOString().split('T')[0];
+initSignatories();
+</script>
+</body>
+</html>

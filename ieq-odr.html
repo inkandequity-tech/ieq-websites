@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IEQ ODR — Online Dispute Resolution | Ink & Equity LLP</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{navy:{950:'#03060f',900:'#050d1a',800:'#091428',700:'#0d1f3c'},gold:{300:'#f5d87a',400:'#e8c34a',500:'#d4a81f',600:'#b8901a'}}}}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#d4a81f;--navy:#050d1a;scroll-behavior:smooth}
+body{background:#050d1a;color:#e8f0fe;font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#03060f}::-webkit-scrollbar-thumb{background:#d4a81f;border-radius:3px}
+.gold-text{background:linear-gradient(135deg,#f5d87a,#d4a81f,#e8c34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glow-border{border:1px solid rgba(212,168,31,.3);box-shadow:0 0 20px rgba(212,168,31,.08)}
+.btn-gold{background:linear-gradient(135deg,#d4a81f,#b8901a);color:#03060f;font-weight:600;transition:all .3s;cursor:pointer;border:none}
+.btn-gold:hover{background:linear-gradient(135deg,#e8c34a,#d4a81f);box-shadow:0 8px 30px rgba(212,168,31,.35);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(212,168,31,.4);color:#e8c34a;background:transparent;transition:all .3s;cursor:pointer}
+.btn-ghost:hover{background:rgba(212,168,31,.1);border-color:#d4a81f}
+.tag{background:rgba(212,168,31,.12);border:1px solid rgba(212,168,31,.3);color:#e8c34a;font-size:.7rem}
+.grid-bg{background-image:linear-gradient(rgba(212,168,31,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,31,.03) 1px,transparent 1px);background-size:60px 60px}
+input,select,textarea{background:rgba(9,20,40,.8);border:1px solid rgba(212,168,31,.25);color:#e8f0fe;outline:none;transition:border .2s;font-family:'DM Sans',sans-serif}
+input:focus,select:focus,textarea:focus{border-color:#d4a81f;box-shadow:0 0 0 2px rgba(212,168,31,.15)}
+select option{background:#091428;color:#e8f0fe}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease forwards}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+.pulse-dot{animation:pulse 2s infinite}
+@keyframes checkIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.check-in{animation:checkIn .5s cubic-bezier(.25,.8,.25,1) forwards}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.75rem;font-weight:600;letter-spacing:.05em;transition:all .3s}
+.step-pill.active{background:rgba(212,168,31,.2);border:1px solid rgba(212,168,31,.6);color:#e8c34a}
+.step-pill.done{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#22c55e}
+.step-pill.inactive{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#6b7280}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(5,13,26,.9);border-bottom:1px solid rgba(212,168,31,.15)}
+.dispute-type-card{border:1px solid rgba(212,168,31,.2);background:rgba(9,20,40,.7);transition:all .3s;cursor:pointer;border-radius:12px;padding:14px}
+.dispute-type-card:hover,.dispute-type-card.selected{border-color:rgba(212,168,31,.7);background:rgba(212,168,31,.08)}
+.dispute-type-card.selected{border-color:#d4a81f}
+.timeline-item{position:relative;padding-left:32px}
+.timeline-item::before{content:'';position:absolute;left:11px;top:28px;bottom:-12px;width:2px;background:linear-gradient(rgba(212,168,31,.5),rgba(212,168,31,.1))}
+.timeline-item:last-child::before{display:none}
+.timeline-dot{position:absolute;left:0;top:4px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700}
+</style>
+</head>
+<body class="grid-bg">
+
+<!-- NAV -->
+<nav class="py-3 px-4 md:px-8">
+  <div class="max-w-5xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="ieq-legaltech-1.html" class="flex items-center gap-2 text-gray-400 hover:text-gold-400 transition-colors text-sm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back
+      </a>
+      <span class="text-gray-700">|</span>
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/><circle cx="19" cy="6" r="2" fill="#03060f"/><circle cx="5" cy="18" r="2" fill="#03060f"/></svg>
+        </div>
+        <span class="font-display font-bold text-sm gold-text">IEQ Online Dispute Resolution</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+      <span class="text-xs text-green-400">Mediators Online</span>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-4 md:px-8" style="padding-top:90px;padding-bottom:60px">
+
+  <!-- Header -->
+  <div class="text-center mb-10 fade-up">
+    <div class="inline-flex items-center gap-2 tag px-3 py-1.5 rounded-full mb-4">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Arbitration & Conciliation Act, 1996 · 91% settle before arbitration
+    </div>
+    <h1 class="font-display font-black text-4xl md:text-5xl mb-3">Online Dispute <span class="gold-text">Resolution</span></h1>
+    <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">Three-tier resolution: AI negotiation → Advocate conciliation → Binding arbitration. Average resolution: 11 days.</p>
+  </div>
+
+  <!-- Step Pills -->
+  <div class="flex items-center justify-center gap-3 mb-10 flex-wrap">
+    <div id="pill-1" class="step-pill active"><span>01</span><span>Dispute Type</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-2" class="step-pill inactive"><span>02</span><span>Case Details</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-3" class="step-pill inactive"><span>03</span><span>Evidence</span></div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div id="pill-4" class="step-pill inactive"><span>04</span><span>Case Filed</span></div>
+  </div>
+
+  <!-- STEP 1: Dispute Type -->
+  <div id="step-1">
+    <p class="text-center text-gray-400 text-sm mb-6">Select the category that best describes your dispute</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+      <div class="dispute-type-card" onclick="selectDispute('commercial')" id="dt-commercial">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">Commercial</h4>
+        <p class="text-xs text-gray-500">Contracts, payments, vendor disputes</p>
+      </div>
+
+      <div class="dispute-type-card" onclick="selectDispute('employment')" id="dt-employment">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0114 0v2"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">Employment</h4>
+        <p class="text-xs text-gray-500">Wrongful termination, dues, PF</p>
+      </div>
+
+      <div class="dispute-type-card" onclick="selectDispute('property')" id="dt-property">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">Property</h4>
+        <p class="text-xs text-gray-500">Lease, rent arrears, possession</p>
+      </div>
+
+      <div class="dispute-type-card" onclick="selectDispute('consumer')" id="dt-consumer">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">Consumer</h4>
+        <p class="text-xs text-gray-500">Defective goods, service failures</p>
+      </div>
+
+      <div class="dispute-type-card" onclick="selectDispute('ip')" id="dt-ip">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">IP / Copyright</h4>
+        <p class="text-xs text-gray-500">Trademark, copyright, patent</p>
+      </div>
+
+      <div class="dispute-type-card" onclick="selectDispute('cofounder')" id="dt-cofounder">
+        <div class="w-8 h-8 rounded-lg mb-3 flex items-center justify-center" style="background:rgba(212,168,31,.15)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <h4 class="text-sm font-semibold mb-1">Co-founder / Equity</h4>
+        <p class="text-xs text-gray-500">Share disputes, founder exits</p>
+      </div>
+    </div>
+
+    <!-- Tier selector -->
+    <div class="glow-border rounded-2xl p-6" style="background:rgba(9,20,40,.7)">
+      <div class="text-sm font-semibold mb-4 text-gold-400">Select Resolution Tier</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="tier-card rounded-xl p-4 cursor-pointer selected-tier" id="tier-1" onclick="selectTier('1')" style="background:rgba(212,168,31,.1);border:1px solid rgba(212,168,31,.5)">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#d4a81f,#b8901a);color:#03060f">T1</div>
+            <span class="text-sm font-semibold text-gold-400">AI Negotiation</span>
+          </div>
+          <p class="text-xs text-gray-500">Structured counter-offer engine with sentiment analysis. Days 1–3. <strong class="text-gray-400">Free.</strong></p>
+        </div>
+        <div class="tier-card rounded-xl p-4 cursor-pointer" id="tier-2" onclick="selectTier('2')" style="border:1px solid rgba(212,168,31,.2);background:rgba(9,20,40,.5)">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3);color:#d4a81f">T2</div>
+            <span class="text-sm font-semibold">Conciliation</span>
+          </div>
+          <p class="text-xs text-gray-500">IEQ advocate-led video conciliation sessions. Days 4–10. <strong class="text-gray-400">₹5,000–₹25,000.</strong></p>
+        </div>
+        <div class="tier-card rounded-xl p-4 cursor-pointer" id="tier-3" onclick="selectTier('3')" style="border:1px solid rgba(212,168,31,.15);background:rgba(9,20,40,.5)">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(107,114,128,.15);border:1px solid rgba(107,114,128,.3);color:#9ca3af">T3</div>
+            <span class="text-sm font-semibold">Arbitration</span>
+          </div>
+          <p class="text-xs text-gray-500">Binding fast-track arbitration award in 21 days. Days 11–31. <strong class="text-gray-400">₹25,000+</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <button onclick="goToStep(2)" class="btn-gold px-8 py-3 rounded-xl text-sm flex items-center gap-2" id="step1-btn" disabled style="opacity:.5;cursor:not-allowed">
+        Continue to Case Details
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Case Details -->
+  <div id="step-2" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div>
+          <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 02 of 04</div>
+          <h2 class="font-display font-bold text-2xl">Case Details</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Claimant (Your Name / Company)</label>
+          <input id="f-claimant" type="text" placeholder="e.g. Ravi Enterprises Pvt. Ltd." class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Respondent (Other Party)</label>
+          <input id="f-respondent" type="text" placeholder="e.g. BuildCo Solutions LLP" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Claimant Email / Phone</label>
+          <input id="f-claimant-email" type="text" placeholder="your@email.com / +91 98XXXXXXXX" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Claim Amount (₹)</label>
+          <input id="f-amount" type="text" placeholder="e.g. 8,50,000" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Jurisdiction</label>
+          <select id="f-jurisdiction" class="w-full rounded-xl px-4 py-3 text-sm">
+            <option>Maharashtra (Mumbai)</option>
+            <option>Delhi (New Delhi)</option>
+            <option>Karnataka (Bengaluru)</option>
+            <option>Tamil Nadu (Chennai)</option>
+            <option>Telangana (Hyderabad)</option>
+            <option>Gujarat (Ahmedabad)</option>
+            <option>West Bengal (Kolkata)</option>
+            <option>Rajasthan (Jaipur)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Contract / Agreement Date</label>
+          <input id="f-contract-date" type="date" class="w-full rounded-xl px-4 py-3 text-sm">
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Brief Statement of Dispute</label>
+        <textarea id="f-brief" placeholder="Describe the dispute in brief — what happened, when, what was agreed, what breach occurred..." class="w-full rounded-xl px-4 py-3 text-sm h-28 resize-none"></textarea>
+      </div>
+
+      <div class="mb-5">
+        <label class="block text-xs text-gray-400 mb-1.5 uppercase tracking-wider">Relief Sought</label>
+        <textarea id="f-relief" placeholder="e.g. Payment of ₹8,50,000 being outstanding invoices + 18% interest + costs" class="w-full rounded-xl px-4 py-3 text-sm h-20 resize-none"></textarea>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="goToStep(1)" class="btn-ghost px-6 py-3 rounded-xl text-sm">← Back</button>
+        <button onclick="goToStep(3)" class="btn-gold px-8 py-3 rounded-xl text-sm">Continue to Evidence →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Evidence -->
+  <div id="step-3" class="hidden fade-up">
+    <div class="glow-border rounded-3xl p-6 md:p-10" style="background:rgba(9,20,40,.8)">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#d4a81f,#b8901a)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#03060f" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </div>
+        <div>
+          <div class="tag px-2 py-0.5 rounded text-xs mb-1">Step 03 of 04</div>
+          <h2 class="font-display font-bold text-2xl">Supporting Evidence</h2>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-400 mb-5">Upload relevant documents. All files are encrypted and visible only to the mediator/arbitrator panel.</p>
+
+      <div class="space-y-3 mb-6" id="evidence-list">
+        <!-- Pre-populated evidence types -->
+      </div>
+
+      <button onclick="addEvidenceRow()" class="btn-ghost px-4 py-2.5 rounded-xl text-sm flex items-center gap-2 mb-6">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add Another Document
+      </button>
+
+      <div class="rounded-xl p-5 mb-6" style="background:rgba(212,168,31,.05);border:1px solid rgba(212,168,31,.2)">
+        <div class="text-sm font-semibold text-gold-400 mb-3">Filing Summary</div>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <div><span class="text-gray-500">Dispute Type:</span> <span id="sum-type" class="font-medium">—</span></div>
+          <div><span class="text-gray-500">Resolution Tier:</span> <span id="sum-tier" class="font-medium text-gold-400">—</span></div>
+          <div><span class="text-gray-500">Claimant:</span> <span id="sum-claimant" class="font-medium">—</span></div>
+          <div><span class="text-gray-500">Claim Amount:</span> <span id="sum-amount" class="font-medium text-gold-400">—</span></div>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="goToStep(2)" class="btn-ghost px-6 py-3 rounded-xl text-sm">← Back</button>
+        <button onclick="submitCase()" class="btn-gold px-8 py-3 rounded-xl text-sm flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          File Case with IEQ ODR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Case Filed -->
+  <div id="step-4" class="hidden fade-up">
+
+    <!-- Success header -->
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 check-in" style="background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.5)">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2 class="font-display font-bold text-3xl mb-2">Case <span class="gold-text">Filed</span> Successfully</h2>
+      <p class="text-gray-400 text-sm">Your case has been received. An IEQ case manager will contact you within 2 hours.</p>
+    </div>
+
+    <!-- Case Card -->
+    <div class="glow-border rounded-3xl p-6 md:p-8 mb-6" style="background:rgba(9,20,40,.8)">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+        <div class="rounded-xl p-4" style="background:rgba(212,168,31,.06);border:1px solid rgba(212,168,31,.2)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Case Reference</div>
+          <div class="font-display font-bold text-2xl gold-text" id="case-ref">—</div>
+        </div>
+        <div class="rounded-xl p-4" style="background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.15)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Filed On</div>
+          <div class="font-semibold" id="case-date">—</div>
+          <div class="text-xs text-gray-500 mt-1">via IEQ ODR Platform</div>
+        </div>
+        <div class="rounded-xl p-4" style="background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.15)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Resolution Tier</div>
+          <div class="font-semibold text-gold-400" id="case-tier">—</div>
+        </div>
+        <div class="rounded-xl p-4" style="background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.15)">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Assigned Mediator</div>
+          <div class="font-semibold" id="case-mediator">—</div>
+          <div class="text-xs text-gray-500 mt-1">Ink & Equity LLP Panel</div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="mb-2">
+        <div class="text-sm font-semibold text-gold-400 mb-4">Resolution Timeline</div>
+        <div class="space-y-5" id="case-timeline"></div>
+      </div>
+    </div>
+
+    <!-- Notice Panel -->
+    <div class="rounded-2xl p-5 mb-6 flex items-start gap-3" style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" class="flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div>
+        <div class="text-sm font-semibold text-blue-400 mb-1">What happens next?</div>
+        <ul class="text-xs text-gray-400 space-y-1 list-disc list-inside">
+          <li>Case manager will call you within 2 working hours</li>
+          <li>Respondent will be formally notified via registered email + courier</li>
+          <li>Both parties gain access to secure ODR portal within 24 hrs</li>
+          <li>AI negotiation room opens on Day 1 of the Tier 1 window</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-3">
+      <button onclick="downloadFIR()" class="btn-gold px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download Case FIR
+      </button>
+      <a href="ieq-contracts.html" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">New Contract</a>
+      <a href="ieq-esign.html" class="btn-ghost px-6 py-3 rounded-xl text-sm flex items-center gap-2">E-Sign</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full text-sm font-semibold flex items-center gap-2" style="background:rgba(9,20,40,.95);border:1px solid rgba(34,197,94,.5);color:#22c55e;backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(0,0,0,.5)">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<footer class="border-t mt-16 py-8 text-center text-xs text-gray-600" style="border-color:rgba(212,168,31,.1)">
+  <div class="flex items-center justify-center gap-3 flex-wrap">
+    <span>IEQ ODR · Ink &amp; Equity LLP</span>
+    <span class="text-gold-400">·</span>
+    <span>Arbitration &amp; Conciliation Act, 1996</span>
+    <span class="text-gold-400">·</span>
+    <span>NY Convention — 168 Countries</span>
+    <span class="text-gold-400">·</span>
+    <span>DPDP Act 2023 Compliant</span>
+  </div>
+</footer>
+
+<script>
+let selectedDispute = '';
+let selectedTierNum = '1';
+let caseData = {};
+let evidenceCount = 0;
+
+const disputeLabels = {
+  commercial:'Commercial Dispute', employment:'Employment Dispute',
+  property:'Property Dispute', consumer:'Consumer Dispute',
+  ip:'IP / Copyright Dispute', cofounder:'Co-founder / Equity Dispute'
+};
+const tierLabels = {
+  '1':'Tier 1 — AI Negotiation (Free)',
+  '2':'Tier 2 — Advocate Conciliation',
+  '3':'Tier 3 — Fast-track Arbitration'
+};
+const mediators = [
+  'Adv. Sunita Krishnan, Senior Partner',
+  'Adv. Rohan Mehta, Commercial Disputes',
+  'Adv. Priya Nambiar, Employment Law',
+  'Adv. Karthik Iyer, IP & Commercial'
+];
+
+const defaultEvidence = [
+  'Original Contract / Agreement',
+  'Outstanding Invoice(s)',
+  'Email Correspondence'
+];
+
+function selectDispute(type) {
+  selectedDispute = type;
+  document.querySelectorAll('.dispute-type-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('dt-'+type).classList.add('selected');
+  const btn = document.getElementById('step1-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+}
+
+function selectTier(num) {
+  selectedTierNum = num;
+  ['1','2','3'].forEach(n => {
+    const card = document.getElementById('tier-'+n);
+    if(n === num) {
+      card.style.background = 'rgba(212,168,31,.1)';
+      card.style.borderColor = 'rgba(212,168,31,.5)';
+    } else {
+      card.style.background = 'rgba(9,20,40,.5)';
+      card.style.borderColor = 'rgba(212,168,31,.2)';
+    }
+  });
+}
+
+function goToStep(n) {
+  [1,2,3,4].forEach(i => {
+    const s = document.getElementById('step-'+i);
+    if(s) s.classList.toggle('hidden', i!==n);
+  });
+  ['1','2','3','4'].forEach(i => {
+    const pill = document.getElementById('pill-'+i);
+    if(!pill) return;
+    const pn = parseInt(i);
+    pill.className = 'step-pill ' + (pn < n ? 'done' : pn === n ? 'active' : 'inactive');
+    if(pn < n) pill.querySelector('span:first-child').textContent = '✓';
+    else pill.querySelector('span:first-child').textContent = '0'+i;
+  });
+  if(n === 3) {
+    // Populate evidence and summary
+    initEvidence();
+    document.getElementById('sum-type').textContent = disputeLabels[selectedDispute] || '—';
+    document.getElementById('sum-tier').textContent = tierLabels[selectedTierNum] || '—';
+    document.getElementById('sum-claimant').textContent = document.getElementById('f-claimant').value || '—';
+    document.getElementById('sum-amount').textContent = document.getElementById('f-amount').value ? '₹'+document.getElementById('f-amount').value : '—';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function initEvidence() {
+  if(evidenceCount > 0) return; // already added
+  defaultEvidence.forEach(name => addEvidenceRow(name));
+}
+
+function addEvidenceRow(preset) {
+  evidenceCount++;
+  const id = evidenceCount;
+  const list = document.getElementById('evidence-list');
+  const div = document.createElement('div');
+  div.id = 'ev-row-'+id;
+  div.className = 'flex items-center gap-3 rounded-xl px-4 py-3 transition-all';
+  div.style.cssText = 'background:rgba(9,20,40,.7);border:1px solid rgba(212,168,31,.2)';
+  div.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d4a81f" stroke-width="1.8" class="flex-shrink-0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+    <input id="ev-name-${id}" type="text" value="${typeof preset === 'string' ? preset : ''}" placeholder="Document name / description" class="flex-1 bg-transparent border-none text-sm" style="border:none;background:transparent;box-shadow:none">
+    <span id="ev-status-${id}" onclick="simulateUpload(${id})" class="text-xs text-gold-400 underline cursor-pointer hover:text-yellow-300">Upload</span>
+    <button onclick="document.getElementById('ev-row-${id}').remove()" class="text-gray-600 hover:text-red-400 text-xs ml-1">✕</button>`;
+  list.appendChild(div);
+}
+
+function simulateUpload(id) {
+  const status = document.getElementById('ev-status-'+id);
+  status.innerHTML = '<span class="text-green-400">✓ Uploaded</span>';
+  status.onclick = null;
+}
+
+function submitCase() {
+  const claimant = document.getElementById('f-claimant').value || 'Claimant';
+  const respondent = document.getElementById('f-respondent').value || 'Respondent';
+  const amount = document.getElementById('f-amount').value || '0';
+  const jurisdiction = document.getElementById('f-jurisdiction').value;
+
+  caseData = {
+    ref: 'IEQ-ODR-2026-' + Math.floor(Math.random()*9000+1000),
+    claimant, respondent, amount,
+    dispute: disputeLabels[selectedDispute] || 'Commercial',
+    tier: selectedTierNum,
+    jurisdiction,
+    mediator: mediators[Math.floor(Math.random()*mediators.length)],
+    date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})
+  };
+
+  // Go to step 4
+  goToStep(4);
+
+  document.getElementById('case-ref').textContent = caseData.ref;
+  document.getElementById('case-date').textContent = caseData.date;
+  document.getElementById('case-tier').textContent = tierLabels[caseData.tier];
+  document.getElementById('case-mediator').textContent = caseData.mediator;
+
+  // Build timeline
+  const tl = document.getElementById('case-timeline');
+  const steps = getTimeline(caseData.tier);
+  tl.innerHTML = '';
+  steps.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-item pb-4';
+    const isFirst = i === 0;
+    const dotColor = isFirst ? 'background:linear-gradient(135deg,#d4a81f,#b8901a);color:#03060f' : 'background:rgba(212,168,31,.15);border:1px solid rgba(212,168,31,.3);color:#d4a81f';
+    div.innerHTML = `
+      <div class="timeline-dot" style="${dotColor}">${s.label}</div>
+      <div class="ml-1">
+        <div class="text-sm font-semibold ${isFirst?'text-gold-400':'text-gray-300'}">${s.title}</div>
+        <div class="text-xs text-gray-500 mt-0.5">${s.desc}</div>
+        <div class="tag px-2 py-0.5 rounded text-xs inline-block mt-1">${s.days}</div>
+        ${isFirst ? '<div class="text-xs text-green-400 mt-1">← You are here</div>' : ''}
+      </div>`;
+    tl.appendChild(div);
+  });
+}
+
+function getTimeline(tier) {
+  const base = [
+    {label:'T1', title:'AI Negotiation Room Open', desc:'Structured counter-offer exchange. Automated sentiment analysis. IEQ AI facilitates offers.', days:'Day 1–3'},
+  ];
+  if(tier !== '1') base.push(
+    {label:'T2', title:'Advocate Conciliation Sessions', desc:'Video sessions with IEQ certified mediator. Confidential. Written record maintained.', days:'Day 4–10'}
+  );
+  if(tier === '3') base.push(
+    {label:'T3', title:'Fast-track Arbitration', desc:'Sole arbitrator from Ink & Equity panel. Binding award in 21 days. Enforceable in 168 countries.', days:'Day 11–31'}
+  );
+  base.push(
+    {label:'✓', title:'Award / Settlement Enforcement', desc:'Settlement agreement or arbitral award. If unpaid, Ink & Equity escalates to District Court execution.', days:'Post-resolution'}
+  );
+  return base;
+}
+
+function downloadFIR() {
+  const text = `IEQ ONLINE DISPUTE RESOLUTION\nCASE FILING RECEIPT\n\n` +
+    `Case Reference: ${caseData.ref}\nFiled: ${caseData.date}\nDispute Type: ${caseData.dispute}\nResolution Tier: ${tierLabels[caseData.tier]}\n\n` +
+    `CLAIMANT: ${caseData.claimant}\nRESPONDENT: ${caseData.respondent}\nCLAIM AMOUNT: ₹${caseData.amount}\nJURISDICTION: ${caseData.jurisdiction}\n\n` +
+    `ASSIGNED MEDIATOR: ${caseData.mediator}\n\n` +
+    `NEXT STEPS:\n1. Case manager will contact you within 2 working hours.\n2. Respondent will be formally notified.\n3. ODR portal access will be granted within 24 hrs.\n4. AI Negotiation Room opens on Day 1.\n\n` +
+    `Governed by: Arbitration & Conciliation Act, 1996\nIEQ ODR Platform · Ink & Equity LLP · tech.ieqlaw.com`;
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = caseData.ref + '-Filing-Receipt.txt';
+  a.click();
+  showToast('Case FIR downloaded ✓');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
+</script>
+</body>
+</html>
