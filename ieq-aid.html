@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="IEQ Aid expands access to justice through free community legal clinics, pro bono services, and targeted assistance for vulnerable populations. Making law accessible to everyone.">
+<meta name="keywords" content="legal aid, free legal clinics, pro bono, community legal services, justice access">
+<meta name="author" content="Ink & Equity LLP">
+<meta name="theme-color" content="#04071A">
+<meta property="og:title" content="IEQ Aid — Law in Service of Community">
+<meta property="og:description" content="Expanding access to justice through community legal clinics, pro bono coordination, and targeted assistance for vulnerable populations.">
+<meta property="og:type" content="organization">
+<meta property="og:image" content="https://ieqlaw.com/ieq-aid-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IEQ Aid">
+<meta name="twitter:description" content="Law in Service of Community">
+<title>IEQ Aid — Law in Service of Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "IEQ Aid",
+  "url": "https://ieqlaw.com/aid",
+  "logo": "https://ieqlaw.com/logo.png",
+  "description": "Community legal aid and pro bono services organization",
+  "sameAs": ["https://www.linkedin.com/company/ink-equity"],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Legal Services",
+    "email": "contact@ieqaid.in"
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@100;200;300;400;600;700&family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════
+     DESIGN TOKENS
+  ═══════════════════════════════════════════════════════ */
+  :root {
+    --navy-void:    #04071A;
+    --navy-deep:    #070D2A;
+    --navy-mid:     #0C1540;
+    --navy-surface: #111D52;
+    --navy-raised:  #162060;
+    --gold-bright:  #E8C46A;
+    --gold-mid:     #C9A84C;
+    --gold-warm:    #B8922F;
+    --gold-dark:    #8A6B1C;
+    --gold-glow:    rgba(201,168,76,0.18);
+    --gold-edge:    rgba(201,168,76,0.35);
+    --champagne:    #F5E6C8;
+    --cream:        #FAF3E0;
+    --white:        #FFFFFF;
+    --text-primary: #EDE4CC;
+    --text-muted:   rgba(237,228,204,0.55);
+    --text-faint:   rgba(237,228,204,0.28);
+    --success:      #4CAF50;
+    --success-dark: #2E7D32;
+    --warning:      #FF9800;
+    --danger:       #F44336;
+    --info:         #2196F3;
+    --transition:   cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     RESET & BASE
+  ═══════════════════════════════════════════════════════ */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--navy-void);
+    color: var(--text-primary);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     GRAIN OVERLAY
+  ═══════════════════════════════════════════════════════ */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     NAVIGATION
+  ═══════════════════════════════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 60px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(4,7,26,0.97) 0%, rgba(4,7,26,0.0) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    transition: all 0.4s var(--transition);
+  }
+  nav.scrolled {
+    background: rgba(4,7,26,0.98);
+    border-bottom-color: rgba(201,168,76,0.18);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; cursor: pointer;
+    color: var(--text-primary);
+    transition: opacity 0.3s;
+  }
+  .nav-logo:hover { opacity: 0.8; }
+
+  .nav-logo-mark {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--gold-mid);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--gold-bright);
+    background: rgba(201, 168, 76, 0.08);
+  }
+
+  .nav-logo-text {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+  }
+
+  .nav-menu {
+    display: flex; gap: 50px;
+    list-style: none;
+  }
+
+  .nav-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold-bright);
+    transition: width 0.3s;
+  }
+
+  .nav-menu a:hover { color: var(--gold-bright); }
+  .nav-menu a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    color: var(--navy-void);
+    padding: 10px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232, 196, 106, 0.3);
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .mobile-menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--gold-bright);
+    transition: all 0.3s;
+  }
+
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(12px);
+  }
+
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-12px);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     HERO SECTION
+  ═══════════════════════════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,196,106,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    z-index: 1;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(76, 175, 80, 0.15);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 20px;
+    color: var(--success);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+
+  .hero-tagline {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--gold-bright);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s var(--transition);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    color: var(--navy-void);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(232, 196, 106, 0.35);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--gold-bright);
+    border: 1.5px solid var(--gold-bright);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(232, 196, 106, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     IMPACT METRICS
+  ═══════════════════════════════════════════════════════ */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    margin-top: 100px;
+    padding: 60px;
+    background: rgba(22, 32, 96, 0.4);
+    border-radius: 8px;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .metric-card {
+    text-align: center;
+  }
+
+  .metric-number {
+    font-family: 'Cinzel', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .metric-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SECTIONS
+  ═══════════════════════════════════════════════════════ */
+  section {
+    padding: 120px 60px;
+    position: relative;
+  }
+
+  section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+
+  section .subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 60px;
+    max-width: 600px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PROGRAMS GRID
+  ═══════════════════════════════════════════════════════ */
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .program-card {
+    padding: 40px;
+    background: rgba(22, 32, 96, 0.3);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 8px;
+    transition: all 0.4s var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .program-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(232, 196, 106, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .program-card:hover {
+    border-color: rgba(201, 168, 76, 0.3);
+    background: rgba(22, 32, 96, 0.5);
+    transform: translateY(-4px);
+  }
+
+  .program-card:hover::before { opacity: 1; }
+
+  .program-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--navy-void);
+  }
+
+  .program-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .program-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .program-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .program-item {
+    font-size: 13px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .program-item::before {
+    content: '→';
+    color: var(--gold-bright);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CLINIC SERVICES
+  ═══════════════════════════════════════════════════════ */
+  .clinic-services {
+    background: rgba(4, 7, 26, 0.6);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+
+  .service-card {
+    padding: 30px;
+    background: rgba(22, 32, 96, 0.3);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: 6px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .service-card:hover {
+    background: rgba(22, 32, 96, 0.5);
+    border-color: rgba(76, 175, 80, 0.3);
+    transform: translateY(-3px);
+  }
+
+  .service-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .service-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--gold-bright);
+  }
+
+  .service-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     IMPACT SECTION
+  ═══════════════════════════════════════════════════════ */
+  .impact-section {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(232, 196, 106, 0.04) 100%);
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .impact-card {
+    padding: 40px;
+    background: rgba(22, 32, 96, 0.4);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .impact-number {
+    font-family: 'Cinzel', serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 12px;
+  }
+
+  .impact-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     HOW IT WORKS
+  ═══════════════════════════════════════════════════════ */
+  .how-it-works {
+    background: rgba(4, 7, 26, 0.6);
+  }
+
+  .steps-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 60px;
+  }
+
+  .step {
+    padding: 30px;
+    border-right: 1px solid rgba(201, 168, 76, 0.2);
+    position: relative;
+  }
+
+  .step:last-child { border-right: none; }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    color: var(--navy-void);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .step h4 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: var(--gold-bright);
+  }
+
+  .step p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     FAQ SECTION
+  ═══════════════════════════════════════════════════════ */
+  .faq-item {
+    padding: 24px;
+    background: rgba(22, 32, 96, 0.3);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+  }
+
+  .faq-item:hover {
+    background: rgba(22, 32, 96, 0.5);
+    border-color: rgba(201, 168, 76, 0.2);
+  }
+
+  .faq-item h4 {
+    color: var(--gold-bright);
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .faq-item p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TESTIMONIALS SECTION
+  ═══════════════════════════════════════════════════════ */
+  .testimonials-section {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.06) 0%, rgba(33, 150, 243, 0.04) 100%);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+  }
+
+  .testimonial-card {
+    padding: 40px;
+    background: rgba(22, 32, 96, 0.4);
+    border: 1px solid rgba(76, 175, 80, 0.15);
+    border-radius: 8px;
+    border-left: 4px solid var(--success);
+    transition: all 0.3s;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--success);
+    background: rgba(22, 32, 96, 0.6);
+  }
+
+  .testimonial-text {
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     NEWSLETTER SECTION
+  ═══════════════════════════════════════════════════════ */
+  .newsletter-section {
+    background: rgba(4, 7, 26, 0.6);
+    text-align: center;
+  }
+
+  .newsletter-form {
+    max-width: 500px;
+    margin: 40px auto 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    min-width: 250px;
+    padding: 12px 20px;
+    background: rgba(22, 32, 96, 0.5);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .newsletter-form input::placeholder {
+    color: var(--text-faint);
+  }
+
+  .newsletter-form input:focus {
+    outline: none;
+    background: rgba(22, 32, 96, 0.7);
+    border-color: rgba(201, 168, 76, 0.4);
+    box-shadow: 0 0 20px rgba(232, 196, 106, 0.15);
+  }
+
+  .newsletter-form button {
+    min-width: 150px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     MODAL STYLES
+  ═══════════════════════════════════════════════════════ */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-content {
+    background: var(--navy-deep);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 8px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .modal-content h3 {
+    color: var(--gold-bright);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--gold-bright);
+    font-size: 28px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .modal-close:hover { color: var(--text-primary); }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gold-bright);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(22, 32, 96, 0.5);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    background: rgba(22, 32, 96, 0.7);
+    border-color: rgba(201, 168, 76, 0.4);
+    box-shadow: 0 0 20px rgba(232, 196, 106, 0.15);
+  }
+
+  .form-group select {
+    cursor: pointer;
+  }
+
+  .form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     VOLUNTEER SECTION
+  ═══════════════════════════════════════════════════════ */
+  .volunteer-section {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.08) 0%, rgba(232, 196, 106, 0.05) 100%);
+    text-align: center;
+  }
+
+  .volunteer-section h2 {
+    margin-bottom: 20px;
+  }
+
+  .volunteer-content {
+    max-width: 700px;
+    margin: 0 auto 50px;
+  }
+
+  .volunteer-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .benefit-card {
+    padding: 30px;
+    background: rgba(22, 32, 96, 0.3);
+    border: 1px solid rgba(33, 150, 243, 0.2);
+    border-radius: 8px;
+  }
+
+  .benefit-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: var(--info);
+  }
+
+  .benefit-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--info);
+  }
+
+  .benefit-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════════ */
+  footer {
+    padding: 60px;
+    background: rgba(7, 13, 42, 0.8);
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .footer-links a {
+    color: var(--gold-bright);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--text-primary); }
+
+  .ecosystem-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .ecosystem-link {
+    padding: 10px 20px;
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    border-radius: 4px;
+    color: var(--gold-bright);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .ecosystem-link:hover {
+    background: rgba(201, 168, 76, 0.2);
+    border-color: rgba(201, 168, 76, 0.4);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCROLL TO TOP BUTTON
+  ═══════════════════════════════════════════════════════ */
+  .scroll-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 500;
+    color: var(--navy-void);
+    font-size: 20px;
+  }
+
+  .scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .scroll-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(232, 196, 106, 0.35);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCROLL PROGRESS BAR
+  ═══════════════════════════════════════════════════════ */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-bright) 0%, var(--gold-mid) 100%);
+    width: 0%;
+    z-index: 2000;
+    transition: width 0.1s linear;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .programs-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .impact-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps-timeline { grid-template-columns: repeat(2, 1fr); }
+    .volunteer-benefits { grid-template-columns: repeat(2, 1fr); }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 30px; }
+    section { padding: 80px 30px; }
+    .hero { padding: 80px 30px 60px; }
+    .hero h1 { font-size: 48px; }
+    .hero-tagline { font-size: 18px; }
+    section h2 { font-size: 40px; }
+    
+    .mobile-menu-toggle { display: flex; }
+    
+    .nav-menu {
+      position: fixed;
+      top: 76px;
+      left: -100%;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100vh - 76px);
+      background: rgba(4, 7, 26, 0.98);
+      padding: 30px;
+      gap: 20px;
+      transition: left 0.3s;
+      z-index: 999;
+      border-top: 1px solid rgba(201, 168, 76, 0.15);
+    }
+
+    .nav-menu.active { left: 0; }
+
+    .nav-menu a {
+      font-size: 16px;
+      display: block;
+      padding: 12px 0;
+    }
+    
+    .programs-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .steps-timeline { grid-template-columns: 1fr; }
+    .volunteer-benefits { grid-template-columns: 1fr; }
+    .metrics { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    nav { padding: 0 20px; height: 60px; }
+    .nav-menu { display: none; }
+    .nav-logo-text { display: none; }
+    .nav-cta { font-size: 11px; padding: 8px 16px; }
+    section { padding: 60px 20px; }
+    .hero { padding: 60px 20px 40px; }
+    .hero h1 { font-size: 32px; line-height: 1.2; }
+    section h2 { font-size: 32px; }
+    .program-card { padding: 25px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PRINT STYLES
+  ═══════════════════════════════════════════════════════ */
+  @media print {
+    nav, footer, .scroll-to-top, .nav-cta { display: none; }
+    body { background: white; color: black; }
+    section { padding: 20px; page-break-inside: avoid; }
+    .program-card, .service-card { border: 1px solid #ddd; page-break-inside: avoid; }
+    a { color: #0066cc; text-decoration: underline; }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCROLL ANIMATIONS
+  ═══════════════════════════════════════════════════════ */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="scroll-progress"></div>
+
+<!-- NAVIGATION -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-logo" aria-label="IEQ Aid Home">
+    <div class="nav-logo-mark">⚖</div>
+    <div class="nav-logo-text">IEQ AID</div>
+  </a>
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nav-menu" id="navMenu" role="menubar">
+    <li role="none"><a href="#programs" role="menuitem">Programs</a></li>
+    <li role="none"><a href="#clinics" role="menuitem">Clinics</a></li>
+    <li role="none"><a href="#impact" role="menuitem">Impact</a></li>
+    <li role="none"><a href="#volunteer" role="menuitem">Volunteer</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scrollToSection('volunteer')" aria-label="Navigate to volunteer section">Get Involved</button>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Social Impact Initiative</div>
+    <h1>Law in Service of Community</h1>
+    <p class="hero-tagline">Making Justice Accessible, Understandable, and Actionable for All</p>
+    <p>IEQ Aid expands access to justice through community legal clinics, pro bono coordination, and targeted assistance for vulnerable populations. We believe legal expertise should serve everyone, not just those who can afford it.</p>
+    <div class="hero-cta-group">
+      <button class="btn btn-primary" onclick="scrollToSection('clinics')">Explore Services</button>
+      <button class="btn btn-secondary" onclick="scrollToSection('volunteer')">Become a Volunteer</button>
+    </div>
+    
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-number">3,847</div>
+        <div class="metric-label">Pro Bono Cases Handled</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">₹42L</div>
+        <div class="metric-label">Legal Aid Value Provided</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">1,200+</div>
+        <div class="metric-label">Volunteer Lawyers</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number">24</div>
+        <div class="metric-label">Monthly Clinics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS SECTION -->
+<section id="programs">
+  <h2>Our Programs</h2>
+  <p class="subtitle">Comprehensive legal support tailored to community needs</p>
+  
+  <div class="programs-grid">
+    <div class="program-card">
+      <div class="program-icon">🏥</div>
+      <h3>Community Legal Clinics</h3>
+      <p>Regular in-person and virtual clinics providing preliminary legal guidance and referrals across diverse practice areas.</p>
+      <div class="program-items">
+        <div class="program-item">Family law & matrimonial matters</div>
+        <div class="program-item">Employment & labor disputes</div>
+        <div class="program-item">Tenant & housing rights</div>
+        <div class="program-item">Consumer protection</div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="program-icon">📚</div>
+      <h3>Legal Literacy Campaigns</h3>
+      <p>Educational initiatives to increase public understanding of legal rights through workshops, seminars, and digital resources.</p>
+      <div class="program-items">
+        <div class="program-item">Community workshops & webinars</div>
+        <div class="program-item">School & university outreach</div>
+        <div class="program-item">Simplified legal guides</div>
+        <div class="program-item">Social media education</div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="program-icon">🤝</div>
+      <h3>Pro Bono Network</h3>
+      <p>Structured platform connecting legal professionals with individuals and organizations requiring pro bono assistance.</p>
+      <div class="program-items">
+        <div class="program-item">Volunteer lawyer matching</div>
+        <div class="program-item">Case coordination & mentorship</div>
+        <div class="program-item">NGO legal support</div>
+        <div class="program-item">Impact reporting & recognition</div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="program-icon">🏠</div>
+      <h3>Immigration & Housing</h3>
+      <p>Dedicated support for vulnerable populations facing legal challenges in immigration, residency, and housing disputes.</p>
+      <div class="program-items">
+        <div class="program-item">Immigration documentation guidance</div>
+        <div class="program-item">Tenant rights education</div>
+        <div class="program-item">Eviction prevention</div>
+        <div class="program-item">Refugee & newcomer support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICS SECTION -->
+<section class="clinic-services" id="clinics">
+  <h2>Free Community Legal Clinics</h2>
+  <p class="subtitle">Accessible legal guidance when and where you need it</p>
+  
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">👨‍👩‍👧</div>
+      <h4>Family Law</h4>
+      <p>Guidance on matrimonial matters, inheritance, guardianship, and family disputes</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💼</div>
+      <h4>Employment Rights</h4>
+      <p>Support with workplace disputes, wages, discrimination, and labor laws</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏢</div>
+      <h4>Housing & Tenancy</h4>
+      <p>Legal assistance with tenant rights, evictions, and property disputes</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛡️</div>
+      <h4>Consumer Rights</h4>
+      <p>Protection against unfair practices and guidance on consumer remedies</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌍</div>
+      <h4>Immigration</h4>
+      <p>Assistance with visas, residency, naturalization, and documentation</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏪</div>
+      <h4>Small Business</h4>
+      <p>Legal guidance for entrepreneurs and small business operators</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT SECTION -->
+<section class="impact-section" id="impact">
+  <h2>Our Impact</h2>
+  <p class="subtitle">Measurable change across communities</p>
+  
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-number">3,847</div>
+      <div class="impact-label">Individuals & Families Served</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-number">₹42L</div>
+      <div class="impact-label">Legal Aid Value Provided</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-number">1,200+</div>
+      <div class="impact-label">Pro Bono Hours Contributed</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works">
+  <h2>How We Help</h2>
+  <p class="subtitle">Simple, accessible legal support in four steps</p>
+  
+  <div class="steps-timeline">
+    <div class="step">
+      <div class="step-number">1</div>
+      <h4>Schedule</h4>
+      <p>Book a free clinic appointment in-person or online at a time that works for you</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <h4>Consult</h4>
+      <p>Meet with a qualified lawyer who listens to your situation without judgment</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <h4>Guidance</h4>
+      <p>Receive clear advice, documentation assistance, or referral to specialized help</p>
+    </div>
+    <div class="step">
+      <div class="step-number">4</div>
+      <h4>Support</h4>
+      <p>Connect with ongoing resources, mentorship, or pro bono representation if needed</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <p class="subtitle">Common questions about our services</p>
+  
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="faq-item">
+      <h4>How do I schedule a free legal clinic appointment?</h4>
+      <p>Contact us at <strong>clinics@ieqaid.in</strong> or call <strong>+91 522-XXXX-XXXX</strong> to book. We offer appointments in-person and online, typically within 7 days of your request.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What if I cannot afford legal representation?</h4>
+      <p>Our community clinics are completely free. For ongoing representation, we assess eligibility for pro bono services based on income and case merits. No one is turned away due to inability to pay.</p>
+    </div>
+    <div class="faq-item">
+      <h4>How can I volunteer as a lawyer?</h4>
+      <p>Email <strong>volunteer@ieqaid.in</strong> with your name, Bar Council registration, practice areas, and available hours. We'll match you with cases that fit your expertise.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do you handle appeals or complex litigation?</h4>
+      <p>Our clinics provide preliminary guidance and referrals. For complex cases, we connect you with specialized pro bono lawyers through our network.</p>
+    </div>
+    <div class="faq-item">
+      <h4>What languages do you support?</h4>
+      <p>We provide services in <strong>English, Hindi, Urdu</strong>, and regional languages. Request interpreter services when scheduling.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Can nonprofits and NGOs access your legal support?</h4>
+      <p>Yes. Organizations working on social impact can contact <strong>ngo@ieqaid.in</strong> for governance, compliance, and contract review assistance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="testimonials-section">
+  <h2>Impact Stories</h2>
+  <p class="subtitle">Real lives changed through accessible legal support</p>
+  
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-text">"The legal clinic helped me understand my rights as a tenant. I was able to negotiate fair terms without fear. IEQ Aid gave me power."</p>
+      <p class="testimonial-author">— Priya, Housing Rights Case</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"As a volunteer, I've found my practice has become more meaningful. Helping families navigate family law issues reminds me why I chose this profession."</p>
+      <p class="testimonial-author">— Rajesh Kumar, Pro Bono Volunteer</p>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-text">"Our NGO received free legal guidance on incorporation and tax compliance. IEQ Aid's support accelerated our mission by 6 months."</p>
+      <p class="testimonial-author">— Ananya Singh, Nonprofit Director</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER SECTION -->
+<section class="newsletter-section">
+  <h2>Stay Updated</h2>
+  <p class="subtitle">Get monthly updates on legal rights, clinic schedules, and community impact</p>
+  
+  <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSignup(event)" novalidate>
+    <input 
+      type="email" 
+      placeholder="Enter your email address" 
+      required
+      aria-label="Email address for newsletter"
+      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+    >
+    <button type="submit" class="btn btn-primary">Subscribe</button>
+  </form>
+<!-- VOLUNTEER SECTION -->
+<section class="volunteer-section" id="volunteer">
+  <div class="volunteer-content">
+    <p>Legal professionals from all practice areas are invited to contribute their expertise through IEQ Aid's structured pro bono program. Whether you have a few hours per month or more, your work directly transforms lives and strengthens communities.</p>
+  </div>
+  
+  <div class="volunteer-benefits">
+    <div class="benefit-card">
+      <div class="benefit-icon">🎓</div>
+      <h4>Professional Growth</h4>
+      <p>Gain experience in new practice areas and develop mentoring skills</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🤝</div>
+      <h4>Network Building</h4>
+      <p>Connect with 1,200+ lawyers and social impact professionals</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏆</div>
+      <h4>Recognition</h4>
+      <p>Receive public recognition and impact reporting of your contributions</p>
+    </div>
+  </div>
+  
+  <button class="btn btn-primary" onclick="openVolunteerForm()" aria-label="Open volunteer form">Volunteer Today</button>
+</section>
+
+<!-- VOLUNTEER FORM MODAL -->
+<div id="volunteerModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeVolunteerForm()" aria-label="Close form">&times;</button>
+    <h3>Join Our Pro Bono Network</h3>
+    <form id="volunteerForm" onsubmit="handleVolunteerSignup(event)" novalidate>
+      <div class="form-group">
+        <label for="volName">Full Name *</label>
+        <input type="text" id="volName" name="name" required aria-required="true">
+      </div>
+      <div class="form-group">
+        <label for="volEmail">Email Address *</label>
+        <input type="email" id="volEmail" name="email" required aria-required="true" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+      </div>
+      <div class="form-group">
+        <label for="volPhone">Phone Number</label>
+        <input type="tel" id="volPhone" name="phone">
+      </div>
+      <div class="form-group">
+        <label for="volBar">Bar Council Registration Number *</label>
+        <input type="text" id="volBar" name="bar_registration" required aria-required="true">
+      </div>
+      <div class="form-group">
+        <label for="volPractice">Practice Areas (select all that apply) *</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="family_law"> Family Law
+          </label>
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="employment"> Employment
+          </label>
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="housing"> Housing & Tenancy
+          </label>
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="immigration"> Immigration
+          </label>
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="consumer"> Consumer Rights
+          </label>
+          <label style="font-weight: normal; display: flex; gap: 8px;">
+            <input type="checkbox" name="practice" value="nonprofit"> Nonprofit Law
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="volHours">Available Hours per Month *</label>
+        <select id="volHours" name="hours" required aria-required="true">
+          <option value="">Select availability</option>
+          <option value="1-5">1-5 hours</option>
+          <option value="5-10">5-10 hours</option>
+          <option value="10-20">10-20 hours</option>
+          <option value="20+">20+ hours</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="volMessage">Tell us about your experience and motivation (optional)</label>
+        <textarea id="volMessage" name="message" rows="4" style="width: 100%; padding: 10px; border: 1px solid rgba(201, 168, 76, 0.2); background: rgba(22, 32, 96, 0.3); color: var(--text-primary); border-radius: 4px; font-family: 'Josefin Sans', sans-serif; resize: vertical;"></textarea>
+      </div>
+      <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-faint); margin-top: 16px; text-align: center;">We'll review your application and contact you within 48 hours.</p>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>IEQ Aid</strong> — The social responsibility arm of Ink & Equity LLP</p>
+  <p>Making justice accessible, understandable, and actionable for all.</p>
+  
+  <div class="footer-links">
+    <a href="#programs">Programs</a>
+    <a href="#impact">Impact</a>
+    <a href="#volunteer">Volunteer</a>
+    <a href="mailto:contact@ieqaid.in">Contact</a>
+  </div>
+  
+  <div class="ecosystem-links">
+    <a href="https://inkandequity-tech.github.io/ieq-websites/" class="ecosystem-link" target="_blank">← IEQ Hub</a>
+    <a href="https://inkandequity-tech.github.io/ieq-websites/ieq-legaltech.html" class="ecosystem-link" target="_blank">IEQ LegalTech →</a>
+  </div>
+</footer>
+
+<!-- SCROLL TO TOP BUTTON -->
+<div class="scroll-to-top" id="scrollBtn" onclick="scrollToTop()">↑</div>
+
+<script>
+  // ═══════════════════════════════════════════════════════
+  // SCROLL FUNCTIONALITY
+  // ═══════════════════════════════════════════════════════
+  
+  window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    document.querySelector('.scroll-progress').style.width = scrolled + '%';
+    
+    const scrollBtn = document.getElementById('scrollBtn');
+    if (window.scrollY > 500) {
+      scrollBtn.classList.add('visible');
+    } else {
+      scrollBtn.classList.remove('visible');
+    }
+
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════
+  // MOBILE MENU TOGGLE
+  // ═══════════════════════════════════════════════════════
+
+  function setupMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', () => {
+        const isActive = mobileMenuToggle.classList.contains('active');
+        if (isActive) {
+          mobileMenuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        } else {
+          mobileMenuToggle.classList.add('active');
+          navMenu.classList.add('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        // Track event
+        trackEvent('mobile_menu_toggled', { expanded: !isActive });
+      });
+
+      // Close menu when link is clicked
+      const menuLinks = navMenu.querySelectorAll('a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // SMOOTH SCROLLING
+  // ═══════════════════════════════════════════════════════
+
+  function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      trackEvent('section_scroll', { section: sectionId });
+    }
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    trackEvent('scroll_to_top', {});
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // VOLUNTEER FORM MODAL
+  // ═══════════════════════════════════════════════════════
+
+  function openVolunteerForm() {
+    const modal = document.getElementById('volunteerModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      trackEvent('volunteer_form_opened', {});
+    }
+  }
+
+  function closeVolunteerForm() {
+    const modal = document.getElementById('volunteerModal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  function handleVolunteerSignup(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const form = document.getElementById('volunteerForm');
+    const formData = new FormData(form);
+    
+    // Validate form
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const bar = formData.get('bar_registration');
+    const hours = formData.get('hours');
+    
+    const practices = [];
+    formData.getAll('practice').forEach(p => practices.push(p));
+    
+    if (!name || !email || !bar || practices.length === 0 || !hours) {
+      showToast('Please fill in all required fields', 'error');
+      return;
+    }
+
+    // Simulate form submission
+    showToast('Application submitted! We\'ll contact you within 48 hours.', 'success');
+    trackEvent('volunteer_application_submitted', { 
+      email: email,
+      practice_areas: practices.length,
+      hours: hours
+    });
+
+    // Reset form and close modal
+    form.reset();
+    closeVolunteerForm();
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // NEWSLETTER SIGNUP
+  // ═══════════════════════════════════════════════════════
+
+  function handleNewsletterSignup(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('newsletterForm');
+    const email = form.querySelector('input[type="email"]').value;
+    
+    // Validate email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      showToast('Please enter a valid email address', 'error');
+      return;
+    }
+
+    showToast('✓ Welcome! You\'ll receive monthly legal updates.', 'success');
+    trackEvent('newsletter_signup', { email_domain: email.split('@')[1] });
+    
+    form.reset();
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // TOAST NOTIFICATIONS
+  // ═══════════════════════════════════════════════════════
+
+  function showToast(message, type = 'info') {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 24px;
+      background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#F44336' : '#2196F3'};
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: 'Josefin Sans', sans-serif;
+      z-index: 5000;
+      animation: slideUp 0.3s ease-out;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    `;
+    toast.textContent = message;
+    
+    // Add animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(toast);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // COUNTER ANIMATION
+  // ═══════════════════════════════════════════════════════
+
+  function animateCounters() {
+    const counters = document.querySelectorAll('.metric-number');
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          animateCounter(entry.target);
+        }
+      });
+    });
+
+    counters.forEach(counter => observer.observe(counter));
+  }
+
+  function animateCounter(element) {
+    const text = element.innerText;
+    const finalValue = text.replace(/[^0-9]/g, '');
+    const prefix = text.replace(/[0-9]/g, '').trim();
+    const duration = 2000;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const current = Math.floor(progress * finalValue);
+      element.innerText = prefix + ' ' + current.toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        element.innerText = text;
+      }
+    };
+
+    animate();
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // SCROLL ANIMATIONS FOR CARDS
+  // ═══════════════════════════════════════════════════════
+
+  function setupScrollAnimations() {
+    const cards = document.querySelectorAll('.program-card, .service-card, .impact-card, .testimonial-card, .benefit-card, .faq-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      observer.observe(card);
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // ANALYTICS & EVENT TRACKING
+  // ═══════════════════════════════════════════════════════
+
+  function trackEvent(eventName, eventData = {}) {
+    // Log event (for future integration with GA4, Mixpanel, etc.)
+    console.log('Event:', eventName, eventData);
+    
+    // Store event in session for analytics
+    if (typeof window.analytics === 'undefined') {
+      window.analytics = { events: [] };
+    }
+    
+    window.analytics.events.push({
+      name: eventName,
+      timestamp: new Date().toISOString(),
+      data: eventData,
+      pageUrl: window.location.href
+    });
+  }
+
+  // Track page view
+  window.addEventListener('load', () => {
+    trackEvent('page_view', { 
+      title: document.title,
+      url: window.location.href
+    });
+  });
+
+  // Track time on page
+  window.addEventListener('beforeunload', () => {
+    trackEvent('page_exit', { 
+      timeOnPage: Math.round((Date.now() - window.pageLoadTime) / 1000)
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════
+  // MODAL CLICK OUTSIDE TO CLOSE
+  // ═══════════════════════════════════════════════════════
+
+  window.addEventListener('click', (event) => {
+    const modal = document.getElementById('volunteerModal');
+    if (event.target === modal) {
+      closeVolunteerForm();
+    }
+  });
+
+  // Close modal with ESC key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeVolunteerForm();
+    }
+  });
+
+  // ═══════════════════════════════════════════════════════
+  // INITIALIZE
+  // ═══════════════════════════════════════════════════════
+
+  document.addEventListener('DOMContentLoaded', () => {
+    window.pageLoadTime = Date.now();
+    setupMobileMenu();
+    animateCounters();
+    setupScrollAnimations();
+    trackEvent('dom_ready', {});
+  });
+</script>
+
+</body>
+</html>
