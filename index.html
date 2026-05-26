@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IEQ Ecosystem Hub — One Law Firm. Infinite Impact.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@100;200;300;400;600;700&family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════════════════
+     DESIGN TOKENS
+  ═══════════════════════════════════════════════════════ */
+  :root {
+    --navy-void:    #04071A;
+    --navy-deep:    #070D2A;
+    --navy-mid:     #0C1540;
+    --navy-surface: #111D52;
+    --navy-raised:  #162060;
+    --gold-bright:  #E8C46A;
+    --gold-mid:     #C9A84C;
+    --gold-warm:    #B8922F;
+    --gold-dark:    #8A6B1C;
+    --gold-glow:    rgba(201,168,76,0.18);
+    --gold-edge:    rgba(201,168,76,0.35);
+    --champagne:    #F5E6C8;
+    --cream:        #FAF3E0;
+    --white:        #FFFFFF;
+    --text-primary: #EDE4CC;
+    --text-muted:   rgba(237,228,204,0.55);
+    --text-faint:   rgba(237,228,204,0.28);
+    --transition:   cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     RESET & BASE
+  ═══════════════════════════════════════════════════════ */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--navy-void);
+    color: var(--text-primary);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     GRAIN OVERLAY
+  ═══════════════════════════════════════════════════════ */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     NAVIGATION
+  ═══════════════════════════════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 60px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(4,7,26,0.97) 0%, rgba(4,7,26,0.0) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    transition: all 0.4s var(--transition);
+  }
+  nav.scrolled {
+    background: rgba(4,7,26,0.98);
+    border-bottom-color: rgba(201,168,76,0.18);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; cursor: pointer;
+  }
+  .nav-logo-mark {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--gold-mid);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-logo-mark::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-mid) 0%, transparent 70%);
+    opacity: 0.25;
+  }
+  .nav-logo-mark span {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  .nav-logo-text {
+    display: flex; flex-direction: column;
+  }
+  .nav-logo-text .hub-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--gold-bright);
+    line-height: 1;
+  }
+  .nav-logo-text .hub-sub {
+    font-size: 9px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 4px;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold-mid);
+    transition: width 0.3s var(--transition);
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--gold-bright);
+  }
+  .nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+  }
+
+  .nav-cta {
+    padding: 10px 26px;
+    border: 1px solid var(--gold-mid);
+    color: var(--gold-bright) !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.25em !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s var(--transition) !important;
+    background: transparent;
+    cursor: pointer;
+  }
+  .nav-cta:hover {
+    background: var(--gold-mid) !important;
+    color: var(--navy-void) !important;
+  }
+  .nav-cta::after { display: none !important; }
+
+  /* Mobile Nav Toggle */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav-toggle span {
+    width: 24px; height: 1.5px;
+    background: var(--gold-mid);
+    transition: all 0.3s;
+    display: block;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PAGE SYSTEM
+  ═══════════════════════════════════════════════════════ */
+  .page {
+    display: none;
+    min-height: 100vh;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+  .page.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PAGE 1 — HOME
+  ═══════════════════════════════════════════════════════ */
+
+  /* — HERO — */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background constellation */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-bg-radial {
+    position: absolute;
+    width: 900px; height: 900px;
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+  .hero-bg-radial-2 {
+    position: absolute;
+    width: 600px; height: 600px;
+    left: -80px; bottom: -80px;
+    background: radial-gradient(circle, rgba(17,29,82,0.9) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* Grid lines background */
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+  }
+
+  /* Hero left content */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s var(--transition) 0.2s forwards;
+  }
+  .hero-eyebrow-line {
+    width: 40px; height: 1px;
+    background: var(--gold-mid);
+  }
+  .hero-eyebrow-text {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 6vw, 82px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--transition) 0.35s forwards;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+  .hero-headline .headline-bold {
+    font-weight: 600;
+    display: block;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--transition) 0.5s forwards;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    max-width: 440px;
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--transition) 0.65s forwards;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--transition) 0.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-warm));
+    color: var(--navy-void);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--transition);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-mid));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
+  .btn-primary span { position: relative; }
+
+  .btn-ghost {
+    padding: 16px 32px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--text-muted);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s var(--transition);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover {
+    border-color: var(--gold-mid);
+    color: var(--gold-bright);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     FLYWHEEL ANIMATION
+  ═══════════════════════════════════════════════════════ */
+  .flywheel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1.2s var(--transition) 0.4s forwards;
+  }
+
+  .flywheel-svg {
+    width: min(560px, 100%);
+    height: min(560px, 100%);
+    overflow: visible;
+  }
+
+  /* SVG ring pulse */
+  @keyframes ringPulse {
+    0%, 100% { opacity: 0.15; r: 196px; }
+    50% { opacity: 0.35; r: 202px; }
+  }
+  @keyframes ringRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes ringRotateCCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes orbitCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes orbitCCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes counterCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes counterCCW {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes nodePulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  @keyframes centerPulse {
+    0%, 100% { r: 58px; opacity: 0.12; }
+    50% { r: 66px; opacity: 0.22; }
+  }
+  @keyframes dashFlow {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes particleFlow {
+    0% { offset-distance: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+
+  .orbit-group-1 {
+    transform-origin: 280px 280px;
+    animation: orbitCW 18s linear infinite;
+  }
+  .orbit-group-2 {
+    transform-origin: 280px 280px;
+    animation: orbitCW 22s linear infinite;
+  }
+  .orbit-counter-1 {
+    transform-origin: 280px 280px;
+    animation: counterCCW 18s linear infinite;
+  }
+  .orbit-counter-2 {
+    transform-origin: 280px 280px;
+    animation: counterCCW 22s linear infinite;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     METRICS STRIP
+  ═══════════════════════════════════════════════════════ */
+  .metrics-strip {
+    background: linear-gradient(90deg, var(--navy-deep) 0%, var(--navy-mid) 50%, var(--navy-deep) 100%);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 40px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .metric {
+    padding: 0 40px;
+    border-right: 1px solid rgba(201,168,76,0.12);
+    text-align: center;
+    position: relative;
+  }
+  .metric:last-child { border-right: none; }
+  .metric-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold-bright);
+    line-height: 1;
+    display: block;
+    letter-spacing: -0.02em;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     ECOSYSTEM PREVIEW (Home)
+  ═══════════════════════════════════════════════════════ */
+  .ecosystem-preview {
+    padding: 120px 60px;
+    position: relative;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+  .section-label-line {
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, var(--gold-mid), transparent);
+  }
+  .section-label-text {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 60px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+
+  .section-body {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin-bottom: 70px;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .pillar-card {
+    background: var(--navy-mid);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s var(--transition);
+    border: 1px solid rgba(201,168,76,0.06);
+  }
+  .pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .pillar-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .pillar-card:hover::before, .pillar-card:hover::after { opacity: 1; }
+  .pillar-card:hover { background: var(--navy-raised); transform: translateY(-4px); }
+
+  .pillar-number {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: var(--gold-dark);
+    margin-bottom: 28px;
+    display: block;
+  }
+  .pillar-icon {
+    width: 48px; height: 48px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .pillar-icon svg { width: 100%; height: 100%; }
+
+  .pillar-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--champagne);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .pillar-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .pillar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+    text-decoration: none;
+    transition: gap 0.3s, color 0.3s;
+    cursor: pointer;
+  }
+  .pillar-link:hover { gap: 14px; color: var(--gold-bright); }
+  .pillar-arrow { font-size: 14px; }
+
+  /* ═══════════════════════════════════════════════════════
+     QUOTE BANNER
+  ═══════════════════════════════════════════════════════ */
+  .quote-banner {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .quote-banner::before {
+    content: '"';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 400px;
+    color: rgba(201,168,76,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    max-width: 900px;
+    margin: 0 auto 30px;
+    line-height: 1.35;
+    position: relative;
+  }
+  .quote-text em { color: var(--gold-bright); font-style: normal; }
+  .quote-attribution {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PAGE 2 — ECOSYSTEM
+  ═══════════════════════════════════════════════════════ */
+  .ecosystem-hero {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    padding: 140px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ecosystem-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.05) 0%, transparent 60%);
+  }
+
+  .eco-hero-content { position: relative; max-width: 720px; }
+
+  .architecture-section {
+    padding: 80px 60px 120px;
+  }
+
+  .arch-diagram {
+    display: grid;
+    grid-template-columns: 1fr 120px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+
+  .arch-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .arch-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    height: 100%;
+  }
+  .arch-connector-v {
+    width: 1px;
+    flex: 1;
+    min-height: 30px;
+    background: linear-gradient(180deg, rgba(201,168,76,0.4), rgba(201,168,76,0.1));
+  }
+  .arch-connector-h-left {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-mid));
+  }
+  .arch-connector-h-right {
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-mid), transparent);
+  }
+  .arch-center-node {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    flex-shrink: 0;
+    animation: nodePulse 3s ease-in-out infinite;
+  }
+  .arch-center-node span {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .entity-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 32px 28px;
+    position: relative;
+    transition: all 0.4s var(--transition);
+    cursor: default;
+  }
+  .entity-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--gold-mid), var(--gold-dark));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .entity-card:hover { background: var(--navy-raised); border-color: rgba(201,168,76,0.25); }
+  .entity-card:hover::before { opacity: 1; }
+
+  .entity-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .entity-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--champagne);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .entity-url {
+    font-size: 10px;
+    color: var(--gold-mid);
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  .entity-url:hover { opacity: 1; }
+  .entity-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-top: 14px;
+    font-weight: 300;
+  }
+  .entity-features {
+    list-style: none;
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .entity-features li {
+    font-size: 11px;
+    color: var(--text-muted);
+    padding-left: 16px;
+    position: relative;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .entity-features li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dark);
+  }
+
+  .flywheel-logic {
+    padding: 100px 60px;
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    gap: 0;
+    margin-top: 60px;
+  }
+  .flow-step {
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+  }
+  .flow-step-num {
+    width: 60px; height: 60px;
+    border: 1.5px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: var(--gold-bright);
+    font-weight: 600;
+    position: relative;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+  .flow-arrow {
+    font-size: 24px;
+    color: var(--gold-dark);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    animation: arrowPulse 2s ease-in-out infinite;
+  }
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.3; transform: translateX(0); }
+    50% { opacity: 0.8; transform: translateX(4px); }
+  }
+  .flow-step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--champagne);
+    margin-bottom: 10px;
+  }
+  .flow-step-desc {
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PAGE 3 — ABOUT & CONTACT
+  ═══════════════════════════════════════════════════════ */
+  .about-hero {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    padding: 140px 60px 80px;
+    position: relative;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 600px;
+  }
+  .about-story {
+    padding: 80px 60px;
+    background: var(--navy-mid);
+    border-right: 1px solid rgba(201,168,76,0.1);
+  }
+  .about-values {
+    padding: 80px 60px;
+    background: var(--navy-deep);
+  }
+
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .value-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .value-marker {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .value-marker span {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    color: var(--gold-mid);
+    font-weight: 600;
+  }
+  .value-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--champagne);
+    margin-bottom: 6px;
+  }
+  .value-content p {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* Contact Form */
+  .contact-section {
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .contact-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .contact-info p {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .contact-detail {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .contact-detail-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-detail-icon svg { width: 16px; height: 16px; }
+  .contact-detail-content label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .contact-detail-content span {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 300;
+  }
+  .contact-detail-content a {
+    color: var(--gold-mid);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-detail-content a:hover { color: var(--gold-bright); }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-group label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 14px 18px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s var(--transition);
+    letter-spacing: 0.05em;
+    resize: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold-mid);
+    background: var(--navy-raised);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-faint);
+  }
+  .form-group select option {
+    background: var(--navy-mid);
+    color: var(--text-primary);
+  }
+
+  .form-submit {
+    padding: 18px 48px;
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-warm));
+    color: var(--navy-void);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s var(--transition);
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-mid));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .form-submit:hover::before { opacity: 1; }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.3); }
+  .form-submit span { position: relative; }
+
+  /* ═══════════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════════ */
+  footer {
+    background: var(--navy-void);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 80px 60px 40px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    margin-bottom: 40px;
+  }
+  .footer-brand p {
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-weight: 300;
+    max-width: 300px;
+  }
+  .footer-col h5 {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-mid);
+    margin-bottom: 20px;
+  }
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-col ul li a {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .footer-col ul li a:hover { color: var(--gold-bright); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-copy {
+    font-size: 11px;
+    color: var(--text-faint);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+  .footer-copy a {
+    color: var(--gold-dark);
+    text-decoration: none;
+  }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 10px;
+    color: var(--text-faint);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .footer-legal a:hover { color: var(--gold-mid); }
+
+  /* ═══════════════════════════════════════════════════════
+     ANIMATIONS
+  ═══════════════════════════════════════════════════════ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     TOAST
+  ═══════════════════════════════════════════════════════ */
+  .toast {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background: var(--navy-mid);
+    border: 1px solid var(--gold-mid);
+    padding: 16px 24px;
+    font-size: 12px;
+    color: var(--text-primary);
+    z-index: 9998;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.4s var(--transition);
+    letter-spacing: 0.05em;
+    font-weight: 300;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ═══════════════════════════════════════════════════════
+     MOBILE MENU
+  ═══════════════════════════════════════════════════════ */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(4,7,26,0.98);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 36px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--transition);
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--champagne);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .mobile-menu a:hover { color: var(--gold-bright); }
+  .mobile-menu-close {
+    position: absolute;
+    top: 28px; right: 28px;
+    font-size: 28px;
+    color: var(--gold-mid);
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════════════ */
+  @media (max-width: 1100px) {
+    .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-diagram { grid-template-columns: 1fr; }
+    .flow-steps { grid-template-columns: 1fr; gap: 30px; }
+    .flow-arrow { transform: rotate(90deg); }
+    .contact-section { grid-template-columns: 1fr; gap: 60px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+
+  @media (max-width: 860px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+    .flywheel-container { margin-top: 60px; }
+    .flywheel-svg { width: 340px; height: 340px; }
+    .metrics-strip { grid-template-columns: repeat(2,1fr); padding: 40px 24px; }
+    .metric { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.12); padding: 24px; }
+    .ecosystem-preview { padding: 80px 24px; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .quote-banner { padding: 70px 24px; }
+    .architecture-section { padding: 60px 24px; }
+    .flywheel-logic { padding: 70px 24px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .contact-section { padding: 60px 24px; }
+    .about-story, .about-values { padding: 60px 24px; }
+    footer { padding: 60px 24px 30px; }
+    .footer-top { grid-template-columns: 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    .ecosystem-hero { padding: 120px 24px 60px; }
+    .about-hero { padding: 120px 24px 60px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-mark"><span>IEQ</span></div>
+    <div class="nav-logo-text">
+      <span class="hub-name">Ecosystem Hub</span>
+      <span class="hub-sub">Ink &amp; Equity LLP</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" data-page="home">Home</a></li>
+    <li><a onclick="showPage('ecosystem')" data-page="ecosystem">The Ecosystem</a></li>
+    <li><a onclick="showPage('about')" data-page="about">About &amp; Contact</a></li>
+    <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a></li>
+    <li><a href="https://ieqlaw.com/contact" target="_blank" rel="noopener" class="nav-cta">Engage Us</a></li>
+  </ul>
+
+  <div class="nav-toggle" id="navToggle" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()">✕</button>
+  <a onclick="showPage('home'); toggleMobileMenu()">Home</a>
+  <a onclick="showPage('ecosystem'); toggleMobileMenu()">The Ecosystem</a>
+  <a onclick="showPage('about'); toggleMobileMenu()">About &amp; Contact</a>
+  <a href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+  <a href="https://ieqlaw.com/contact" target="_blank" rel="noopener" class="btn-primary"><span>Engage Us</span></a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 1 — HOME
+═══════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="hero-bg-radial"></div>
+      <div class="hero-bg-radial-2"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">IEQ Ecosystem Hub &nbsp;—&nbsp; hub.ieqlaw.com</span>
+      </div>
+
+      <h1 class="hero-headline">
+        One Law Firm.<br>
+        <em>Infinite</em>
+        <span class="headline-bold">Impact.</span>
+      </h1>
+
+      <p class="hero-sub">The living architecture of legal excellence.</p>
+
+      <p class="hero-desc">
+        Ink &amp; Equity LLP is more than a law firm — it is a self-reinforcing ecosystem where
+        legal innovation, education, technology, and access to justice converge into a single,
+        compounding force. Every arm feeds the centre. Every client lifts the whole.
+      </p>
+
+      <div class="hero-actions">
+        <a onclick="showPage('ecosystem')" class="btn-primary"><span>Explore the Ecosystem</span></a>
+        <a href="https://ieqlaw.com" target="_blank" rel="noopener" class="btn-ghost">Visit ieqlaw.com</a>
+      </div>
+    </div>
+
+    <!-- FLYWHEEL SVG -->
+    <div class="flywheel-container">
+      <svg class="flywheel-svg" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gold gradient -->
+          <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#E8C46A" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#E8C46A" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="lineGold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C9A84C" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#C9A84C" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+          </linearGradient>
+          <!-- Particle glow -->
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="softGlow">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- Clip for node text counter-rotation -->
+        </defs>
+
+        <!-- Background radial glow -->
+        <circle cx="280" cy="280" r="240" fill="url(#goldGlow)" opacity="0.5"/>
+
+        <!-- Outermost subtle ring -->
+        <circle cx="280" cy="280" r="240" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.08" stroke-dasharray="4 8"/>
+
+        <!-- Outer dashed rotating ring (CW) -->
+        <g style="transform-origin: 280px 280px; animation: ringRotate 40s linear infinite;">
+          <circle cx="280" cy="280" r="218" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.15" stroke-dasharray="2 14"/>
+        </g>
+
+        <!-- Inner dashed rotating ring (CCW) -->
+        <g style="transform-origin: 280px 280px; animation: ringRotateCCW 28s linear infinite;">
+          <circle cx="280" cy="280" r="168" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.2" stroke-dasharray="3 10"/>
+        </g>
+
+        <!-- Orbit path (invisible guide) -->
+        <circle cx="280" cy="280" r="190" stroke="none" fill="none"/>
+
+        <!-- ===== CONNECTOR LINES (spoke lines from center to nodes) ===== -->
+        <!-- These are static lines; nodes orbit above them -->
+        <!-- Line to top node -->
+        <line x1="280" y1="220" x2="280" y2="140" stroke="url(#lineGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Line to right node -->
+        <line x1="340" y1="280" x2="420" y2="280" stroke="url(#lineGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Line to bottom node -->
+        <line x1="280" y1="340" x2="280" y2="420" stroke="url(#lineGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Line to left node -->
+        <line x1="220" y1="280" x2="140" y2="280" stroke="url(#lineGold)" stroke-width="1" opacity="0.4"/>
+
+        <!-- ===== ANIMATED ORBIT GROUP 1 (4 main nodes) ===== -->
+        <g class="orbit-group-1">
+
+          <!-- Node: IEQ LegalTech (top, starts at 270deg = top) -->
+          <g transform="translate(280,90)">
+            <g class="orbit-counter-1">
+              <circle r="46" fill="#0C1540" stroke="#C9A84C" stroke-width="1.5" opacity="0.95"/>
+              <circle r="38" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+              <!-- Icon: circuit/tech -->
+              <rect x="-12" y="-16" width="6" height="6" fill="none" stroke="#E8C46A" stroke-width="1.2" rx="1"/>
+              <rect x="6" y="-16" width="6" height="6" fill="none" stroke="#E8C46A" stroke-width="1.2" rx="1"/>
+              <rect x="-3" y="10" width="6" height="6" fill="none" stroke="#E8C46A" stroke-width="1.2" rx="1"/>
+              <line x1="-6" y1="-13" x2="-6" y2="0" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+              <line x1="9" y1="-10" x2="9" y2="0" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+              <line x1="-6" y1="0" x2="0" y2="0" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+              <line x1="0" y1="0" x2="0" y2="10" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+              <text y="30" text-anchor="middle" fill="#E8C46A" font-family="Cinzel,serif" font-size="7.5" font-weight="600" letter-spacing="0.15em">LEGALTECH</text>
+              <circle r="2.5" cx="0" cy="0" fill="#C9A84C" opacity="0.8"/>
+            </g>
+          </g>
+
+          <!-- Node: IEQ Academy (right) -->
+          <g transform="translate(470,280)">
+            <g class="orbit-counter-1">
+              <circle r="46" fill="#0C1540" stroke="#C9A84C" stroke-width="1.5" opacity="0.95"/>
+              <circle r="38" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+              <!-- Icon: graduation cap -->
+              <polygon points="0,-14 16,0 0,6 -16,0" fill="none" stroke="#E8C46A" stroke-width="1.2" stroke-linejoin="round"/>
+              <line x1="16" y1="0" x2="16" y2="12" stroke="#C9A84C" stroke-width="1.2" stroke-opacity="0.7"/>
+              <line x1="0" y1="6" x2="0" y2="14" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+              <rect x="-8" y="14" width="16" height="4" rx="1" fill="none" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5"/>
+              <text y="30" text-anchor="middle" fill="#E8C46A" font-family="Cinzel,serif" font-size="7.5" font-weight="600" letter-spacing="0.15em">ACADEMY</text>
+              <circle cx="16" cy="12" r="2" fill="#C9A84C" opacity="0.6"/>
+            </g>
+          </g>
+
+          <!-- Node: Edu & Aid (bottom) -->
+          <g transform="translate(280,470)">
+            <g class="orbit-counter-1">
+              <circle r="46" fill="#0C1540" stroke="#C9A84C" stroke-width="1.5" opacity="0.95"/>
+              <circle r="38" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+              <!-- Icon: scales / balance -->
+              <line x1="0" y1="-14" x2="0" y2="14" stroke="#C9A84C" stroke-width="1.2" stroke-opacity="0.8"/>
+              <line x1="-14" y1="-6" x2="14" y2="-6" stroke="#C9A84C" stroke-width="1.2" stroke-opacity="0.8"/>
+              <path d="M-14,-6 C-14,2 -6,6 -14,6" fill="none" stroke="#E8C46A" stroke-width="1.2"/>
+              <path d="M14,-6 C14,2 6,6 14,6" fill="none" stroke="#E8C46A" stroke-width="1.2"/>
+              <line x1="-8" y1="14" x2="8" y2="14" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.7"/>
+              <text y="30" text-anchor="middle" fill="#E8C46A" font-family="Cinzel,serif" font-size="7.5" font-weight="600" letter-spacing="0.15em">EDU &amp; AID</text>
+            </g>
+          </g>
+
+          <!-- Node: IEQ Hub (left) -->
+          <g transform="translate(90,280)">
+            <g class="orbit-counter-1">
+              <circle r="46" fill="#0C1540" stroke="#C9A84C" stroke-width="1.5" opacity="0.95"/>
+              <circle r="38" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+              <!-- Icon: network/hub -->
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#E8C46A" stroke-width="1.2"/>
+              <circle cx="-12" cy="-10" r="3" fill="none" stroke="#C9A84C" stroke-width="1"/>
+              <circle cx="12" cy="-10" r="3" fill="none" stroke="#C9A84C" stroke-width="1"/>
+              <circle cx="-12" cy="10" r="3" fill="none" stroke="#C9A84C" stroke-width="1"/>
+              <circle cx="12" cy="10" r="3" fill="none" stroke="#C9A84C" stroke-width="1"/>
+              <line x1="-9" y1="-8" x2="-4" y2="-2" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.6"/>
+              <line x1="9" y1="-8" x2="4" y2="-2" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.6"/>
+              <line x1="-9" y1="8" x2="-4" y2="2" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.6"/>
+              <line x1="9" y1="8" x2="4" y2="2" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.6"/>
+              <text y="30" text-anchor="middle" fill="#E8C46A" font-family="Cinzel,serif" font-size="7.5" font-weight="600" letter-spacing="0.15em">IEQ HUB</text>
+            </g>
+          </g>
+
+        </g><!-- end orbit-group-1 -->
+
+        <!-- ===== CENTER NODE ===== -->
+        <!-- Pulsing glow behind center -->
+        <circle cx="280" cy="280" r="72" fill="url(#centerGlow)">
+          <animate attributeName="r" values="68;78;68" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;0.3;0.6" dur="4s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Center outer ring -->
+        <circle cx="280" cy="280" r="62" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.3" fill="none"
+          stroke-dasharray="6 4">
+          <animateTransform attributeName="transform" type="rotate" from="0 280 280" to="360 280 280" dur="20s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Center main circle -->
+        <circle cx="280" cy="280" r="54" fill="#070D2A" stroke="#C9A84C" stroke-width="2"/>
+        <circle cx="280" cy="280" r="46" fill="none" stroke="#C9A84C" stroke-width="0.6" stroke-opacity="0.4"/>
+
+        <!-- Center logo text -->
+        <text x="280" y="272" text-anchor="middle" fill="#E8C46A" font-family="Cinzel,serif" font-size="13" font-weight="700" letter-spacing="0.15em">IEQ</text>
+        <line x1="256" y1="278" x2="304" y2="278" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.5"/>
+        <text x="280" y="292" text-anchor="middle" fill="#C9A84C" font-family="Josefin Sans,sans-serif" font-size="6.5" font-weight="600" letter-spacing="0.25em">IEQLAW.COM</text>
+
+        <!-- Animated flowing particles along orbit -->
+        <g filter="url(#glow)">
+          <!-- Particle 1 (top-right arc) -->
+          <circle r="3.5" fill="#E8C46A" opacity="0.9">
+            <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#orbitPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" dur="6s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Particle 2 (offset) -->
+          <circle r="2.5" fill="#C9A84C" opacity="0.7">
+            <animateMotion dur="6s" begin="-3s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#orbitPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;0.8;0.8;0" dur="6s" begin="-3s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Particle 3 (small) -->
+          <circle r="2" fill="#F5E6C8" opacity="0.5">
+            <animateMotion dur="9s" begin="-1s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#orbitPath"/>
+            </animateMotion>
+          </circle>
+          <!-- Particle 4 -->
+          <circle r="2.5" fill="#E8C46A" opacity="0.7">
+            <animateMotion dur="6s" begin="-4.5s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#orbitPath"/>
+            </animateMotion>
+          </circle>
+        </g>
+
+        <!-- Orbit path definition for particles -->
+        <path id="orbitPath" d="M 280,90 A 190,190 0 0,1 470,280 A 190,190 0 0,1 280,470 A 190,190 0 0,1 90,280 A 190,190 0 0,1 280,90 Z" fill="none"/>
+
+        <!-- Diagonal connector arcs (flywheel feel) -->
+        <path d="M 280,136 Q 420,136 424,280" stroke="#C9A84C" stroke-width="0.6" stroke-opacity="0.12" fill="none" stroke-dasharray="3,8"/>
+        <path d="M 424,280 Q 420,424 280,424" stroke="#C9A84C" stroke-width="0.6" stroke-opacity="0.12" fill="none" stroke-dasharray="3,8"/>
+        <path d="M 280,424 Q 136,424 136,280" stroke="#C9A84C" stroke-width="0.6" stroke-opacity="0.12" fill="none" stroke-dasharray="3,8"/>
+        <path d="M 136,280 Q 136,136 280,136" stroke="#C9A84C" stroke-width="0.6" stroke-opacity="0.12" fill="none" stroke-dasharray="3,8"/>
+
+        <!-- Labels: inward arrows showing cycle -->
+        <!-- Arrow indicators at midpoints of spokes (pointing inward = feeding the center) -->
+        <polygon points="280,158 275,170 285,170" fill="#C9A84C" opacity="0.35"/>
+        <polygon points="280,402 275,390 285,390" fill="#C9A84C" opacity="0.35"/>
+        <polygon points="402,280 390,275 390,285" fill="#C9A84C" opacity="0.35"/>
+        <polygon points="158,280 170,275 170,285" fill="#C9A84C" opacity="0.35"/>
+
+      </svg>
+    </div>
+  </section>
+
+  <!-- METRICS STRIP -->
+  <section class="metrics-strip">
+    <div class="metric reveal">
+      <span class="metric-num" data-count="4">0</span>
+      <span class="metric-label">Ecosystem Arms</span>
+    </div>
+    <div class="metric reveal">
+      <span class="metric-num" data-count="1">0</span>
+      <span class="metric-label">Unified Law Firm</span>
+    </div>
+    <div class="metric reveal">
+      <span class="metric-num" data-prefix="∞">∞</span>
+      <span class="metric-label">Potential Impact</span>
+    </div>
+    <div class="metric reveal">
+      <span class="metric-num" data-count="360">0</span>
+      <span class="metric-label">Degrees of Service</span>
+    </div>
+  </section>
+
+  <!-- ECOSYSTEM PREVIEW -->
+  <section class="ecosystem-preview">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">The Four Pillars</span>
+    </div>
+
+    <h2 class="section-title reveal">
+      A self-reinforcing empire<br>built on <em>law, knowledge &amp; access.</em>
+    </h2>
+    <p class="section-body reveal">
+      Each arm of the Ink &amp; Equity ecosystem is purpose-built to amplify the others —
+      creating a legal flywheel that accelerates justice, innovation, and opportunity for
+      every client who enters our orbit.
+    </p>
+
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <span class="pillar-number">01</span>
+        <div class="pillar-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="4" y="4" width="16" height="16" rx="2" stroke="#C9A84C" stroke-width="1.5"/>
+            <rect x="28" y="4" width="16" height="16" rx="2" stroke="#C9A84C" stroke-width="1.5"/>
+            <rect x="4" y="28" width="16" height="16" rx="2" stroke="#C9A84C" stroke-width="1.5"/>
+            <rect x="28" y="28" width="16" height="16" rx="2" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="20" y1="12" x2="28" y2="12" stroke="#E8C46A" stroke-width="1"/>
+            <line x1="20" y1="36" x2="28" y2="36" stroke="#E8C46A" stroke-width="1"/>
+            <line x1="12" y1="20" x2="12" y2="28" stroke="#E8C46A" stroke-width="1"/>
+            <line x1="36" y1="20" x2="36" y2="28" stroke="#E8C46A" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="pillar-name">IEQ LegalTech</h3>
+        <p class="pillar-desc">Legal technology and automation tools that transform how Ink &amp; Equity delivers services — faster, smarter, and more accessible than ever.</p>
+        <a class="pillar-link" href="https://ieqlaw.com" target="_blank" rel="noopener">Explore <span class="pillar-arrow">→</span></a>
+      </div>
+
+      <div class="pillar-card reveal">
+        <span class="pillar-number">02</span>
+        <div class="pillar-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <polygon points="24,4 44,20 24,28 4,20" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <line x1="24" y1="28" x2="24" y2="44" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="14" y1="44" x2="34" y2="44" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="44" y1="20" x2="44" y2="34" stroke="#E8C46A" stroke-width="1.5"/>
+            <circle cx="44" cy="36" r="2" fill="#C9A84C"/>
+          </svg>
+        </div>
+        <h3 class="pillar-name">IEQ Academy</h3>
+        <p class="pillar-desc">An elite legal learning platform that cultivates the next generation of practitioners — creating a pipeline of talent and thought leadership.</p>
+        <a class="pillar-link" href="https://ieqlaw.com" target="_blank" rel="noopener">Explore <span class="pillar-arrow">→</span></a>
+      </div>
+
+      <div class="pillar-card reveal">
+        <span class="pillar-number">03</span>
+        <div class="pillar-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <line x1="24" y1="4" x2="24" y2="44" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="4" y1="18" x2="44" y2="18" stroke="#C9A84C" stroke-width="1.5"/>
+            <path d="M 4,18 C 4,34 10,40 24,40 C 38,40 44,34 44,18" stroke="#E8C46A" stroke-width="1.2" fill="none"/>
+            <path d="M 14,18 C 14,30 18,36 24,36 C 30,36 34,30 34,18" stroke="#C9A84C" stroke-width="1" fill="none" stroke-opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 class="pillar-name">IEQ Edu &amp; Aid</h3>
+        <p class="pillar-desc">Public legal education and access-to-justice initiatives that broaden the reach of the law — uplifting communities and driving social equity.</p>
+        <a class="pillar-link" href="https://ieqlaw.com" target="_blank" rel="noopener">Explore <span class="pillar-arrow">→</span></a>
+      </div>
+
+      <div class="pillar-card reveal">
+        <span class="pillar-number">04</span>
+        <div class="pillar-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="8" stroke="#E8C46A" stroke-width="1.5"/>
+            <circle cx="24" cy="8" r="4" stroke="#C9A84C" stroke-width="1.2"/>
+            <circle cx="40" cy="30" r="4" stroke="#C9A84C" stroke-width="1.2"/>
+            <circle cx="8" cy="30" r="4" stroke="#C9A84C" stroke-width="1.2"/>
+            <line x1="24" y1="16" x2="24" y2="12" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.7"/>
+            <line x1="30" y1="20" x2="37" y2="27" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.7"/>
+            <line x1="18" y1="20" x2="11" y2="27" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.7"/>
+          </svg>
+        </div>
+        <h3 class="pillar-name">IEQ Hub</h3>
+        <p class="pillar-desc">The central coordination layer — connecting lawyers, clients, partners, and subsidiaries into one seamlessly integrated legal universe.</p>
+        <a class="pillar-link" onclick="showPage('ecosystem')">Explore <span class="pillar-arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE BANNER -->
+  <div class="quote-banner">
+    <p class="quote-text">
+      "We did not build a law firm. We built an <em>empire of equity</em> —<br>
+      where every innovation serves justice, and every client fuels growth."
+    </p>
+    <span class="quote-attribution">— Ink &amp; Equity LLP &nbsp;·&nbsp; ieqlaw.com</span>
+  </div>
+
+</div><!-- end page-home -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 2 — THE ECOSYSTEM
+═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-ecosystem">
+
+  <section class="ecosystem-hero">
+    <div class="ecosystem-hero-bg"></div>
+    <div class="eco-hero-content">
+      <div class="section-label reveal">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">The Architecture of Impact</span>
+      </div>
+      <h1 class="hero-headline reveal" style="font-size: clamp(40px, 5vw, 72px); animation: none; opacity: 1; transform: none;">
+        The <em>IEQ</em><br>
+        <span class="headline-bold">Ecosystem</span>
+      </h1>
+      <p class="hero-desc reveal" style="animation: none; opacity: 1; transform: none; margin-top: 20px;">
+        An Alibaba-inspired interconnected legal empire — four specialised arms
+        orbiting a single, expert law firm core. Each feeds the other. All serve the client.
+      </p>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE SECTION -->
+  <section class="architecture-section">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Entity Breakdown</span>
+    </div>
+
+    <!-- Left entities -->
+    <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:30px; align-items:stretch; margin-bottom:60px;">
+
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="entity-card reveal">
+          <span class="entity-tag">Arm 01 &nbsp;·&nbsp; Technology</span>
+          <h3 class="entity-name">IEQ LegalTech</h3>
+          <a class="entity-url" href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+          <p class="entity-desc">The innovation engine of the group. IEQ LegalTech builds and deploys proprietary automation tools, AI-assisted drafting, document management systems, and client-facing portals that power the entire firm's operational efficiency.</p>
+          <ul class="entity-features">
+            <li>AI-assisted contract drafting &amp; review</li>
+            <li>Automated court-filing workflows</li>
+            <li>Client portal &amp; matter management</li>
+            <li>Legal research augmentation tools</li>
+          </ul>
+        </div>
+
+        <div class="entity-card reveal">
+          <span class="entity-tag">Arm 02 &nbsp;·&nbsp; Education</span>
+          <h3 class="entity-name">IEQ Academy</h3>
+          <a class="entity-url" href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+          <p class="entity-desc">A dedicated legal learning institution offering CLE programs, mentorship tracks, certification courses, and executive legal education — cultivating talent from within and beyond Ink &amp; Equity.</p>
+          <ul class="entity-features">
+            <li>Continuing Legal Education (CLE) programs</li>
+            <li>Junior lawyer mentorship tracks</li>
+            <li>Legal entrepreneur bootcamps</li>
+            <li>Online certification &amp; micro-credentials</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Center pillar -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0; min-width:100px; padding: 0 10px;">
+        <div style="width:1px; flex:1; background:linear-gradient(180deg, transparent, rgba(201,168,76,0.5));"></div>
+        <div class="arch-center-node" style="width:90px;height:90px;flex-shrink:0;">
+          <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-bright);font-weight:700;text-align:center;line-height:1.3;">IEQ<br>LAW<br><span style="font-size:8px;letter-spacing:0.1em;color:var(--gold-mid);font-weight:400;">ieqlaw.com</span></span>
+        </div>
+        <div style="width:1px; flex:1; background:linear-gradient(180deg, rgba(201,168,76,0.5), transparent);"></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="entity-card reveal">
+          <span class="entity-tag">Arm 03 &nbsp;·&nbsp; Access to Justice</span>
+          <h3 class="entity-name">IEQ Edu &amp; Aid</h3>
+          <a class="entity-url" href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+          <p class="entity-desc">The social impact arm. IEQ Edu &amp; Aid delivers free legal clinics, public legal literacy campaigns, pro bono coordination, and community legal empowerment — ensuring the benefits of law reach all.</p>
+          <ul class="entity-features">
+            <li>Free community legal clinics</li>
+            <li>Public legal literacy campaigns</li>
+            <li>Pro bono matter coordination</li>
+            <li>Immigration &amp; housing aid initiatives</li>
+          </ul>
+        </div>
+
+        <div class="entity-card reveal">
+          <span class="entity-tag">Arm 04 &nbsp;·&nbsp; Coordination Layer</span>
+          <h3 class="entity-name">IEQ Ecosystem Hub</h3>
+          <a class="entity-url" href="https://hub.ieqlaw.com" target="_blank" rel="noopener">hub.ieqlaw.com ↗</a>
+          <p class="entity-desc">The central nervous system. The Hub integrates all four arms — managing cross-entity referrals, brand standards, partner relations, data analytics, and strategic direction across the entire Ink &amp; Equity ecosystem.</p>
+          <ul class="entity-features">
+            <li>Cross-entity client referral system</li>
+            <li>Brand governance &amp; standards</li>
+            <li>Group-level analytics dashboard</li>
+            <li>Strategic partner management</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- How it connects — the core law firm -->
+    <div class="entity-card reveal" style="border-color: rgba(201,168,76,0.3); background: var(--navy-raised); max-width:100%; margin-bottom:0;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
+        <div>
+          <span class="entity-tag">The Core &nbsp;·&nbsp; ieqlaw.com</span>
+          <h3 class="entity-name" style="font-size:32px;">Ink &amp; Equity LLP</h3>
+          <a class="entity-url" href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+          <p class="entity-desc" style="margin-top:16px;">The parent law firm at the centre of every orbit. Ink &amp; Equity LLP provides the legal expertise, credentialing, and client relationships that give every ecosystem arm its authority, ethics, and purpose.</p>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:16px;">Practice Areas</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Corporate &amp; Commercial</span>
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Immigration Law</span>
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Intellectual Property</span>
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Employment Law</span>
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Real Estate</span>
+            <span style="font-size:11px;color:var(--text-muted);padding:10px 14px;border:1px solid rgba(201,168,76,0.1);font-weight:300;">Dispute Resolution</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLYWHEEL LOGIC -->
+  <section class="flywheel-logic">
+    <div class="section-label reveal">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">How the Flywheel Turns</span>
+    </div>
+    <h2 class="section-title reveal">
+      Every cycle <em>compounds.</em><br>Every arm feeds the next.
+    </h2>
+
+    <div class="flow-steps">
+      <div class="flow-step reveal">
+        <div class="flow-step-num">01</div>
+        <h4 class="flow-step-title">Clients Engage</h4>
+        <p class="flow-step-desc">Clients and communities connect with Ink &amp; Equity LLP through any arm of the ecosystem.</p>
+      </div>
+      <div class="flow-arrow reveal">⟶</div>
+      <div class="flow-step reveal">
+        <div class="flow-step-num">02</div>
+        <h4 class="flow-step-title">Tech Amplifies</h4>
+        <p class="flow-step-desc">IEQ LegalTech delivers faster, smarter legal service — cutting cost and increasing access.</p>
+      </div>
+      <div class="flow-arrow reveal">⟶</div>
+      <div class="flow-step reveal">
+        <div class="flow-step-num">03</div>
+        <h4 class="flow-step-title">Academy Grows</h4>
+        <p class="flow-step-desc">Revenue and insights fuel the Academy — training talent that returns as elite lawyers.</p>
+      </div>
+      <div class="flow-arrow reveal">⟶</div>
+      <div class="flow-step reveal">
+        <div class="flow-step-num">04</div>
+        <h4 class="flow-step-title">Aid Expands</h4>
+        <p class="flow-step-desc">Edu &amp; Aid reaches underserved communities — building trust and pipeline for the firm.</p>
+      </div>
+      <div class="flow-arrow reveal">⟶</div>
+      <div class="flow-step reveal">
+        <div class="flow-step-num">05</div>
+        <h4 class="flow-step-title">Core Strengthens</h4>
+        <p class="flow-step-desc">Every cycle reinforces ieqlaw.com — making the firm more capable, reputable, and impactful.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-ecosystem -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE 3 — ABOUT & CONTACT
+═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+
+  <section class="about-hero">
+    <div class="eco-hero-content">
+      <div class="section-label reveal">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">Our Story &amp; Mission</span>
+      </div>
+      <h1 class="hero-headline reveal" style="font-size: clamp(40px, 5vw, 72px); animation:none; opacity:1; transform:none;">
+        About <em>Ink</em><br>
+        <span class="headline-bold">&amp; Equity LLP</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- ABOUT GRID -->
+  <div class="about-grid">
+    <div class="about-story">
+      <div class="section-label reveal" style="margin-bottom:32px;">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">Our Story</span>
+      </div>
+      <h3 class="section-title reveal" style="font-size: clamp(26px, 3vw, 38px);">
+        Built from conviction.<br>Driven by <em>purpose.</em>
+      </h3>
+      <p class="section-body reveal" style="margin-bottom:24px;">
+        Ink &amp; Equity LLP was founded on a singular belief: that legal excellence and social
+        justice are not opposing forces — they are twin pillars of a truly great law firm.
+      </p>
+      <p class="section-body reveal" style="margin-bottom:24px;">
+        What began as a boutique practice grew into an interconnected legal enterprise —
+        one designed not just to serve clients, but to transform the legal landscape itself.
+        The Ecosystem Hub is the physical manifestation of that ambition.
+      </p>
+      <p class="section-body reveal">
+        Today, through IEQ LegalTech, Academy, Edu &amp; Aid, and this Hub, Ink &amp; Equity LLP
+        operates as a legal empire with a conscience — where every innovation serves justice,
+        and every profit funds access.
+      </p>
+
+      <div style="margin-top:48px;">
+        <a href="https://ieqlaw.com" target="_blank" rel="noopener" class="btn-primary reveal"><span>Visit ieqlaw.com ↗</span></a>
+      </div>
+    </div>
+
+    <div class="about-values">
+      <div class="section-label reveal" style="margin-bottom:32px;">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">Our Values</span>
+      </div>
+      <div class="values-list">
+        <div class="value-item reveal">
+          <div class="value-marker"><span>I</span></div>
+          <div class="value-content">
+            <h4>Integrity Above All</h4>
+            <p>Every decision — commercial, creative, legal — is governed first by ethical duty. We ink what we mean, and mean what we ink.</p>
+          </div>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-marker"><span>E</span></div>
+          <div class="value-content">
+            <h4>Equity as Architecture</h4>
+            <p>Access to justice is not a bonus service. It is designed into the foundation of everything we build.</p>
+          </div>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-marker"><span>Q</span></div>
+          <div class="value-content">
+            <h4>Quality Without Compromise</h4>
+            <p>Whether serving a global corporation or a community member, the standard never drops. Excellence is our baseline.</p>
+          </div>
+        </div>
+        <div class="value-item reveal">
+          <div class="value-marker"><span>X</span></div>
+          <div class="value-content">
+            <h4>Exponential Thinking</h4>
+            <p>We build for leverage. Every lawyer trained, every tool deployed, every community served — amplifies the next.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <div class="contact-info">
+      <h3>Begin your<br>journey with us.</h3>
+      <p>
+        Whether you are seeking legal representation, exploring partnership opportunities,
+        or want to learn more about the IEQ Ecosystem — our team is ready.
+      </p>
+      <div class="contact-details">
+        <div class="contact-detail reveal">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <div class="contact-detail-content">
+            <label>Office</label>
+            <span>Ink &amp; Equity LLP, United States</span>
+          </div>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="contact-detail-content">
+            <label>Email</label>
+            <a href="mailto:info@ieqlaw.com">info@ieqlaw.com</a>
+          </div>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="contact-detail-content">
+            <label>Hub Portal</label>
+            <a href="https://hub.ieqlaw.com" target="_blank" rel="noopener">hub.ieqlaw.com ↗</a>
+          </div>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+            </svg>
+          </div>
+          <div class="contact-detail-content">
+            <label>Main Website</label>
+            <a href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form reveal">
+      <div class="section-label" style="margin-bottom:30px;">
+        <div class="section-label-line"></div>
+        <span class="section-label-text">Send a Message</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Jane">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@example.com">
+      </div>
+
+      <div class="form-group">
+        <label>Organisation (Optional)</label>
+        <input type="text" placeholder="Your company or organisation">
+      </div>
+
+      <div class="form-group">
+        <label>Area of Interest</label>
+        <select>
+          <option value="" disabled selected>Select one...</option>
+          <option>Legal Representation (ieqlaw.com)</option>
+          <option>IEQ LegalTech</option>
+          <option>IEQ Academy</option>
+          <option>IEQ Edu &amp; Aid</option>
+          <option>Partnership / Investment</option>
+          <option>IEQ Ecosystem Hub</option>
+          <option>Media &amp; Press</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea rows="5" placeholder="Tell us how we can help..."></textarea>
+      </div>
+
+      <button class="form-submit" onclick="handleFormSubmit()"><span>Send Message →</span></button>
+    </div>
+  </section>
+
+</div><!-- end page-about -->
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER (shown on all pages)
+═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="nav-logo" onclick="showPage('home')" style="text-decoration:none;">
+        <div class="nav-logo-mark"><span>IEQ</span></div>
+        <div class="nav-logo-text">
+          <span class="hub-name">Ecosystem Hub</span>
+          <span class="hub-sub">Ink &amp; Equity LLP</span>
+        </div>
+      </a>
+      <p>The IEQ Ecosystem Hub is the coordination centre of the Ink &amp; Equity LLP legal empire — uniting LegalTech, Academy, Edu &amp; Aid, and law firm excellence under one interconnected vision.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('ecosystem')">The Ecosystem</a></li>
+        <li><a onclick="showPage('about')">About Us</a></li>
+        <li><a onclick="showPage('about')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ecosystem Arms</h5>
+      <ul>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">IEQ LegalTech</a></li>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">IEQ Academy</a></li>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">IEQ Edu &amp; Aid</a></li>
+        <li><a href="https://hub.ieqlaw.com" target="_blank" rel="noopener">IEQ Hub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ink &amp; Equity LLP</h5>
+      <ul>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">ieqlaw.com</a></li>
+        <li><a href="https://ieqlaw.com/contact" target="_blank" rel="noopener">Engage Us</a></li>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">Practice Areas</a></li>
+        <li><a href="https://ieqlaw.com" target="_blank" rel="noopener">Our Lawyers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">
+      © 2024 <a href="https://ieqlaw.com" target="_blank" rel="noopener">Ink &amp; Equity LLP</a>. All rights reserved.
+      IEQ Ecosystem Hub is a wholly owned platform of Ink &amp; Equity LLP.
+    </span>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Attorney Advertising</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">Message sent — our team will be in touch shortly.</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ── Page Routing ───────────────────────────────────── */
+function showPage(name) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+
+  // Show target
+  const target = document.getElementById('page-' + name);
+  if (target) {
+    target.style.display = 'block';
+    // Force reflow then animate
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        target.classList.add('active');
+      });
+    });
+  }
+
+  // Update nav active state
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+    a.classList.remove('active');
+    if (a.dataset.page === name) a.classList.add('active');
+  });
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Trigger reveal animations on new page
+  setTimeout(initReveal, 100);
+}
+
+// Init first page display
+document.getElementById('page-home').style.display = 'block';
+
+/* ── Nav scroll effect ──────────────────────────────── */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  if (window.scrollY > 60) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+}, { passive: true });
+
+/* ── Scroll Reveal ──────────────────────────────────── */
+function initReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Run on initial load
+window.addEventListener('load', initReveal);
+setTimeout(initReveal, 500);
+
+/* ── Animated counters ──────────────────────────────── */
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(current);
+    }, 16);
+  });
+}
+
+const metricsObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    animateCounters();
+    metricsObserver.disconnect();
+  }
+}, { threshold: 0.3 });
+const metricsEl = document.querySelector('.metrics-strip');
+if (metricsEl) metricsObserver.observe(metricsEl);
+
+/* ── Mobile Menu ────────────────────────────────────── */
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+
+/* ── Form Submit ────────────────────────────────────── */
+function handleFormSubmit() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+/* ── Pillar card cursor effect ──────────────────────── */
+document.addEventListener('mousemove', (e) => {
+  document.querySelectorAll('.pillar-card, .entity-card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mx', x + 'px');
+    card.style.setProperty('--my', y + 'px');
+  });
+});
+
+/* ── Scroll to Top ──────────────────────────────────── */
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  // Show/hide scroll-to-top
+  scrollBtn.classList.toggle('visible', window.scrollY > 500);
+  // Scroll progress bar
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('scrollProgress').style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+<!-- Scroll Progress Bar -->
+<div id="scrollProgress" style="position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold-mid),var(--gold-bright));z-index:2000;transition:width 0.1s linear;pointer-events:none;"></div>
+
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" aria-label="Back to top" style="
+  position:fixed;bottom:32px;right:32px;z-index:1500;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--gold-edge);
+  background:rgba(7,13,42,0.92);backdrop-filter:blur(12px);
+  color:var(--gold-mid);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);
+  transition:opacity 0.3s,transform 0.3s,box-shadow 0.3s;
+  pointer-events:none;
+">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+<style>
+  #scrollTopBtn.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+  #scrollTopBtn:hover { box-shadow:0 0 20px rgba(201,168,76,0.3); color:var(--gold-bright); }
+  *:focus-visible { outline:2px solid var(--gold-mid); outline-offset:3px; border-radius:3px; }
+</style>
+
+</body>
+</html>

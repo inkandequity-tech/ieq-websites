@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IEQ Manager – Ink & Equity LLP</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>tailwind.config={darkMode:'class'}</script>
+<style>
+*{font-family:'DM Sans',system-ui,sans-serif;box-sizing:border-box}
+.dsp{font-family:'Cormorant Garamond',Georgia,serif}
+:root{--bg:#F5F7FA;--srf:#FFFFFF;--bdr:#E2E8F0;--txt:#1A202C;--mut:#718096;--hd:#0F2044;--nvy:#0F2044;--nvyl:#1B3D6F;--gld:#C4A24F}
+html.dark{--bg:#0D1117;--srf:#161B22;--bdr:#30363D;--txt:#E6EDF3;--mut:#8B949E;--hd:#E6EDF3}
+body{background:var(--bg);color:var(--txt);transition:background .2s,color .2s}
+.sb{position:fixed;left:0;top:0;height:100vh;width:256px;background:var(--nvy);z-index:30;display:flex;flex-direction:column}
+@media(max-width:767px){.sb{transform:translateX(-100%);transition:transform .3s}.sb.open{transform:translateX(0)}.mwrap{margin-left:0!important}}
+@media(min-width:768px){.mwrap{margin-left:256px}}
+.cd{background:var(--srf);border:1px solid var(--bdr);border-radius:12px}
+.ni{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:rgba(255,255,255,.6);font-size:14px;font-weight:500;width:100%;text-align:left;transition:all .2s;border:none;background:none;cursor:pointer;font:inherit}
+.ni:hover,.ni.act{color:#fff;background:rgba(255,255,255,.12)}
+.ni.act{border-left:3px solid var(--gld);padding-left:9px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{background:var(--bg);color:var(--mut);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 16px;text-align:left;border-bottom:1px solid var(--bdr)}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--bdr)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover{background:var(--bg)}
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:500}
+.bgo{background:#EBF8FF;color:#2B6CB0}
+.bgc{background:#F0FFF4;color:#276749}
+.bgn{background:#FFFAF0;color:#C05621}
+.bgh{background:#FFF5F5;color:#C53030}
+.bgm{background:#FFFAF0;color:#C05621}
+.bgl{background:#F0FFF4;color:#276749}
+html.dark .bgo{background:rgba(43,108,176,.2);color:#90CDF4}
+html.dark .bgc{background:rgba(39,103,73,.2);color:#68D391}
+html.dark .bgn{background:rgba(192,86,33,.2);color:#FBD38D}
+html.dark .bgh{background:rgba(197,48,48,.2);color:#FC8181}
+html.dark .bgm{background:rgba(192,86,33,.2);color:#FBD38D}
+html.dark .bgl{background:rgba(39,103,73,.2);color:#68D391}
+.fi{background:var(--srf);border:1px solid var(--bdr);color:var(--txt);border-radius:8px;padding:9px 12px;font-size:14px;width:100%;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--gld);box-shadow:0 0 0 3px rgba(196,162,79,.12)}
+.fi option{background:var(--srf)}
+html.dark .fi option{color:var(--txt)}
+.mdl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;align-items:center;justify-content:center;padding:16px}
+.mdl.open{display:flex}
+.mdbx{background:var(--srf);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);padding:24px}
+.fin{animation:fin .25s ease}
+@keyframes fin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:4px}
+.calc{border:1px solid var(--bdr);min-height:76px;padding:6px}
+.calc.hev{background:rgba(196,162,79,.06)}
+.calh{background:var(--bg);border:1px solid var(--bdr);padding:8px 4px;text-align:center;font-size:11px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--mut);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- LOGIN -->
+<div id="loginScr" class="min-h-screen flex items-center justify-center px-4" style="background:linear-gradient(135deg,#0F2044 0%,#1B3D6F 100%)">
+<div class="w-full max-w-md">
+<div class="text-center mb-8">
+<div class="inline-flex items-center gap-3 mb-3">
+<div class="w-11 h-11 rounded-xl flex items-center justify-center text-white text-2xl" style="background:#C4A24F">⚖</div>
+<div class="text-left">
+<div class="text-white text-xl font-bold dsp">IEQ Manager</div>
+<div class="text-white/50 text-xs">Ink & Equity LLP, Lucknow</div>
+</div>
+</div>
+<p class="text-white/40 text-sm">Legal Practice Management Platform</p>
+</div>
+<div class="cd p-8">
+<h2 class="dsp text-2xl font-bold mb-6" style="color:var(--nvy)">Sign In to IEQ Manager</h2>
+<div id="logErr" class="hidden mb-4 p-3 rounded-lg text-sm" style="background:#FFF5F5;color:#C53030;border:1px solid #FEB2B2"></div>
+<div class="space-y-4">
+<div>
+<label class="lbl">Email Address</label>
+<input id="lgEm" type="email" class="fi" placeholder="demo@ieqlaw.com" value="demo@ieqlaw.com">
+</div>
+<div>
+<label class="lbl">Password</label>
+<input id="lgPw" type="password" class="fi" placeholder="••••••••" value="password123">
+</div>
+<div>
+<label class="lbl">Your Role</label>
+<select id="lgRl" class="fi">
+<option value="Managing Partner">Managing Partner</option>
+<option value="Senior Lawyer">Senior Lawyer</option>
+<option value="Junior Lawyer">Junior Lawyer</option>
+<option value="Paralegal">Paralegal</option>
+<option value="Admin">Admin</option>
+</select>
+</div>
+<button id="lgBtn" onclick="doLogin()" class="w-full py-2.5 rounded-xl font-semibold text-white text-sm transition-opacity hover:opacity-90" style="background:var(--nvy)">
+Sign In
+</button>
+</div>
+<div class="mt-6 pt-5 border-t text-center text-xs space-y-1" style="border-color:var(--bdr);color:var(--mut)">
+<div>Demo: demo@ieqlaw.com / password123</div>
+<div><a href="https://ieqlaw.com" target="_blank" class="hover:underline" style="color:var(--gld)">ieqlaw.com</a></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+<div id="ovly" class="hidden fixed inset-0 bg-black/50 z-20 md:hidden" onclick="toggleSB()"></div>
+
+<nav class="sb" id="sb">
+<div class="p-5 border-b border-white/10 flex-shrink-0">
+<a href="https://ieqlaw.com" target="_blank" class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0" style="background:#C4A24F">⚖</div>
+<div>
+<div class="text-white font-bold dsp leading-tight">IEQ Manager</div>
+<div class="text-white/40 text-xs">Ink & Equity LLP</div>
+</div>
+</a>
+</div>
+
+<nav class="flex-1 p-3 space-y-0.5 overflow-y-auto">
+<button onclick="go('dashboard')" id="nb-dash" class="ni act">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
+Dashboard
+</button>
+<button onclick="go('cases')" id="nb-cases" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+Cases
+<span id="cbdg" class="ml-auto text-xs px-1.5 py-0.5 rounded-full font-medium" style="background:rgba(255,255,255,.15)">8</span>
+</button>
+<button onclick="go('clients')" id="nb-clients" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+Clients
+</button>
+<button onclick="go('tasks')" id="nb-tasks" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+Tasks
+<span id="tbdg" class="ml-auto text-xs px-1.5 py-0.5 rounded-full font-medium" style="background:#C4A24F">7</span>
+</button>
+<button onclick="go('calendar')" id="nb-calendar" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M16 2v4M8 2v4M3 10h18"/></svg>
+Calendar
+</button>
+<button onclick="go('documents')" id="nb-docs" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+Documents
+</button>
+<button onclick="go('team')" id="nb-team" class="ni">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+Team
+</button>
+</nav>
+
+<div class="p-4 border-t border-white/10 flex-shrink-0">
+<a href="https://ieqlaw.com" target="_blank" class="text-white/30 text-xs hover:text-white/60 transition-colors flex items-center gap-1.5">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+ieqlaw.com
+</a>
+</div>
+</nav>
+
+<div class="mwrap min-h-screen flex flex-col">
+<header class="sticky top-0 z-20 flex items-center gap-3 px-4 md:px-6 py-3 border-b" style="background:var(--srf);border-color:var(--bdr)">
+<button onclick="toggleSB()" class="md:hidden p-2 rounded-lg" style="color:var(--mut)">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
+<h1 id="pgTtl" class="flex-1 text-lg font-bold dsp" style="color:var(--hd)">Dashboard</h1>
+
+<button onclick="toggleDark()" id="dtBtn" class="p-2 rounded-lg transition-colors hover:bg-black/5" style="color:var(--mut)" title="Toggle theme">
+<svg id="sunIco" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+<svg id="moonIco" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+</button>
+
+<div class="flex items-center gap-2.5 pl-3 border-l" style="border-color:var(--bdr)">
+<div id="uAvtr" class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style="background:var(--nvy)">PS</div>
+<div class="hidden sm:block leading-tight">
+<div id="uNm" class="text-sm font-semibold">Adv. Priyanka Singh</div>
+<div id="uRl" class="text-xs" style="color:var(--mut)">Managing Partner</div>
+</div>
+<button onclick="doLogout()" title="Logout" class="p-1.5 rounded-lg hover:bg-red-50 transition-colors ml-1" style="color:var(--mut)">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+</button>
+</div>
+</header>
+
+<main class="flex-1 p-4 md:p-6">
+<div id="pg-dash" class="fin"></div>
+<div id="pg-cases" class="fin hidden"></div>
+<div id="pg-clients" class="fin hidden"></div>
+<div id="pg-tasks" class="fin hidden"></div>
+<div id="pg-calendar" class="fin hidden"></div>
+<div id="pg-docs" class="fin hidden"></div>
+<div id="pg-team" class="fin hidden"></div>
+</main>
+</div>
+</div>
+
+<!-- MODALS -->
+<div id="mCase" class="mdl">
+<div class="mdbx">
+<div class="flex justify-between items-center mb-4">
+<h3 class="dsp text-xl font-bold" style="color:var(--hd)">Add New Case</h3>
+<button onclick="closeM('mCase')" class="text-2xl leading-none" style="color:var(--mut)">×</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="lbl">Case Title *</label>
+<input id="mc-ttl" class="fi" placeholder="e.g., Property Dispute – Sharma vs Kumar">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Client Name *</label>
+<input id="mc-cl" class="fi" placeholder="Mr./Ms./M/s. Name">
+</div>
+<div>
+<label class="lbl">Case Type</label>
+<select id="mc-typ" class="fi">
+<option>Civil</option><option>Criminal</option><option>Family</option><option>Service</option><option>Consumer</option><option>Corporate</option>
+</select>
+</div>
+</div>
+<div>
+<label class="lbl">Court</label>
+<select id="mc-crt" class="fi">
+<option>Lucknow Civil Court</option>
+<option>Sessions Court, Lucknow</option>
+<option>Family Court, Lucknow</option>
+<option>High Court, Lucknow Bench</option>
+<option>Consumer Forum, Lucknow</option>
+<option>Chief Judicial Magistrate, Lucknow</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Status</label>
+<select id="mc-sts" class="fi">
+<option>Ongoing</option><option>Notice Sent</option><option>Closed</option>
+</select>
+</div>
+<div>
+<label class="lbl">Next Hearing</label>
+<input id="mc-hr" type="date" class="fi">
+</div>
+</div>
+<div>
+<label class="lbl">Assigned To</label>
+<select id="mc-asg" class="fi">
+<option>Adv. Priyanka Singh</option><option>Adv. Rohit Srivastava</option><option>Adv. Amit Tiwari</option><option>Adv. Kavya Sharma</option><option>Adv. Rahul Dubey</option>
+</select>
+</div>
+<div class="flex gap-3 pt-1">
+<button onclick="closeM('mCase')" class="flex-1 py-2.5 rounded-xl text-sm border font-medium" style="border-color:var(--bdr);color:var(--mut)">Cancel</button>
+<button onclick="saveCase()" class="flex-1 py-2.5 rounded-xl text-sm text-white font-semibold" style="background:var(--nvy)">Save Case</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="mClient" class="mdl">
+<div class="mdbx">
+<div class="flex justify-between items-center mb-4">
+<h3 class="dsp text-xl font-bold" style="color:var(--hd)">Add New Client</h3>
+<button onclick="closeM('mClient')" class="text-2xl leading-none" style="color:var(--mut)">×</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="lbl">Full Name *</label>
+<input id="mcl-nm" class="fi" placeholder="Mr./Ms./M/s. Full Name">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Mobile *</label>
+<input id="mcl-ph" class="fi" placeholder="98765 43210">
+</div>
+<div>
+<label class="lbl">Email</label>
+<input id="mcl-em" type="email" class="fi" placeholder="email@domain.com">
+</div>
+</div>
+<div>
+<label class="lbl">Address</label>
+<input id="mcl-ad" class="fi" placeholder="Area, Lucknow">
+</div>
+<div>
+<label class="lbl">Matter Type</label>
+<select id="mcl-mt" class="fi">
+<option>Civil</option><option>Criminal</option><option>Family</option><option>Service</option><option>Consumer</option><option>Corporate</option>
+</select>
+</div>
+<div class="flex gap-3 pt-1">
+<button onclick="closeM('mClient')" class="flex-1 py-2.5 rounded-xl text-sm border font-medium" style="border-color:var(--bdr);color:var(--mut)">Cancel</button>
+<button onclick="saveClient()" class="flex-1 py-2.5 rounded-xl text-sm text-white font-semibold" style="background:var(--nvy)">Save Client</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="mTask" class="mdl">
+<div class="mdbx">
+<div class="flex justify-between items-center mb-4">
+<h3 class="dsp text-xl font-bold" style="color:var(--hd)">Add New Task</h3>
+<button onclick="closeM('mTask')" class="text-2xl leading-none" style="color:var(--mut)">×</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="lbl">Task Description *</label>
+<input id="mt-ttl" class="fi" placeholder="e.g., File vakalatnama in Property Dispute">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Assign To *</label>
+<select id="mt-asg" class="fi">
+<option>Adv. Priyanka Singh</option><option>Adv. Rohit Srivastava</option><option>Adv. Amit Tiwari</option><option>Adv. Kavya Sharma</option><option>Adv. Rahul Dubey</option><option>Ms. Sunita Yadav</option><option>Mr. Akhilesh Misra</option>
+</select>
+</div>
+<div>
+<label class="lbl">Priority</label>
+<select id="mt-pri" class="fi">
+<option>High</option><option>Medium</option><option>Low</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Due Date</label>
+<input id="mt-due" type="date" class="fi">
+</div>
+<div>
+<label class="lbl">Related Case</label>
+<select id="mt-cs" class="fi"><option value="">— None —</option></select>
+</div>
+</div>
+<div class="flex gap-3 pt-1">
+<button onclick="closeM('mTask')" class="flex-1 py-2.5 rounded-xl text-sm border font-medium" style="border-color:var(--bdr);color:var(--mut)">Cancel</button>
+<button onclick="saveTask()" class="flex-1 py-2.5 rounded-xl text-sm text-white font-semibold" style="background:var(--nvy)">Save Task</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="mDoc" class="mdl">
+<div class="mdbx">
+<div class="flex justify-between items-center mb-4">
+<h3 class="dsp text-xl font-bold" style="color:var(--hd)">Upload Document</h3>
+<button onclick="closeM('mDoc')" class="text-2xl leading-none" style="color:var(--mut)">×</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="lbl">Document Name *</label>
+<input id="md-nm" class="fi" placeholder="e.g., Vakalatnama – Rajesh Kumar">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="lbl">Document Type</label>
+<select id="md-typ" class="fi">
+<option>Court Filing</option><option>Notice</option><option>Evidence</option><option>Affidavit</option><option>Order Copy</option><option>Contract</option><option>Other</option>
+</select>
+</div>
+<div>
+<label class="lbl">Related Case</label>
+<select id="md-cs" class="fi"><option value="">— None —</option></select>
+</div>
+</div>
+<div class="rounded-xl border-2 border-dashed p-6 text-center" style="border-color:var(--bdr)">
+<div class="text-3xl mb-2">📄</div>
+<div class="text-sm font-medium" style="color:var(--mut)">Simulated upload area</div>
+<div class="text-xs mt-1" style="color:var(--mut)">PDF, DOCX, JPG – up to 10 MB</div>
+</div>
+<div class="flex gap-3 pt-1">
+<button onclick="closeM('mDoc')" class="flex-1 py-2.5 rounded-xl text-sm border font-medium" style="border-color:var(--bdr);color:var(--mut)">Cancel</button>
+<button onclick="saveDoc()" class="flex-1 py-2.5 rounded-xl text-sm text-white font-semibold" style="background:var(--nvy)">Save Document</button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const SEED={cases:[{id:1,title:'Property Dispute – Rajesh Kumar vs Suresh Sharma',client:'Mr. Rajesh Kumar',type:'Civil',status:'Ongoing',court:'Lucknow Civil Court',hearing:'2026-06-05',assignee:'Adv. Rohit Srivastava'},{id:2,title:'Bail Application – State vs Mohammed Irfan',client:'Mr. Mohammed Irfan',type:'Criminal',status:'Ongoing',court:'Sessions Court, Lucknow',hearing:'2026-06-10',assignee:'Adv. Amit Tiwari'},{id:3,title:'Matrimonial Dispute – Priya Mishra vs Anil Mishra',client:'Ms. Priya Mishra',type:'Family',status:'Ongoing',court:'Family Court, Lucknow',hearing:'2026-06-15',assignee:'Adv. Kavya Sharma'},{id:4,title:'Service Matter – Rakesh Verma vs State of UP',client:'Mr. Rakesh Verma',type:'Service',status:'Notice Sent',court:'High Court, Lucknow Bench',hearing:'2026-06-20',assignee:'Adv. Priyanka Singh'},{id:5,title:'Consumer Complaint – Neha Gupta vs Avantika Builders',client:'Ms. Neha Gupta',type:'Consumer',status:'Ongoing',court:'Consumer Forum, Lucknow',hearing:'2026-06-25',assignee:'Adv. Rahul Dubey'},{id:6,title:'Cheque Dishonour – Sanjeev Agarwal vs Sharma Trading Co.',client:'Mr. Sanjeev Agarwal',type:'Criminal',status:'Ongoing',court:'CJM Court, Lucknow',hearing:'2026-06-30',assignee:'Adv. Rohit Srivastava'},{id:7,title:'Land Acquisition – Village Panchayat BKT vs NHAI',client:'Village Panchayat, BKT',type:'Civil',status:'Ongoing',court:'High Court, Lucknow Bench',hearing:'2026-07-05',assignee:'Adv. Priyanka Singh'},{id:8,title:'Criminal Appeal – State vs Deepak Singh',client:'Mr. Deepak Singh',type:'Criminal',status:'Notice Sent',court:'Sessions Court, Lucknow',hearing:'2026-07-12',assignee:'Adv. Amit Tiwari'}],clients:[{id:1,name:'Mr. Rajesh Kumar',phone:'98765 43210',email:'rajesh.kumar@gmail.com',addr:'Gomti Nagar, Lucknow',matter:'Civil',since:'Jan 2025',cases:2},{id:2,name:'Mr. Mohammed Irfan',phone:'97654 32109',email:'m.irfan@yahoo.com',addr:'Aminabad, Lucknow',matter:'Criminal',since:'Mar 2025',cases:1},{id:3,name:'Ms. Priya Mishra',phone:'96543 21098',email:'priya.mishra@gmail.com',addr:'Hazratganj, Lucknow',matter:'Family',since:'Feb 2026',cases:1},{id:4,name:'Mr. Rakesh Verma',phone:'95432 10987',email:'rakesh.verma@gmail.com',addr:'Indira Nagar, Lucknow',matter:'Service',since:'Apr 2025',cases:1},{id:5,name:'Ms. Neha Gupta',phone:'94321 09876',email:'neha.gupta@gmail.com',addr:'Vikas Nagar, Lucknow',matter:'Consumer',since:'Dec 2025',cases:1},{id:6,name:'Mr. Sanjeev Agarwal',phone:'93210 98765',email:'s.agarwal@agrotrade.com',addr:'Charbagh, Lucknow',matter:'Corporate',since:'Nov 2024',cases:2},{id:7,name:'Village Panchayat, BKT',phone:'92109 87654',email:'sarpanch.bkt@gov.in',addr:'Bakshi Ka Talab, Lucknow',matter:'Civil',since:'Jan 2026',cases:1}],tasks:[{id:1,title:'File vakalatnama in Property Dispute case',assignee:'Adv. Rohit Srivastava',priority:'High',due:'2026-06-02',done:false,caseRef:'Property Dispute – Rajesh Kumar vs Suresh Sharma'},{id:2,title:'Prepare bail arguments for Mohammed Irfan',assignee:'Adv. Amit Tiwari',priority:'High',due:'2026-06-08',done:false,caseRef:'Bail Application – State vs Mohammed Irfan'},{id:3,title:'Draft reply to petition – Priya Mishra case',assignee:'Adv. Kavya Sharma',priority:'Medium',due:'2026-06-12',done:false,caseRef:'Matrimonial Dispute – Priya Mishra vs Anil Mishra'},{id:4,title:'Research HC precedent on land acquisition compensation',assignee:'Adv. Rahul Dubey',priority:'Medium',due:'2026-06-15',done:false,caseRef:'Land Acquisition – Village Panchayat BKT vs NHAI'},{id:5,title:'Update client file – Ms. Neha Gupta',assignee:'Ms. Sunita Yadav',priority:'Low',due:'2026-05-30',done:true,caseRef:''},{id:6,title:'Prepare monthly fee invoices – May 2026',assignee:'Mr. Akhilesh Misra',priority:'Medium',due:'2026-05-31',done:false,caseRef:''},{id:7,title:'Send demand notice draft to Sanjeev Agarwal for approval',assignee:'Adv. Rohit Srivastava',priority:'High',due:'2026-06-03',done:false,caseRef:'Cheque Dishonour – Sanjeev Agarwal vs Sharma Trading Co.'}],docs:[{id:1,name:'Vakalatnama – Rajesh Kumar',type:'Court Filing',caseRef:'Property Dispute',date:'2026-01-15'},{id:2,name:'Court Notice – Bail Application',type:'Notice',caseRef:'Bail Application',date:'2026-02-20'},{id:3,name:'Marriage Certificate – Priya Mishra',type:'Evidence',caseRef:'Matrimonial Dispute',date:'2026-03-10'},{id:4,name:'Service Record – Rakesh Verma',type:'Evidence',caseRef:'Service Matter',date:'2026-03-25'},{id:5,name:'Consumer Complaint Form – Neha Gupta',type:'Court Filing',caseRef:'Consumer Complaint',date:'2026-04-05'},{id:6,name:'Dishonoured Cheque Copy – Sanjeev Agarwal',type:'Evidence',caseRef:'Cheque Dishonour',date:'2026-04-15'},{id:7,name:'Khatauni – Village Panchayat BKT',type:'Evidence',caseRef:'Land Acquisition',date:'2026-05-01'}],team:[{id:1,name:'Adv. Priyanka Singh',role:'Managing Partner',email:'priyanka@ieqlaw.com',phone:'98000 11001',ini:'PS'},{id:2,name:'Adv. Rohit Srivastava',role:'Senior Lawyer',email:'rohit@ieqlaw.com',phone:'98000 11002',ini:'RS'},{id:3,name:'Adv. Amit Tiwari',role:'Senior Lawyer',email:'amit@ieqlaw.com',phone:'98000 11003',ini:'AT'},{id:4,name:'Adv. Kavya Sharma',role:'Junior Lawyer',email:'kavya@ieqlaw.com',phone:'98000 11004',ini:'KS'},{id:5,name:'Adv. Rahul Dubey',role:'Junior Lawyer',email:'rahul@ieqlaw.com',phone:'98000 11005',ini:'RD'},{id:6,name:'Ms. Sunita Yadav',role:'Paralegal',email:'sunita@ieqlaw.com',phone:'98000 11006',ini:'SY'},{id:7,name:'Mr. Akhilesh Misra',role:'Admin',email:'akhilesh@ieqlaw.com',phone:'98000 11007',ini:'AM'}]};
+const ROLE_MAP={'Managing Partner':{name:'Adv. Priyanka Singh',ini:'PS'},'Senior Lawyer':{name:'Adv. Rohit Srivastava',ini:'RS'},'Junior Lawyer':{name:'Adv. Kavya Sharma',ini:'KS'},'Paralegal':{name:'Ms. Sunita Yadav',ini:'SY'},'Admin':{name:'Mr. Akhilesh Misra',ini:'AM'}};
+const PAGES=['dash','cases','clients','tasks','calendar','docs','team'];
+const TITLES={dash:'Dashboard',cases:'Cases',clients:'Clients',tasks:'Tasks',calendar:'Calendar',docs:'Documents',team:'Team'};
+let pg='dash',cal={y:2026,m:5};
+
+function Q(id){return document.getElementById(id)}
+function V(id){return Q(id).value}
+function hide(id){Q(id).classList.add('hidden')}
+function show(id){Q(id).classList.remove('hidden')}
+function gl(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
+function sl(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function gd(k){return gl('ieq_'+k)||SEED[k]}
+function sd(k,v){sl('ieq_'+k,v)}
+function seed(){if(!localStorage.getItem('ieq_init')){['cases','clients','tasks','docs'].forEach(k=>sd(k,SEED[k]));localStorage.setItem('ieq_init','1')}}
+function doLogin(){const em=V('lgEm').trim(),pw=V('lgPw'),role=V('lgRl'),err=Q('logErr'),btn=Q('lgBtn');if(em!=='demo@ieqlaw.com'||pw!=='password123'){err.textContent='Incorrect email or password.';err.classList.remove('hidden');btn.disabled=false;btn.textContent='Sign In';return}err.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in…';setTimeout(()=>{const u=ROLE_MAP[role]||{name:'Adv. Priyanka Singh',ini:'PS'};sl('ieq_user',{name:u.name,role,ini:u.ini});hide('loginScr');show('app');applyUser();go('dash');btn.disabled=false;btn.textContent='Sign In'},600)}
+function showToast(msg){let t=Q('mgr-toast');if(!t){t=document.createElement('div');t.id='mgr-toast';t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(8px);background:#0F2044;color:#fff;font-size:13px;font-weight:500;padding:10px 20px;border-radius:10px;border:1px solid rgba(196,162,79,.3);box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:9999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap';document.body.appendChild(t)}t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';clearTimeout(t._to);t._to=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(8px)'},2500)}
+function doLogout(){localStorage.removeItem('ieq_user');show('loginScr');hide('app')}
+function applyUser(){const u=gl('ieq_user')||{name:'Adv. Priyanka Singh',role:'Managing Partner',ini:'PS'};Q('uNm').textContent=u.name;Q('uRl').textContent=u.role;Q('uAvtr').textContent=u.ini}
+function toggleDark(){const on=document.documentElement.classList.toggle('dark');localStorage.setItem('ieq_dark',on?'1':'0');syncDarkIcon(on)}
+function syncDarkIcon(on){Q('sunIco').classList.toggle('hidden',!on);Q('moonIco').classList.toggle('hidden',on)}
+function applyDark(){const on=localStorage.getItem('ieq_dark')==='1';document.documentElement.classList.toggle('dark',on);syncDarkIcon(on)}
+function go(p){pg=p;PAGES.forEach(x=>{const el=Q('pg-'+x),nb=Q('nb-'+x.replace('dash','dash'));if(el)el.classList.toggle('hidden',x!==p);if(nb)nb.classList.toggle('act',x===p)});Q('pgTtl').textContent=TITLES[p];const r={dash:rDash,cases:rCases,clients:rClients,tasks:rTasks,calendar:rCal,docs:rDocs,team:rTeam};if(r[p])r[p]();closeSB();upBdg()}
+function toggleSB(){Q('sb').classList.toggle('open');Q('ovly').classList.toggle('hidden')}
+function closeSB(){Q('sb').classList.remove('open');Q('ovly').classList.add('hidden')}
+function openM(id){Q(id).classList.add('open')}
+function closeM(id){Q(id).classList.remove('open')}
+function fillCS(...ids){const opts='<option value="">— None —</option>'+gd('cases').map(c=>`<option>${c.title}</option>`).join('');ids.forEach(id=>{const el=Q(id);if(el)el.innerHTML=opts})}
+function fd(d){if(!d)return'—';const dt=new Date(d+'T00:00:00');return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}
+function ini(n){return n.split(' ').filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('').toUpperCase()}
+function sbadge(s){const m={Ongoing:'bgo',Closed:'bgc','Notice Sent':'bgn'};return`<span class="bdg ${m[s]||'bgo'}">${s}</span>`}
+function pbadge(p){const m={High:'bgh',Medium:'bgm',Low:'bgl'};return`<span class="bdg ${m[p]||'bgm'}">${p}</span>`}
+function upBdg(){Q('cbdg').textContent=gd('cases').length;Q('tbdg').textContent=gd('tasks').filter(t=>!t.done).length}
+
+function rDash(){const cs=gd('cases'),ts=gd('tasks');const pd=ts.filter(t=>!t.done),hd=pd.filter(t=>t.priority==='High');const st=[{lbl:'Active Cases',val:cs.length,ico:'⚖️',sub:`${cs.filter(c=>c.status==='Ongoing').length} ongoing`,clr:'#0F2044'},{lbl:'Pending Tasks',val:pd.length,ico:'📋',sub:`${hd.length} high priority`,clr:'#C4A24F'},{lbl:"Today's Hearings",val:3,ico:'🏛️',sub:'26 May 2026',clr:'#276749'},{lbl:'Revenue – May \'26',val:'₹4,85,000',ico:'💰',sub:'This month',clr:'#1B3D6F'}];Q('pg-dash').innerHTML=`<div class="space-y-6"><div class="grid grid-cols-2 xl:grid-cols-4 gap-4">${st.map(s=>`<div class="cd p-4 hover:shadow-md transition-shadow"><div class="flex justify-between items-start mb-3"><span class="text-2xl">${s.ico}</span><span class="w-2 h-2 rounded-full mt-1" style="background:${s.clr}"></span></div><div class="text-2xl font-bold dsp mb-0.5" style="color:${s.clr}">${s.val}</div><div class="text-sm font-semibold">${s.lbl}</div><div class="text-xs mt-0.5" style="color:var(--mut)">${s.sub}</div></div>`).join('')}</div><div class="cd p-5"><div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:var(--mut)">Quick Actions</div><div class="flex flex-wrap gap-3"><button onclick="openM('mCase')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-white font-semibold transition-opacity hover:opacity-90" style="background:#0F2044">＋ New Case</button><button onclick="openM('mClient')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-white font-semibold transition-opacity hover:opacity-90" style="background:#1B3D6F">＋ New Client</button><button onclick="fillCS('mt-cs');openM('mTask')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-white font-semibold transition-opacity hover:opacity-90" style="background:#C4A24F">＋ New Task</button><a href="https://hub.ieqlaw.com" target="_blank" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border transition-colors hover:bg-black/5" style="border-color:var(--bdr);color:var(--mut)">IEQ Hub ↗</a></div></div><div class="grid md:grid-cols-2 gap-4"><div class="cd overflow-hidden"><div class="p-4 border-b flex justify-between items-center" style="border-color:var(--bdr)"><h3 class="font-bold dsp">Recent Cases</h3><button onclick="go('cases')" class="text-xs font-semibold" style="color:#C4A24F">All Cases →</button></div>${cs.slice(0,5).map(c=>`<div class="flex items-center justify-between px-4 py-3 border-b" style="border-color:var(--bdr)"><div class="min-w-0 mr-3"><div class="text-sm font-medium truncate">${c.title.split('–')[0].trim()}</div><div class="text-xs" style="color:var(--mut)">${c.client}</div></div>${sbadge(c.status)}</div>`).join('')}</div><div class="cd overflow-hidden"><div class="p-4 border-b flex justify-between items-center" style="border-color:var(--bdr)"><h3 class="font-bold dsp">Upcoming Hearings</h3><button onclick="go('calendar')" class="text-xs font-semibold" style="color:#C4A24F">Calendar →</button></div>${[...cs].sort((a,b)=>a.hearing.localeCompare(b.hearing)).slice(0,5).map(c=>{const dt=new Date(c.hearing+'T00:00:00');return`<div class="flex items-center gap-3 px-4 py-3 border-b" style="border-color:var(--bdr)"><div class="text-center w-10 flex-shrink-0"><div class="text-xl font-bold dsp" style="color:#0F2044;line-height:1">${dt.getDate()}</div><div class="text-xs" style="color:var(--mut)">${dt.toLocaleDateString('en-IN',{month:'short'})}</div></div><div class="w-px h-8 flex-shrink-0" style="background:var(--bdr)"></div><div class="min-w-0"><div class="text-sm font-medium truncate">${c.title.split('–')[0].trim()}</div><div class="text-xs truncate" style="color:var(--mut)">${c.court}</div></div></div>`}).join('')}</div></div><div class="cd overflow-hidden"><div class="p-4 border-b flex justify-between items-center" style="border-color:var(--bdr)"><h3 class="font-bold dsp">Pending Tasks</h3><button onclick="go('tasks')" class="text-xs font-semibold" style="color:#C4A24F">All Tasks →</button></div>${pd.slice(0,4).map(t=>`<div class="flex items-center gap-3 px-4 py-3 border-b" style="border-color:var(--bdr)"><div onclick="togTask(${t.id})" class="w-5 h-5 rounded border flex-shrink-0 cursor-pointer hover:border-yellow-500 transition-colors" style="border-color:var(--bdr)"></div><div class="flex-1 min-w-0"><div class="text-sm font-medium truncate">${t.title}</div><div class="text-xs" style="color:var(--mut)">${t.assignee} · Due ${fd(t.due)}</div></div>${pbadge(t.priority)}</div>`).join('')}</div></div>`}
+
+function rCases(){const cs=gd('cases');Q('pg-cases').innerHTML=`<div class="space-y-4"><div class="flex flex-wrap items-center justify-between gap-3"><input id="cs-srch" oninput="fltCases()" placeholder="Search by title, client or court…" class="fi" style="max-width:300px"><button onclick="openM('mCase')" class="px-4 py-2 rounded-xl text-sm text-white font-semibold" style="background:#0F2044">＋ Add Case</button></div><div class="cd overflow-hidden"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Case / Client</th><th class="hidden lg:table-cell">Type</th><th class="hidden md:table-cell">Court</th><th class="hidden sm:table-cell">Assignee</th><th>Next Hearing</th><th>Status</th><th class="text-right">Action</th></tr></thead><tbody id="cs-body">${csRows(cs)}</tbody></table></div></div></div>`}
+function csRows(cs){if(!cs.length)return`<tr><td colspan="7" class="text-center py-10" style="color:var(--mut)">No cases found.</td></tr>`;return cs.map(c=>`<tr><td><div class="font-semibold text-sm">${c.title.split('–')[0].trim()}</div><div class="text-xs mt-0.5" style="color:var(--mut)">${c.client}</div></td><td class="hidden lg:table-cell text-sm" style="color:var(--mut)">${c.type}</td><td class="hidden md:table-cell text-sm" style="color:var(--mut)">${c.court}</td><td class="hidden sm:table-cell text-sm" style="color:var(--mut)">${c.assignee.replace(/^Adv\. /,'')}</td><td class="text-sm" style="color:var(--mut)">${fd(c.hearing)}</td><td>${sbadge(c.status)}</td><td class="text-right"><button onclick="delCase(${c.id})" class="text-xs px-2 py-1 rounded-lg border transition-colors hover:bg-red-50 hover:border-red-200 hover:text-red-600" style="color:var(--mut);border-color:var(--bdr)">Remove</button></td></tr>`).join('')}
+function fltCases(){const q=Q('cs-srch').value.toLowerCase();const r=gd('cases').filter(c=>c.title.toLowerCase().includes(q)||c.client.toLowerCase().includes(q)||c.court.toLowerCase().includes(q));Q('cs-body').innerHTML=csRows(r)}
+function saveCase(){const t=V('mc-ttl').trim(),cl=V('mc-cl').trim();if(!t||!cl){alert('Case title and client name are required.');return}const cs=gd('cases');cs.push({id:Date.now(),title:t,client:cl,type:V('mc-typ'),court:V('mc-crt'),status:V('mc-sts'),hearing:V('mc-hr'),assignee:V('mc-asg')});sd('cases',cs);closeM('mCase');['mc-ttl','mc-cl','mc-hr'].forEach(id=>Q(id).value='');rCases();upBdg();showToast('✓ Case added')}
+function delCase(id){if(!confirm('Remove this case?'))return;sd('cases',gd('cases').filter(c=>c.id!==id));rCases();upBdg()}
+
+function rClients(){Q('pg-clients').innerHTML=`<div class="space-y-4"><div class="flex flex-wrap items-center justify-between gap-3"><input id="cl-srch" oninput="fltClients()" placeholder="Search by name, phone or email…" class="fi" style="max-width:300px"><button onclick="openM('mClient')" class="px-4 py-2 rounded-xl text-sm text-white font-semibold" style="background:#0F2044">＋ Add Client</button></div><div id="cl-grd" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${clCards(gd('clients'))}</div></div>`}
+function clCards(l){if(!l.length)return`<div class="col-span-3 text-center py-16" style="color:var(--mut)">No clients found.</div>`;return l.map(c=>`<div class="cd p-5 hover:shadow-md transition-shadow"><div class="flex items-start gap-3 mb-4"><div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style="background:#0F2044">${ini(c.name)}</div><div class="min-w-0 flex-1"><div class="font-semibold text-sm truncate">${c.name}</div><div class="text-xs mt-0.5" style="color:var(--mut)">${c.matter} · Since ${c.since}</div></div><button onclick="delClient(${c.id})" class="text-sm flex-shrink-0 hover:text-red-500 transition-colors" style="color:var(--mut)">×</button></div><div class="space-y-1.5 text-xs" style="color:var(--mut)"><div class="flex items-center gap-2"><span>📞</span><span>${c.phone}</span></div><div class="flex items-center gap-2"><span>✉️</span><span class="truncate">${c.email}</span></div><div class="flex items-center gap-2"><span>📍</span><span>${c.addr}</span></div></div><div class="mt-3 pt-3 border-t flex items-center justify-between" style="border-color:var(--bdr)"><span class="text-xs" style="color:var(--mut)">${c.cases||1} active case${(c.cases||1)!==1?'s':''}</span><button onclick="go('cases')" class="text-xs font-semibold" style="color:#C4A24F">View Cases →</button></div></div>`).join('')}
+function fltClients(){const q=Q('cl-srch').value.toLowerCase();Q('cl-grd').innerHTML=clCards(gd('clients').filter(c=>c.name.toLowerCase().includes(q)||c.phone.includes(q)||c.email.toLowerCase().includes(q)))}
+function saveClient(){const nm=V('mcl-nm').trim(),ph=V('mcl-ph').trim();if(!nm||!ph){alert('Name and phone are required.');return}const l=gd('clients');l.push({id:Date.now(),name:nm,phone:ph,email:V('mcl-em')||'—',addr:V('mcl-ad')||'Lucknow, UP',matter:V('mcl-mt'),since:new Date().toLocaleDateString('en-IN',{month:'short',year:'numeric'}),cases:0});sd('clients',l);closeM('mClient');['mcl-nm','mcl-ph','mcl-em','mcl-ad'].forEach(id=>Q(id).value='');rClients();showToast('✓ Client added')}
+function delClient(id){if(!confirm('Remove this client?'))return;sd('clients',gd('clients').filter(c=>c.id!==id));rClients()}
+
+function rTasks(){const ts=gd('tasks');const pd=ts.filter(t=>!t.done),dn=ts.filter(t=>t.done);Q('pg-tasks').innerHTML=`<div class="space-y-4"><div class="flex flex-wrap items-center justify-between gap-3"><div class="flex gap-2"><span class="text-sm font-semibold px-3 py-1.5 rounded-xl border" style="border-color:var(--bdr)">${pd.length} Pending</span><span class="text-sm px-3 py-1.5 rounded-xl" style="background:var(--bg);color:var(--mut)">${dn.length} Done</span></div><button onclick="fillCS('mt-cs');openM('mTask')" class="px-4 py-2 rounded-xl text-sm text-white font-semibold" style="background:#0F2044">＋ Add Task</button></div><div class="cd overflow-hidden"><div class="p-4 border-b" style="border-color:var(--bdr)"><h3 class="font-bold dsp">Pending</h3></div>${pd.length?pd.map(trw).join(''):'<div class="p-8 text-center text-sm" style="color:var(--mut)">All tasks completed! 🎉</div>'}</div>${dn.length?`<div class="cd overflow-hidden"><div class="p-4 border-b" style="border-color:var(--bdr)"><h3 class="font-bold dsp" style="color:var(--mut)">Completed</h3></div>${dn.map(trw).join('')}</div>`:''}</div>`}
+function trw(t){const chk=t.done?`<div class="w-5 h-5 rounded flex items-center justify-center flex-shrink-0 cursor-pointer" onclick="togTask(${t.id})" style="background:#276749;border:1px solid #276749"><svg class="w-3 h-3 text-white" fill="none" stroke="#fff" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>`:`<div class="w-5 h-5 rounded border flex-shrink-0 cursor-pointer hover:border-yellow-500 transition-colors" onclick="togTask(${t.id})" style="border-color:var(--bdr)"></div>`;return`<div class="flex items-center gap-3 px-4 py-3 border-b ${t.done?'opacity-50':''}" style="border-color:var(--bdr)">${chk}<div class="flex-1 min-w-0"><div class="text-sm font-medium ${t.done?'line-through':''} truncate">${t.title}</div><div class="text-xs mt-0.5 flex flex-wrap gap-1.5" style="color:var(--mut)"><span>${t.assignee.replace(/^(Adv\.|Ms\.|Mr\.) /,'')}</span>${t.due?`<span>· Due ${fd(t.due)}</span>`:''}${t.caseRef?`<span class="truncate">· ${t.caseRef.split('–')[0].trim()}</span>`:''}</div></div><div class="flex items-center gap-2 flex-shrink-0">${pbadge(t.priority)}<button onclick="delTask(${t.id})" class="p-1 text-sm hover:text-red-500 transition-colors" style="color:var(--mut)">×</button></div></div>`}
+function togTask(id){const ts=gd('tasks');const t=ts.find(x=>x.id===id);if(t)t.done=!t.done;sd('tasks',ts);if(pg==='tasks')rTasks();else if(pg==='dash')rDash();upBdg()}
+function saveTask(){const tt=V('mt-ttl').trim();if(!tt){alert('Task description is required.');return}const ts=gd('tasks');ts.push({id:Date.now(),title:tt,assignee:V('mt-asg'),priority:V('mt-pri'),due:V('mt-due'),done:false,caseRef:V('mt-cs')});sd('tasks',ts);closeM('mTask');['mt-ttl','mt-due'].forEach(id=>Q(id).value='');rTasks();upBdg();showToast('✓ Task added')}
+function delTask(id){if(!confirm('Remove this task?'))return;sd('tasks',gd('tasks').filter(t=>t.id!==id));rTasks();upBdg()}
+
+function rCal(){const cs=gd('cases');const ev={};cs.forEach(c=>{if(c.hearing){(ev[c.hearing]=ev[c.hearing]||[]).push(c)}});const {y,m}=cal;const fs=new Date(y,m,1).getDay();const dy=new Date(y,m+1,0).getDate();const ml=new Date(y,m,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});const DY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];let cl='';for(let i=0;i<fs;i++)cl+=`<div class="calc" style="background:var(--bg)"></div>`;for(let d=1;d<=dy;d++){const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const es=ev[ds]||[];const td=ds==='2026-05-26';cl+=`<div class="calc${es.length?' hev':''}"><div class="text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full mb-1 ${td?'text-white':''}" style="${td?'background:#0F2044':'color:var(--txt)'}">${d}</div>${es.map(e=>`<div class="text-white rounded px-1 mb-0.5 truncate" style="background:#0F2044;font-size:10px;line-height:1.6">${e.title.split('–')[0].trim()}</div>`).join('')}</div>`}const ms=`${y}-${String(m+1).padStart(2,'0')}`;const mc=cs.filter(c=>c.hearing&&c.hearing.startsWith(ms)).sort((a,b)=>a.hearing.localeCompare(b.hearing));Q('pg-calendar').innerHTML=`<div class="space-y-4"><div class="cd overflow-hidden"><div class="p-4 border-b flex items-center justify-between" style="border-color:var(--bdr)"><button onclick="chgMth(-1)" class="px-3 py-1.5 rounded-xl text-sm border transition-colors hover:bg-black/5" style="border-color:var(--bdr);color:var(--mut)">← Prev</button><h3 class="font-bold dsp text-lg">${ml}</h3><button onclick="chgMth(1)" class="px-3 py-1.5 rounded-xl text-sm border transition-colors hover:bg-black/5" style="border-color:var(--bdr);color:var(--mut)">Next →</button></div><div class="grid grid-cols-7">${DY.map(d=>`<div class="calh">${d}</div>`).join('')}</div><div class="grid grid-cols-7">${cl}</div></div><div class="cd overflow-hidden"><div class="p-4 border-b" style="border-color:var(--bdr)"><h3 class="font-bold dsp">Hearings in ${new Date(y,m,1).toLocaleDateString('en-IN',{month:'long'})}</h3></div>${mc.length?mc.map(c=>{const dt=new Date(c.hearing+'T00:00:00');return`<div class="flex items-center gap-3 px-4 py-3 border-b" style="border-color:var(--bdr)"><div class="text-center w-12 rounded-xl p-1 flex-shrink-0" style="background:var(--bg)"><div class="text-xl font-bold dsp" style="color:#0F2044;line-height:1.1">${dt.getDate()}</div><div class="text-xs" style="color:var(--mut)">${dt.toLocaleDateString('en-IN',{month:'short'})}</div></div><div class="flex-1 min-w-0"><div class="text-sm font-semibold">${c.title}</div><div class="text-xs mt-0.5" style="color:var(--mut)">${c.court} · ${c.client}</div></div>${sbadge(c.status)}</div>`}).join(''):`<div class="p-8 text-center text-sm" style="color:var(--mut)">No hearings scheduled for this month.</div>`}</div></div>`}
+function chgMth(d){cal.m+=d;if(cal.m>11){cal.m=0;cal.y++}if(cal.m<0){cal.m=11;cal.y--}rCal()}
+
+function rDocs(){const ds=gd('docs');const ic={Court Filing:'📋',Notice:'📢',Evidence:'🔍',Affidavit:'✍️','Order Copy':'⚖️',Contract:'📝',Other:'📄'};Q('pg-docs').innerHTML=`<div class="space-y-4"><div class="flex flex-wrap items-center justify-between gap-3"><input id="doc-srch" oninput="fltDocs()" placeholder="Search documents…" class="fi" style="max-width:300px"><button onclick="fillCS('md-cs');openM('mDoc')" class="px-4 py-2 rounded-xl text-sm text-white font-semibold" style="background:#0F2044">↑ Upload Document</button></div><div class="cd overflow-hidden"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Document Name</th><th class="hidden sm:table-cell">Type</th><th class="hidden md:table-cell">Case</th><th class="hidden sm:table-cell">Uploaded</th><th class="text-right">Action</th></tr></thead><tbody id="doc-body">${docRows(ds,ic)}</tbody></table></div></div></div>`}
+function docRows(ds,ic){const im=ic||{Court Filing:'📋',Notice:'📢',Evidence:'🔍',Affidavit:'✍️','Order Copy':'⚖️',Contract:'📝',Other:'📄'};if(!ds.length)return`<tr><td colspan="5" class="text-center py-10" style="color:var(--mut)">No documents found.</td></tr>`;return ds.map(d=>`<tr><td><div class="flex items-center gap-2"><span>${im[d.type]||'📄'}</span><span class="text-sm font-medium">${d.name}</span></div></td><td class="hidden sm:table-cell text-sm" style="color:var(--mut)">${d.type}</td><td class="hidden md:table-cell text-sm" style="color:var(--mut)">${d.caseRef||'—'}</td><td class="hidden sm:table-cell text-sm" style="color:var(--mut)">${fd(d.date)}</td><td class="text-right"><button onclick="delDoc(${d.id})" class="text-xs px-2 py-1 rounded-lg border transition-colors hover:bg-red-50 hover:border-red-200 hover:text-red-600" style="color:var(--mut);border-color:var(--bdr)">Remove</button></td></tr>`).join('')}
+function fltDocs(){const q=Q('doc-srch').value.toLowerCase();const ic={Court Filing:'📋',Notice:'📢',Evidence:'🔍',Affidavit:'✍️','Order Copy':'⚖️',Contract:'📝',Other:'📄'};Q('doc-body').innerHTML=docRows(gd('docs').filter(d=>d.name.toLowerCase().includes(q)||(d.caseRef||'').toLowerCase().includes(q)),ic)}
+function saveDoc(){const nm=V('md-nm').trim();if(!nm){alert('Document name is required.');return}const ds=gd('docs');ds.push({id:Date.now(),name:nm,type:V('md-typ'),caseRef:V('md-cs'),date:new Date().toISOString().slice(0,10)});sd('docs',ds);closeM('mDoc');Q('md-nm').value='';rDocs();showToast('✓ Document saved')}
+function delDoc(id){if(!confirm('Remove this document?'))return;sd('docs',gd('docs').filter(d=>d.id!==id));rDocs()}
+
+function rTeam(){const rc={'Managing Partner':'#0F2044','Senior Lawyer':'#1B3D6F','Junior Lawyer':'#2C5282','Paralegal':'#C4A24F','Admin':'#718096'};Q('pg-team').innerHTML=`<div class="space-y-4"><div class="flex items-center justify-between"><p class="text-sm" style="color:var(--mut)">${SEED.team.length} team members · Ink & Equity LLP, Lucknow</p><a href="https://hub.ieqlaw.com" target="_blank" class="text-sm font-semibold hover:underline" style="color:#C4A24F">IEQ Hub ↗</a></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">${SEED.team.map(m=>`<div class="cd p-5 hover:shadow-md transition-shadow text-center"><div class="w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-3" style="background:${rc[m.role]||'#0F2044'}">${m.ini}</div><div class="font-semibold text-sm">${m.name}</div><div class="text-xs mt-1 px-2 py-0.5 rounded-full text-white inline-block" style="background:${rc[m.role]||'#718096'}">${m.role}</div><div class="mt-4 pt-3 space-y-1.5 border-t text-left" style="border-color:var(--bdr)"><div class="flex items-center gap-2 text-xs" style="color:var(--mut)"><span>✉️</span><a href="mailto:${m.email}" class="truncate hover:underline" style="color:#C4A24F">${m.email}</a></div><div class="flex items-center gap-2 text-xs" style="color:var(--mut)"><span>📞</span><span>${m.phone}</span></div></div></div>`).join('')}</div></div>`}
+
+(function init(){seed();applyDark();const u=gl('ieq_user');if(u){hide('loginScr');show('app');applyUser();go('dash')}document.querySelectorAll('.mdl').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));Q('lgPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});Q('lgEm').addEventListener('keydown',e=>{if(e.key==='Enter')Q('lgPw').focus()});upBdg()})();
+</script>
+</body>
+</html>
